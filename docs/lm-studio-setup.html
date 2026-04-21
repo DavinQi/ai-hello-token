@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LM Studio 本地部署指南</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#10b981',
+                        accent: '#8b5cf6',
+                        neutral: '#6b7280',
+                        'neutral-light': '#f3f4f6',
+                        'neutral-dark': '#1f2937',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                },
+            }
+        }
+    </script>
+    <script>
+        // 国际化支持
+        const translations = {
+            zh: {
+                'title': 'LM Studio 本地部署指南',
+                'hero-description': '本地 LLM 可视化运行工具，为 AI 初学者、研究者和产品经理提供直观的图形界面',
+                'what-is-lm-studio': '什么是 LM Studio',
+                'what-is-lm-studio-desc': 'LM Studio 是一个本地 LLM 可视化运行工具，专为 AI 初学者、研究者和产品经理设计，提供了直观的图形界面，让用户可以轻松地在本地运行和测试各种大型语言模型。',
+                'lm-studio-advantages': 'LM Studio 的优势',
+                'core-position': '核心定位',
+                'core-position-desc': '本地 LLM 可视化运行工具，提供全图形界面操作，适合快速试用和测试新模型。',
+                'full-gui': '全图形界面',
+                'full-gui-desc': '无需命令行操作，上手简单，适合 AI 初学者和非技术用户。',
+                'model-search-download': '模型搜索与下载',
+                'model-search-download-desc': '内置模型库，可视化搜索和下载，无需手动查找模型文件。',
+                'chat-experience': '对话体验',
+                'chat-experience-desc': '类 ChatGPT 的交互界面，提供直观的对话体验。',
+                'prompt-debugging': 'Prompt 调试',
+                'prompt-debugging-desc': '方便调试和优化提示词，适合研究和开发。',
+                'offline-run': '离线运行',
+                'offline-run-desc': '所有数据本地处理，保护隐私，无需联网即可使用。',
+                'system-requirements': '最低配置要求',
+                'computer-config': '电脑配置',
+                'recommended-model': '推荐模型',
+                'model-size': '模型大小',
+                'speed': '速度',
+                'suitable-for': '适合场景',
+                'deployment-steps': '部署步骤',
+                'step-1': '下载 LM Studio',
+                'step-1-desc-1': '访问 LM Studio 官网：',
+                'step-1-desc-2': '点击 "Download" 按钮',
+                'step-1-desc-3': '选择对应操作系统的版本（Windows、macOS）',
+                'step-1-desc-4': '下载安装包',
+                'step-2': '安装 LM Studio',
+                'step-2-desc-1': '运行下载的安装程序',
+                'step-2-desc-2': '按照安装向导的提示完成安装',
+                'step-2-desc-3': '启动 LM Studio',
+                'step-3': '下载模型',
+                'step-3-desc-1': '在 LM Studio 主界面，点击左侧的 "Models" 标签',
+                'step-3-desc-2': '在搜索框中输入模型名称（如 "llama3"、"mistral" 等）',
+                'step-3-desc-3': '从搜索结果中选择一个模型',
+                'step-3-desc-4': '点击 "Download" 按钮下载模型',
+                'step-3-desc-5': '等待模型下载完成',
+                'step-4': '运行模型',
+                'step-4-desc-1': '模型下载完成后，点击左侧的 "Chat" 标签',
+                'step-4-desc-2': '在顶部的模型选择下拉菜单中选择已下载的模型',
+                'step-4-desc-3': '点击 "Load Model" 按钮加载模型',
+                'step-4-desc-4': '模型加载完成后，在输入框中输入问题，点击 "Send" 按钮与模型对话',
+                'step-5': '配置模型参数',
+                'step-5-desc': '在加载模型时，可以点击 "Advanced Settings" 展开高级设置，调整以下参数：',
+                'step-5-param-1': 'Temperature：控制生成文本的随机性',
+                'step-5-param-2': 'Top P：控制词的多样性',
+                'step-5-param-3': 'Max Tokens：控制生成文本的最大长度',
+                'step-5-param-4': 'Context Length：控制模型的上下文窗口大小',
+                'step-6': '使用 API（可选）',
+                'step-6-desc': 'LM Studio 也提供了 API 功能，可以通过以下步骤启用：',
+                'step-6-desc-1': '点击顶部菜单栏的 "Server"',
+                'step-6-desc-2': '选择 "Start Server"',
+                'step-6-desc-3': '服务器启动后，可以通过 http://localhost:1234/v1 访问 API',
+                'common-issues': '常见问题',
+                'issue-1': '模型下载速度慢',
+                'issue-1-solution-1': '尝试使用网络加速工具',
+                'issue-1-solution-2': '或在非高峰时段下载',
+                'issue-2': '内存不足',
+                'issue-2-solution-1': '选择更小的模型',
+                'issue-2-solution-2': '关闭其他占用内存的应用',
+                'issue-3': '模型加载失败',
+                'issue-3-solution-1': '检查模型文件是否完整',
+                'issue-3-solution-2': '尝试重新下载模型',
+                'issue-4': '性能问题',
+                'issue-4-solution-1': '调整模型参数，降低温度和上下文长度',
+                'issue-4-solution-2': '对于复杂任务，考虑使用更强大的硬件',
+                'conclusion': '结语',
+                'conclusion-desc': 'LM Studio 是一个非常适合初学者和研究者的本地 LLM 运行工具，其直观的图形界面大大降低了使用门槛。如果你主要是想本地试用新模型、调试 Prompt 或者进行教学演示，LM Studio 是一个理想的选择。它提供了类 ChatGPT 的用户体验，同时保证了数据的隐私安全，所有处理都在本地完成。',
+                'visit-official': '访问 LM Studio 官网',
+                'footer-copyright': '© 2024 Hello Token. 保留所有权利.',
+                'home': '首页',
+                'free-models': '免费模型',
+                'paid-models': '付费模型',
+                'local-setup': '本地搭建',
+                'language-zh': '中文',
+                'language-en': 'English'
+            },
+            en: {
+                'title': 'LM Studio Local Deployment Guide',
+                'hero-description': 'Local LLM visualization tool, providing an intuitive graphical interface for AI beginners, researchers, and product managers',
+                'what-is-lm-studio': 'What is LM Studio',
+                'what-is-lm-studio-desc': 'LM Studio is a local LLM visualization tool designed for AI beginners, researchers, and product managers, providing an intuitive graphical interface that allows users to easily run and test various large language models locally.',
+                'lm-studio-advantages': 'Advantages of LM Studio',
+                'core-position': 'Core Position',
+                'core-position-desc': 'Local LLM visualization tool with full graphical interface operation, suitable for quickly trying out and testing new models.',
+                'full-gui': 'Full Graphical Interface',
+                'full-gui-desc': 'No command line operation required, easy to get started, suitable for AI beginners and non-technical users.',
+                'model-search-download': 'Model Search and Download',
+                'model-search-download-desc': 'Built-in model library, visual search and download, no need to manually find model files.',
+                'chat-experience': 'Chat Experience',
+                'chat-experience-desc': 'ChatGPT-like interactive interface, providing an intuitive conversation experience.',
+                'prompt-debugging': 'Prompt Debugging',
+                'prompt-debugging-desc': 'Convenient for debugging and optimizing prompts, suitable for research and development.',
+                'offline-run': 'Offline Run',
+                'offline-run-desc': 'All data processed locally, protecting privacy, can be used without internet connection.',
+                'system-requirements': 'Minimum System Requirements',
+                'computer-config': 'Computer Configuration',
+                'recommended-model': 'Recommended Model',
+                'model-size': 'Model Size',
+                'speed': 'Speed',
+                'suitable-for': 'Suitable For',
+                'deployment-steps': 'Deployment Steps',
+                'step-1': 'Download LM Studio',
+                'step-1-desc-1': 'Visit LM Studio official website: ',
+                'step-1-desc-2': 'Click the "Download" button',
+                'step-1-desc-3': 'Select the version for your operating system (Windows, macOS)',
+                'step-1-desc-4': 'Download the installer',
+                'step-2': 'Install LM Studio',
+                'step-2-desc-1': 'Run the downloaded installer',
+                'step-2-desc-2': 'Follow the installation wizard to complete the installation',
+                'step-2-desc-3': 'Launch LM Studio',
+                'step-3': 'Download Model',
+                'step-3-desc-1': 'In the LM Studio main interface, click the "Models" tab on the left',
+                'step-3-desc-2': 'Enter model name in the search box (e.g., "llama3", "mistral", etc.)',
+                'step-3-desc-3': 'Select a model from the search results',
+                'step-3-desc-4': 'Click the "Download" button to download the model',
+                'step-3-desc-5': 'Wait for the model to download completely',
+                'step-4': 'Run Model',
+                'step-4-desc-1': 'After the model is downloaded, click the "Chat" tab on the left',
+                'step-4-desc-2': 'Select the downloaded model from the model selection dropdown menu at the top',
+                'step-4-desc-3': 'Click the "Load Model" button to load the model',
+                'step-4-desc-4': 'After the model is loaded, enter your question in the input box and click the "Send" button to chat with the model',
+                'step-5': 'Configure Model Parameters',
+                'step-5-desc': 'When loading the model, you can click "Advanced Settings" to expand advanced settings and adjust the following parameters:',
+                'step-5-param-1': 'Temperature: Controls the randomness of generated text',
+                'step-5-param-2': 'Top P: Controls the diversity of words',
+                'step-5-param-3': 'Max Tokens: Controls the maximum length of generated text',
+                'step-5-param-4': 'Context Length: Controls the size of the model\'s context window',
+                'step-6': 'Use API (Optional)',
+                'step-6-desc': 'LM Studio also provides API functionality, which can be enabled through the following steps:',
+                'step-6-desc-1': 'Click "Server" in the top menu bar',
+                'step-6-desc-2': 'Select "Start Server"',
+                'step-6-desc-3': 'After the server starts, you can access the API through http://localhost:1234/v1',
+                'common-issues': 'Common Issues',
+                'issue-1': 'Slow model download speed',
+                'issue-1-solution-1': 'Try using network acceleration tools',
+                'issue-1-solution-2': 'Or download during off-peak hours',
+                'issue-2': 'Insufficient memory',
+                'issue-2-solution-1': 'Choose a smaller model',
+                'issue-2-solution-2': 'Close other memory-intensive applications',
+                'issue-3': 'Model loading failure',
+                'issue-3-solution-1': 'Check if the model file is complete',
+                'issue-3-solution-2': 'Try re-downloading the model',
+                'issue-4': 'Performance issues',
+                'issue-4-solution-1': 'Adjust model parameters, reduce temperature and context length',
+                'issue-4-solution-2': 'For complex tasks, consider using more powerful hardware',
+                'conclusion': 'Conclusion',
+                'conclusion-desc': 'LM Studio is a very suitable local LLM running tool for beginners and researchers, and its intuitive graphical interface greatly lowers the entry barrier. If you mainly want to locally try out new models, debug prompts, or conduct teaching demonstrations, LM Studio is an ideal choice. It provides a ChatGPT-like user experience while ensuring data privacy security, with all processing done locally.',
+                'visit-official': 'Visit LM Studio Official Website',
+                'footer-copyright': '© 2024 Hello Token. All rights reserved.',
+                'home': 'Home',
+                'free-models': 'Free Models',
+                'paid-models': 'Paid Models',
+                'local-setup': 'Local Setup',
+                'language-zh': '中文',
+                'language-en': 'English'
+            }
+        };
+
+        // 切换语言
+        function changeLanguage(lang) {
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+            document.querySelector('html').setAttribute('lang', lang);
+            document.title = translations[lang]['title'];
+            localStorage.setItem('language', lang);
+        }
+
+        // 页面加载时设置语言
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedLang = localStorage.getItem('language') || 'zh';
+            changeLanguage(savedLang);
+        });
+    </script>
+    <style>
+        .bg-gradient-primary {
+            background: linear-gradient(to right, #3b82f6, #8b5cf6);
+        }
+        .text-gradient {
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            background-image: linear-gradient(to right, #3b82f6, #8b5cf6);
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transform: translateY(-4px);
+        }
+        .section-padding {
+            padding-top: 3rem;
+            padding-bottom: 4rem;
+        }
+        @media (min-width: 768px) {
+            .section-padding {
+                padding-top: 4rem;
+                padding-bottom: 6rem;
+            }
+        }
+        .container-custom {
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+        @media (min-width: 640px) {
+            .container-custom {
+                max-width: 640px;
+            }
+        }
+        @media (min-width: 768px) {
+            .container-custom {
+                max-width: 768px;
+            }
+        }
+        @media (min-width: 1024px) {
+            .container-custom {
+                max-width: 1024px;
+            }
+        }
+        @media (min-width: 1280px) {
+            .container-custom {
+                max-width: 1280px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container-custom py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                    <img 
+                        src="https://img.cdn.apipost.cn/client/user/1391646/avatar/efd43da5e950a2d9578cf0052e99c37769e72019c3a89.png" 
+                        alt="Hello Token" 
+                        class="w-10 h-10 object-contain"
+                    />
+                    <h1 class="text-2xl font-bold text-gradient">Hello Token</h1>
+                </div>
+            <nav class="hidden md:flex space-x-8">
+                <a href="/" class="text-primary font-medium hover:scale-105 transition-transform duration-300" data-i18n="home">首页</a>
+                <a href="/" class="text-neutral hover:text-primary transition-colors duration-300" data-i18n="free-models">免费模型</a>
+                <a href="/" class="text-neutral hover:text-primary transition-colors duration-300" data-i18n="paid-models">付费模型</a>
+                <a href="/" class="text-neutral hover:text-primary transition-colors duration-300" data-i18n="local-setup">本地搭建</a>
+                <div class="flex space-x-2 ml-4">
+                    <button onclick="changeLanguage('zh')" class="text-neutral hover:text-primary transition-colors duration-300" data-i18n="language-zh">中文</button>
+                    <button onclick="changeLanguage('en')" class="text-neutral hover:text-primary transition-colors duration-300" data-i18n="language-en">English</button>
+                </div>
+            </nav>
+            <button class="md:hidden text-neutral-dark hover:text-primary transition-colors duration-300">
+                <i class="fa fa-bars text-2xl"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="section-padding">
+        <div class="container-custom">
+            <!-- Hero Section -->
+            <div class="bg-gradient-primary text-white rounded-2xl p-12 mb-12 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4" data-i18n="title">LM Studio 本地部署指南</h2>
+                <p class="text-lg opacity-90 max-w-2xl mx-auto" data-i18n="hero-description">
+                    本地 LLM 可视化运行工具，为 AI 初学者、研究者和产品经理提供直观的图形界面
+                </p>
+            </div>
+
+            <!-- What is LM Studio -->
+            <section class="bg-white rounded-2xl shadow-lg p-8 mb-12">
+                <h3 class="text-2xl font-bold text-neutral-dark mb-6" data-i18n="what-is-lm-studio">什么是 LM Studio</h3>
+                <p class="text-neutral mb-6 leading-relaxed" data-i18n="what-is-lm-studio-desc">
+                    LM Studio 是一个本地 LLM 可视化运行工具，专为 AI 初学者、研究者和产品经理设计，提供了直观的图形界面，让用户可以轻松地在本地运行和测试各种大型语言模型。
+                </p>
+                
+                <h4 class="text-xl font-semibold text-neutral-dark mb-4" data-i18n="lm-studio-advantages">LM Studio 的优势</h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-neutral-light rounded-xl p-6 card-hover">
+                        <h5 class="font-semibold text-neutral-dark mb-3" data-i18n="core-position">核心定位</h5>
+                        <p class="text-neutral text-sm" data-i18n="core-position-desc">
+                            本地 LLM 可视化运行工具，提供全图形界面操作，适合快速试用和测试新模型。
+                        </p>
+                    </div>
+                    <div class="bg-neutral-light rounded-xl p-6 card-hover">
+                        <h5 class="font-semibold text-neutral-dark mb-3" data-i18n="full-gui">全图形界面</h5>
+                        <p class="text-neutral text-sm" data-i18n="full-gui-desc">
+                            无需命令行操作，上手简单，适合 AI 初学者和非技术用户。
+                        </p>
+                    </div>
+                    <div class="bg-neutral-light rounded-xl p-6 card-hover">
+                        <h5 class="font-semibold text-neutral-dark mb-3" data-i18n="model-search-download">模型搜索与下载</h5>
+                        <p class="text-neutral text-sm" data-i18n="model-search-download-desc">
+                            内置模型库，可视化搜索和下载，无需手动查找模型文件。
+                        </p>
+                    </div>
+                    <div class="bg-neutral-light rounded-xl p-6 card-hover">
+                        <h5 class="font-semibold text-neutral-dark mb-3" data-i18n="chat-experience">对话体验</h5>
+                        <p class="text-neutral text-sm" data-i18n="chat-experience-desc">
+                            类 ChatGPT 的交互界面，提供直观的对话体验。
+                        </p>
+                    </div>
+                    <div class="bg-neutral-light rounded-xl p-6 card-hover">
+                        <h5 class="font-semibold text-neutral-dark mb-3" data-i18n="prompt-debugging">Prompt 调试</h5>
+                        <p class="text-neutral text-sm" data-i18n="prompt-debugging-desc">
+                            方便调试和优化提示词，适合研究和开发。
+                        </p>
+                    </div>
+                    <div class="bg-neutral-light rounded-xl p-6 card-hover">
+                        <h5 class="font-semibold text-neutral-dark mb-3" data-i18n="offline-run">离线运行</h5>
+                        <p class="text-neutral text-sm" data-i18n="offline-run-desc">
+                            所有数据本地处理，保护隐私，无需联网即可使用。
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- System Requirements -->
+            <section class="bg-white rounded-2xl shadow-lg p-8 mb-12">
+                <h3 class="text-2xl font-bold text-neutral-dark mb-6" data-i18n="system-requirements">最低配置要求</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left">
+                        <thead class="text-xs text-neutral-dark uppercase bg-neutral-light">
+                            <tr>
+                                <th scope="col" class="px-4 py-3" data-i18n="computer-config">电脑配置</th>
+                                <th scope="col" class="px-4 py-3" data-i18n="recommended-model">推荐模型</th>
+                                <th scope="col" class="px-4 py-3" data-i18n="model-size">模型大小</th>
+                                <th scope="col" class="px-4 py-3" data-i18n="speed">速度</th>
+                                <th scope="col" class="px-4 py-3" data-i18n="suitable-for">适合场景</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="bg-white border-b hover:bg-neutral-light transition-colors">
+                                <td class="px-4 py-3">8GB 内存 / 无独显 / 轻薄本</td>
+                                <td class="px-4 py-3">tinyllama / qwen2:0.5b</td>
+                                <td class="px-4 py-3">0.5B～1.1B</td>
+                                <td class="px-4 py-3">极快</td>
+                                <td class="px-4 py-3">简单问答、测试、学习</td>
+                            </tr>
+                            <tr class="bg-white border-b hover:bg-neutral-light transition-colors">
+                                <td class="px-4 py-3">16GB 内存 / 无独显 / 办公本</td>
+                                <td class="px-4 py-3">gemma:2b / qwen2:1.8b</td>
+                                <td class="px-4 py-3">1.8B～2B</td>
+                                <td class="px-4 py-3">流畅</td>
+                                <td class="px-4 py-3">日常对话、简单测试</td>
+                            </tr>
+                            <tr class="bg-white border-b hover:bg-neutral-light transition-colors">
+                                <td class="px-4 py-3">16GB 内存 + 入门独显（4G）</td>
+                                <td class="px-4 py-3">llama3:8b / qwen2:7b</td>
+                                <td class="px-4 py-3">7B～8B</td>
+                                <td class="px-4 py-3">流畅</td>
+                                <td class="px-4 py-3">正式使用、学习研究</td>
+                            </tr>
+                            <tr class="bg-white hover:bg-neutral-light transition-colors">
+                                <td class="px-4 py-3">24GB 内存 + 中高端显卡（6G+）</td>
+                                <td class="px-4 py-3">llama3:8b / qwen2:7b</td>
+                                <td class="px-4 py-3">7B～8B</td>
+                                <td class="px-4 py-3">很快</td>
+                                <td class="px-4 py-3">高质量对话、研究测试</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Deployment Steps -->
+            <section class="bg-white rounded-2xl shadow-lg p-8 mb-12">
+                <h3 class="text-2xl font-bold text-neutral-dark mb-6" data-i18n="deployment-steps">部署步骤</h3>
+                
+                <div class="space-y-8">
+                    <!-- Step 1 -->
+                    <div class="flex flex-col md:flex-row gap-6">
+                        <div class="md:w-1/4">
+                            <div class="bg-gradient-primary text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold">1</div>
+                        </div>
+                        <div class="md:w-3/4">
+                            <h4 class="text-xl font-semibold text-neutral-dark mb-3" data-i18n="step-1">下载 LM Studio</h4>
+                            <ol class="list-decimal list-inside text-neutral space-y-2 ml-4">
+                                <li data-i18n="step-1-desc-1">访问 LM Studio 官网：<a href="https://lmstudio.ai/" target="_blank" class="text-primary hover:underline">https://lmstudio.ai/</a></li>
+                                <li data-i18n="step-1-desc-2">点击 "Download" 按钮</li>
+                                <li data-i18n="step-1-desc-3">选择对应操作系统的版本（Windows、macOS）</li>
+                                <li data-i18n="step-1-desc-4">下载安装包</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="flex flex-col md:flex-row gap-6">
+                        <div class="md:w-1/4">
+                            <div class="bg-gradient-primary text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold">2</div>
+                        </div>
+                        <div class="md:w-3/4">
+                            <h4 class="text-xl font-semibold text-neutral-dark mb-3" data-i18n="step-2">安装 LM Studio</h4>
+                            <ol class="list-decimal list-inside text-neutral space-y-2 ml-4">
+                                <li data-i18n="step-2-desc-1">运行下载的安装程序</li>
+                                <li data-i18n="step-2-desc-2">按照安装向导的提示完成安装</li>
+                                <li data-i18n="step-2-desc-3">启动 LM Studio</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="flex flex-col md:flex-row gap-6">
+                        <div class="md:w-1/4">
+                            <div class="bg-gradient-primary text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold">3</div>
+                        </div>
+                        <div class="md:w-3/4">
+                            <h4 class="text-xl font-semibold text-neutral-dark mb-3" data-i18n="step-3">下载模型</h4>
+                            <ol class="list-decimal list-inside text-neutral space-y-2 ml-4">
+                                <li data-i18n="step-3-desc-1">在 LM Studio 主界面，点击左侧的 "Models" 标签</li>
+                                <li data-i18n="step-3-desc-2">在搜索框中输入模型名称（如 "llama3"、"mistral" 等）</li>
+                                <li data-i18n="step-3-desc-3">从搜索结果中选择一个模型</li>
+                                <li data-i18n="step-3-desc-4">点击 "Download" 按钮下载模型</li>
+                                <li data-i18n="step-3-desc-5">等待模型下载完成</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="flex flex-col md:flex-row gap-6">
+                        <div class="md:w-1/4">
+                            <div class="bg-gradient-primary text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold">4</div>
+                        </div>
+                        <div class="md:w-3/4">
+                            <h4 class="text-xl font-semibold text-neutral-dark mb-3" data-i18n="step-4">运行模型</h4>
+                            <ol class="list-decimal list-inside text-neutral space-y-2 ml-4">
+                                <li data-i18n="step-4-desc-1">模型下载完成后，点击左侧的 "Chat" 标签</li>
+                                <li data-i18n="step-4-desc-2">在顶部的模型选择下拉菜单中选择已下载的模型</li>
+                                <li data-i18n="step-4-desc-3">点击 "Load Model" 按钮加载模型</li>
+                                <li data-i18n="step-4-desc-4">模型加载完成后，在输入框中输入问题，点击 "Send" 按钮与模型对话</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <!-- Step 5 -->
+                    <div class="flex flex-col md:flex-row gap-6">
+                        <div class="md:w-1/4">
+                            <div class="bg-gradient-primary text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold">5</div>
+                        </div>
+                        <div class="md:w-3/4">
+                            <h4 class="text-xl font-semibold text-neutral-dark mb-3" data-i18n="step-5">配置模型参数</h4>
+                            <p class="text-neutral mb-3" data-i18n="step-5-desc">在加载模型时，可以点击 "Advanced Settings" 展开高级设置，调整以下参数：</p>
+                            <ul class="text-neutral space-y-2 ml-4 list-disc list-inside">
+                                <li data-i18n="step-5-param-1"><strong>Temperature</strong>：控制生成文本的随机性</li>
+                                <li data-i18n="step-5-param-2"><strong>Top P</strong>：控制词的多样性</li>
+                                <li data-i18n="step-5-param-3"><strong>Max Tokens</strong>：控制生成文本的最大长度</li>
+                                <li data-i18n="step-5-param-4"><strong>Context Length</strong>：控制模型的上下文窗口大小</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Step 6 -->
+                    <div class="flex flex-col md:flex-row gap-6">
+                        <div class="md:w-1/4">
+                            <div class="bg-gradient-primary text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold">6</div>
+                        </div>
+                        <div class="md:w-3/4">
+                            <h4 class="text-xl font-semibold text-neutral-dark mb-3" data-i18n="step-6">使用 API（可选）</h4>
+                            <p class="text-neutral mb-3" data-i18n="step-6-desc">LM Studio 也提供了 API 功能，可以通过以下步骤启用：</p>
+                            <ol class="list-decimal list-inside text-neutral space-y-2 ml-4">
+                                <li data-i18n="step-6-desc-1">点击顶部菜单栏的 "Server"</li>
+                                <li data-i18n="step-6-desc-2">选择 "Start Server"</li>
+                                <li data-i18n="step-6-desc-3">服务器启动后，可以通过 http://localhost:1234/v1 访问 API</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Common Issues -->
+            <section class="bg-white rounded-2xl shadow-lg p-8 mb-12">
+                <h3 class="text-2xl font-bold text-neutral-dark mb-6" data-i18n="common-issues">常见问题</h3>
+                <div class="space-y-4">
+                    <div class="bg-neutral-light rounded-xl p-6">
+                        <h4 class="font-semibold text-neutral-dark mb-2" data-i18n="issue-1">模型下载速度慢</h4>
+                        <ul class="text-neutral space-y-1 ml-4 list-disc list-inside">
+                            <li data-i18n="issue-1-solution-1">尝试使用网络加速工具</li>
+                            <li data-i18n="issue-1-solution-2">或在非高峰时段下载</li>
+                        </ul>
+                    </div>
+                    <div class="bg-neutral-light rounded-xl p-6">
+                        <h4 class="font-semibold text-neutral-dark mb-2" data-i18n="issue-2">内存不足</h4>
+                        <ul class="text-neutral space-y-1 ml-4 list-disc list-inside">
+                            <li data-i18n="issue-2-solution-1">选择更小的模型</li>
+                            <li data-i18n="issue-2-solution-2">关闭其他占用内存的应用</li>
+                        </ul>
+                    </div>
+                    <div class="bg-neutral-light rounded-xl p-6">
+                        <h4 class="font-semibold text-neutral-dark mb-2" data-i18n="issue-3">模型加载失败</h4>
+                        <ul class="text-neutral space-y-1 ml-4 list-disc list-inside">
+                            <li data-i18n="issue-3-solution-1">检查模型文件是否完整</li>
+                            <li data-i18n="issue-3-solution-2">尝试重新下载模型</li>
+                        </ul>
+                    </div>
+                    <div class="bg-neutral-light rounded-xl p-6">
+                        <h4 class="font-semibold text-neutral-dark mb-2" data-i18n="issue-4">性能问题</h4>
+                        <ul class="text-neutral space-y-1 ml-4 list-disc list-inside">
+                            <li data-i18n="issue-4-solution-1">调整模型参数，降低温度和上下文长度</li>
+                            <li data-i18n="issue-4-solution-2">对于复杂任务，考虑使用更强大的硬件</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Conclusion -->
+            <section class="bg-white rounded-2xl shadow-lg p-8">
+                <h3 class="text-2xl font-bold text-neutral-dark mb-6" data-i18n="conclusion">结语</h3>
+                <p class="text-neutral leading-relaxed" data-i18n="conclusion-desc">
+                    LM Studio 是一个非常适合初学者和研究者的本地 LLM 运行工具，其直观的图形界面大大降低了使用门槛。如果你主要是想本地试用新模型、调试 Prompt 或者进行教学演示，LM Studio 是一个理想的选择。它提供了类 ChatGPT 的用户体验，同时保证了数据的隐私安全，所有处理都在本地完成。
+                </p>
+                <div class="mt-6">
+                    <a href="https://lmstudio.ai/" target="_blank" class="bg-gradient-primary text-white font-medium px-8 py-3 rounded-lg hover:shadow-lg hover:-translate-y-1 transition-all duration-300 inline-block" data-i18n="visit-official">
+                        访问 LM Studio 官网
+                    </a>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gradient-to-b from-neutral-dark to-black text-white py-12">
+        <div class="container-custom">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center space-x-3 mb-6 md:mb-0">
+                    <img 
+                        src="https://img.cdn.apipost.cn/client/user/1391646/avatar/efd43da5e950a2d9578cf0052e99c37769e72019c3a89.png" 
+                        alt="Hello Token" 
+                        class="w-10 h-10 object-contain"
+                    />
+                    <h3 class="text-2xl font-bold text-gradient">Hello Token</h3>
+                </div>
+                <div class="text-center md:text-right">
+                    <p class="text-gray-400 text-sm" data-i18n="footer-copyright">
+                        © 2024 Hello Token. 保留所有权利.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

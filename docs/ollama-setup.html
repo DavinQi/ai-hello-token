@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ollama 本地部署指南</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#10b981',
+                        accent: '#8b5cf6',
+                        neutral: '#6b7280',
+                        'neutral-light': '#f3f4f6',
+                        'neutral-dark': '#1f2937',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                },
+            }
+        }
+    </script>
+    <script>
+        // 国际化支持
+        const translations = {
+            zh: {
+                'title': 'Ollama 本地部署指南',
+                'hero-description': '免费、开源、跨平台的本地大模型运行工具，让你在自己的电脑上一键运行各种开源大语言模型',
+                'what-is-ollama': '什么是 Ollama',
+                'what-is-ollama-desc': 'Ollama 是一个免费、开源、跨平台的工具，让你能在自己的电脑（Windows/macOS/Linux）上一键运行、管理各种开源大语言模型（如 DeepSeek、Llama 3、Qwen、Gemma 等），完全本地、离线、隐私安全。',
+                'ollama-advantages': 'Ollama 的优势',
+                'core-position': '核心定位',
+                'core-position-desc': 'LLM 的 "Docker"，不是模型本身，而是模型管理器 / 运行时。把复杂的本地部署（环境、依赖、量化、GPU 加速）全部自动化，一行命令跑 AI。',
+                'out-of-box': '开箱即用',
+                'out-of-box-desc': '自动下载、配置、量化、启动模型。不需要懂 CUDA、Python、深度学习环境。',
+                'cross-platform': '跨平台',
+                'cross-platform-desc': 'Windows、macOS、Linux、Docker 全支持。',
+                'rich-model-library': '模型库极丰富',
+                'rich-model-library-desc': '支持 Llama 3、Mistral、Gemma、Qwen（通义千问）、DeepSeek、CodeLlama、LLaVA（多模态看图）等。',
+                'hardware-friendly': '硬件友好',
+                'hardware-friendly-desc': '自动 4-bit 量化，8GB 内存就能跑 7B 模型。支持 CPU / NVIDIA GPU / Apple Silicon 加速。',
+                'api-service': 'API 服务化',
+                'api-service-desc': '启动后自动提供 REST API（兼容 OpenAI 格式）。可直接接入你的 Java / 前端 / Python 项目。',
+                'system-requirements': '最低配置要求',
+                'computer-config': '电脑配置',
+                'recommended-model': '推荐模型',
+                'model-size': '模型大小',
+                'speed': '速度',
+                'suitable-for': '适合场景',
+                'deployment-steps': '部署步骤',
+                'step-1': '安装 Ollama',
+                'step-1-desc-1': '访问 Ollama 官网：',
+                'step-1-desc-2': '下载对应操作系统的安装包',
+                'step-1-desc-3': '运行安装程序，按照提示完成安装',
+                'step-2': '下载模型',
+                'step-2-desc-1': '打开命令行工具（Windows：cmd 或 PowerShell，macOS/Linux：Terminal）',
+                'step-2-desc-2': '输入以下命令下载模型（以 DeepSeek 为例）：',
+                'step-2-desc-3': '等待模型下载完成',
+                'step-3': '运行模型',
+                'step-3-desc-1': '输入以下命令运行模型：',
+                'step-3-desc-2': '模型启动后，可以直接在命令行中与模型对话',
+                'step-4': '使用 API',
+                'step-4-desc': 'Ollama 启动后会自动提供 REST API，可以通过以下方式访问：',
+                'step-5': '管理模型',
+                'step-5-desc-1': '查看已安装的模型：',
+                'step-5-desc-2': '删除模型：',
+                'step-5-desc-3': '拉取新模型：',
+                'common-issues': '常见问题',
+                'issue-1': '模型下载速度慢',
+                'issue-1-solution-1': '尝试使用网络加速工具',
+                'issue-1-solution-2': '或使用国内镜像源',
+                'issue-2': '内存不足',
+                'issue-2-solution-1': '选择更小的模型',
+                'issue-2-solution-2': '关闭其他占用内存的应用',
+                'issue-3': 'GPU 加速问题',
+                'issue-3-solution-1': '确保已安装最新的显卡驱动',
+                'issue-3-solution-2': '对于 NVIDIA GPU，确保已安装 CUDA',
+                'conclusion': '结语',
+                'conclusion-desc': '本地部署大模型最好的选择就是 Ollama，当环境要求必须内网开发，数据严格隐私，则使用 Ollama 是最佳选择。Ollama 是本地 AI 大模型的一键启动器 + 管理器 + API 服务器。后续使用 Java 或 Python 需要调用大模型 API 时，可以直接调用本地大模型 API，方便快捷，注重隐私安全。',
+                'visit-official': '访问 Ollama 官网',
+                'footer-copyright': '© 2024 Hello Token. 保留所有权利.',
+                'home': '首页',
+                'free-models': '免费模型',
+                'paid-models': '付费模型',
+                'local-setup': '本地搭建',
+                'language-zh': '中文',
+                'language-en': 'English'
+            },
+            en: {
+                'title': 'Ollama Local Deployment Guide',
+                'hero-description': 'Free, open-source, cross-platform local large model running tool, allowing you to run various open-source large language models on your own computer with one click',
+                'what-is-ollama': 'What is Ollama',
+                'what-is-ollama-desc': 'Ollama is a free, open-source, cross-platform tool that allows you to run and manage various open-source large language models (such as DeepSeek, Llama 3, Qwen, Gemma, etc.) on your own computer (Windows/macOS/Linux), completely local, offline, and privacy-safe.',
+                'ollama-advantages': 'Advantages of Ollama',
+                'core-position': 'Core Position',
+                'core-position-desc': 'LLM\'s "Docker", not the model itself, but a model manager/runtime. Automates complex local deployment (environment, dependencies, quantization, GPU acceleration), run AI with one command.',
+                'out-of-box': 'Out of the Box',
+                'out-of-box-desc': 'Automatically downloads, configures, quantizes, and starts models. No need to understand CUDA, Python, or deep learning environments.',
+                'cross-platform': 'Cross-platform',
+                'cross-platform-desc': 'Supports Windows, macOS, Linux, and Docker.',
+                'rich-model-library': 'Rich Model Library',
+                'rich-model-library-desc': 'Supports Llama 3, Mistral, Gemma, Qwen, DeepSeek, CodeLlama, LLaVA (multimodal image viewing), etc.',
+                'hardware-friendly': 'Hardware Friendly',
+                'hardware-friendly-desc': 'Automatic 4-bit quantization, can run 7B models with 8GB RAM. Supports CPU/NVIDIA GPU/Apple Silicon acceleration.',
+                'api-service': 'API Service',
+                'api-service-desc': 'Automatically provides REST API (OpenAI format compatible) after startup. Can be directly integrated into your Java/frontend/Python projects.',
+                'system-requirements': 'Minimum System Requirements',
+                'computer-config': 'Computer Configuration',
+                'recommended-model': 'Recommended Model',
+                'model-size': 'Model Size',
+                'speed': 'Speed',
+                'suitable-for': 'Suitable For',
+                'deployment-steps': 'Deployment Steps',
+                'step-1': 'Install Ollama',
+                'step-1-desc-1': 'Visit Ollama official website: ',
+                'step-1-desc-2': 'Download the installer for your operating system',
+                'step-1-desc-3': 'Run the installer and follow the instructions to complete the installation',
+                'step-2': 'Download Model',
+                'step-2-desc-1': 'Open command line tool (Windows: cmd or PowerShell, macOS/Linux: Terminal)',
+                'step-2-desc-2': 'Enter the following command to download the model (taking DeepSeek as an example):',
+                'step-2-desc-3': 'Wait for the model to download completely',
+                'step-3': 'Run Model',
+                'step-3-desc-1': 'Enter the following command to run the model:',
+                'step-3-desc-2': 'After the model starts, you can directly chat with the model in the command line',
+                'step-4': 'Use API',
+                'step-4-desc': 'Ollama automatically provides REST API after startup, which can be accessed through the following method:',
+                'step-5': 'Manage Models',
+                'step-5-desc-1': 'View installed models:',
+                'step-5-desc-2': 'Delete model:',
+                'step-5-desc-3': 'Pull new model:',
+                'common-issues': 'Common Issues',
+                'issue-1': 'Slow model download speed',
+                'issue-1-solution-1': 'Try using network acceleration tools',
+                'issue-1-solution-2': 'Or use domestic mirror source',
+                'issue-2': 'Insufficient memory',
+                'issue-2-solution-1': 'Choose a smaller model',
+                'issue-2-solution-2': 'Close other memory-intensive applications',
+                'issue-3': 'GPU acceleration issues',
+                'issue-3-solution-1': 'Ensure you have the latest graphics card driver installed',
+                'issue-3-solution-2': 'For NVIDIA GPU, ensure CUDA is installed',
+                'conclusion': 'Conclusion',
+                'conclusion-desc': 'Ollama is the best choice for local deployment of large models. When the environment requires intranet development and strict data privacy, using Ollama is the best option. Ollama is a one-click launcher + manager + API server for local AI large models. When you need to call large model APIs using Java or Python later, you can directly call the local large model API, which is convenient and fast, focusing on privacy and security.',
+                'visit-official': 'Visit Ollama Official Website',
+                'footer-copyright': '© 2024 Hello Token. All rights reserved.',
+                'home': 'Home',
+                'free-models': 'Free Models',
+                'paid-models': 'Paid Models',
+                'local-setup': 'Local Setup',
+                'language-zh': '中文',
+                'language-en': 'English'
+            }
+        };
+
+        // 切换语言
+        function changeLanguage(lang) {
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+            document.querySelector('html').setAttribute('lang', lang);
+            document.title = translations[lang]['title'];
+            localStorage.setItem('language', lang);
+        }
+
+        // 页面加载时设置语言
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedLang = localStorage.getItem('language') || 'zh';
+            changeLanguage(savedLang);
+        });
+    </script>
+    <style>
+        .bg-gradient-primary {
+            background: linear-gradient(to right, #3b82f6, #8b5cf6);
+        }
+        .text-gradient {
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            background-image: linear-gradient(to right, #3b82f6, #8b5cf6);
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transform: translateY(-4px);
+        }
+        .section-padding {
+            padding-top: 3rem;
+            padding-bottom: 4rem;
+        }
+        @media (min-width: 768px) {
+            .section-padding {
+                padding-top: 4rem;
+                padding-bottom: 6rem;
+            }
+        }
+        .container-custom {
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+        @media (min-width: 640px) {
+            .container-custom {
+                max-width: 640px;
+            }
+        }
+        @media (min-width: 768px) {
+            .container-custom {
+                max-width: 768px;
+            }
+        }
+        @media (min-width: 1024px) {
+            .container-custom {
+                max-width: 1024px;
+            }
+        }
+        @media (min-width: 1280px) {
+            .container-custom {
+                max-width: 1280px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container-custom py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                    <img 
+                        src="https://img.cdn.apipost.cn/client/user/1391646/avatar/efd43da5e950a2d9578cf0052e99c37769e72019c3a89.png" 
+                        alt="Hello Token" 
+                        class="w-10 h-10 object-contain"
+                    />
+                    <h1 class="text-2xl font-bold text-gradient">Hello Token</h1>
+                </div>
+            <nav class="hidden md:flex space-x-8">
+                <a href="/" class="text-primary font-medium hover:scale-105 transition-transform duration-300" data-i18n="home">首页</a>
+                <a href="/" class="text-neutral hover:text-primary transition-colors duration-300" data-i18n="free-models">免费模型</a>
+                <a href="/" class="text-neutral hover:text-primary transition-colors duration-300" data-i18n="paid-models">付费模型</a>
+                <a href="/" class="text-neutral hover:text-primary transition-colors duration-300" data-i18n="local-setup">本地搭建</a>
+                <div class="flex space-x-2 ml-4">
+                    <button onclick="changeLanguage('zh')" class="text-neutral hover:text-primary transition-colors duration-300" data-i18n="language-zh">中文</button>
+                    <button onclick="changeLanguage('en')" class="text-neutral hover:text-primary transition-colors duration-300" data-i18n="language-en">English</button>
+                </div>
+            </nav>
+            <button class="md:hidden text-neutral-dark hover:text-primary transition-colors duration-300">
+                <i class="fa fa-bars text-2xl"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="section-padding">
+        <div class="container-custom">
+            <!-- Hero Section -->
+            <div class="bg-gradient-primary text-white rounded-2xl p-12 mb-12 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4" data-i18n="title">Ollama 本地部署指南</h2>
+                <p class="text-lg opacity-90 max-w-2xl mx-auto" data-i18n="hero-description">
+                    免费、开源、跨平台的本地大模型运行工具，让你在自己的电脑上一键运行各种开源大语言模型
+                </p>
+            </div>
+
+            <!-- What is Ollama -->
+            <section class="bg-white rounded-2xl shadow-lg p-8 mb-12">
+                <h3 class="text-2xl font-bold text-neutral-dark mb-6" data-i18n="what-is-ollama">什么是 Ollama</h3>
+                <p class="text-neutral mb-6 leading-relaxed" data-i18n="what-is-ollama-desc">
+                    Ollama 是一个免费、开源、跨平台的工具，让你能在自己的电脑（Windows/macOS/Linux）上一键运行、管理各种开源大语言模型（如 DeepSeek、Llama 3、Qwen、Gemma 等），完全本地、离线、隐私安全。
+                </p>
+                
+                <h4 class="text-xl font-semibold text-neutral-dark mb-4" data-i18n="ollama-advantages">Ollama 的优势</h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-neutral-light rounded-xl p-6 card-hover">
+                        <h5 class="font-semibold text-neutral-dark mb-3" data-i18n="core-position">核心定位</h5>
+                        <p class="text-neutral text-sm" data-i18n="core-position-desc">
+                            LLM 的 "Docker"，不是模型本身，而是模型管理器 / 运行时。把复杂的本地部署（环境、依赖、量化、GPU 加速）全部自动化，一行命令跑 AI。
+                        </p>
+                    </div>
+                    <div class="bg-neutral-light rounded-xl p-6 card-hover">
+                        <h5 class="font-semibold text-neutral-dark mb-3" data-i18n="out-of-box">开箱即用</h5>
+                        <p class="text-neutral text-sm" data-i18n="out-of-box-desc">
+                            自动下载、配置、量化、启动模型。不需要懂 CUDA、Python、深度学习环境。
+                        </p>
+                    </div>
+                    <div class="bg-neutral-light rounded-xl p-6 card-hover">
+                        <h5 class="font-semibold text-neutral-dark mb-3" data-i18n="cross-platform">跨平台</h5>
+                        <p class="text-neutral text-sm" data-i18n="cross-platform-desc">
+                            Windows、macOS、Linux、Docker 全支持。
+                        </p>
+                    </div>
+                    <div class="bg-neutral-light rounded-xl p-6 card-hover">
+                        <h5 class="font-semibold text-neutral-dark mb-3" data-i18n="rich-model-library">模型库极丰富</h5>
+                        <p class="text-neutral text-sm" data-i18n="rich-model-library-desc">
+                            支持 Llama 3、Mistral、Gemma、Qwen（通义千问）、DeepSeek、CodeLlama、LLaVA（多模态看图）等。
+                        </p>
+                    </div>
+                    <div class="bg-neutral-light rounded-xl p-6 card-hover">
+                        <h5 class="font-semibold text-neutral-dark mb-3" data-i18n="hardware-friendly">硬件友好</h5>
+                        <p class="text-neutral text-sm" data-i18n="hardware-friendly-desc">
+                            自动 4-bit 量化，8GB 内存就能跑 7B 模型。支持 CPU / NVIDIA GPU / Apple Silicon 加速。
+                        </p>
+                    </div>
+                    <div class="bg-neutral-light rounded-xl p-6 card-hover">
+                        <h5 class="font-semibold text-neutral-dark mb-3" data-i18n="api-service">API 服务化</h5>
+                        <p class="text-neutral text-sm" data-i18n="api-service-desc">
+                            启动后自动提供 REST API（兼容 OpenAI 格式）。可直接接入你的 Java / 前端 / Python 项目。
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- System Requirements -->
+            <section class="bg-white rounded-2xl shadow-lg p-8 mb-12">
+                <h3 class="text-2xl font-bold text-neutral-dark mb-6" data-i18n="system-requirements">最低配置要求</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left">
+                        <thead class="text-xs text-neutral-dark uppercase bg-neutral-light">
+                            <tr>
+                                <th scope="col" class="px-4 py-3" data-i18n="computer-config">电脑配置</th>
+                                <th scope="col" class="px-4 py-3" data-i18n="recommended-model">推荐模型</th>
+                                <th scope="col" class="px-4 py-3" data-i18n="model-size">模型大小</th>
+                                <th scope="col" class="px-4 py-3" data-i18n="speed">速度</th>
+                                <th scope="col" class="px-4 py-3" data-i18n="suitable-for">适合场景</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="bg-white border-b hover:bg-neutral-light transition-colors">
+                                <td class="px-4 py-3">8GB 内存 / 无独显 / 轻薄本</td>
+                                <td class="px-4 py-3">qwen2:0.5b / tinyllama</td>
+                                <td class="px-4 py-3">0.5B～1.1B</td>
+                                <td class="px-4 py-3">极快</td>
+                                <td class="px-4 py-3">简单问答、测试、学习</td>
+                            </tr>
+                            <tr class="bg-white border-b hover:bg-neutral-light transition-colors">
+                                <td class="px-4 py-3">16GB 内存 / 无独显 / 办公本</td>
+                                <td class="px-4 py-3">qwen2:1.8b / gemma:2b</td>
+                                <td class="px-4 py-3">1.8B～2B</td>
+                                <td class="px-4 py-3">流畅</td>
+                                <td class="px-4 py-3">日常对话、简单 RAG 测试</td>
+                            </tr>
+                            <tr class="bg-white border-b hover:bg-neutral-light transition-colors">
+                                <td class="px-4 py-3">16GB 内存 + 入门独显（4G）</td>
+                                <td class="px-4 py-3">llama3:8b / qwen2:7b</td>
+                                <td class="px-4 py-3">7B～8B</td>
+                                <td class="px-4 py-3">流畅</td>
+                                <td class="px-4 py-3">正式 RAG、知识库、企业问答</td>
+                            </tr>
+                            <tr class="bg-white border-b hover:bg-neutral-light transition-colors">
+                                <td class="px-4 py-3">24GB 内存 + 中高端显卡（6G+）</td>
+                                <td class="px-4 py-3">llama3:8b / qwen2:7b / qwen:14b</td>
+                                <td class="px-4 py-3">7B～14B</td>
+                                <td class="px-4 py-3">很快</td>
+                                <td class="px-4 py-3">高质量 RAG、长文本、多轮对话</td>
+                            </tr>
+                            <tr class="bg-white hover:bg-neutral-light transition-colors">
+                                <td class="px-4 py-3">32GB 内存 + 高性能显卡（8G+）</td>
+                                <td class="px-4 py-3">llama3:70b / qwen:32b</td>
+                                <td class="px-4 py-3">32B+</td>
+                                <td class="px-4 py-3">较快</td>
+                                <td class="px-4 py-3">专业级、复杂推理、企业级应用</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Deployment Steps -->
+            <section class="bg-white rounded-2xl shadow-lg p-8 mb-12">
+                <h3 class="text-2xl font-bold text-neutral-dark mb-6" data-i18n="deployment-steps">部署步骤</h3>
+                
+                <div class="space-y-8">
+                    <!-- Step 1 -->
+                    <div class="flex flex-col md:flex-row gap-6">
+                        <div class="md:w-1/4">
+                            <div class="bg-gradient-primary text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold">1</div>
+                        </div>
+                        <div class="md:w-3/4">
+                            <h4 class="text-xl font-semibold text-neutral-dark mb-3" data-i18n="step-1">安装 Ollama</h4>
+                            <ol class="list-decimal list-inside text-neutral space-y-2 ml-4">
+                                <li data-i18n="step-1-desc-1">访问 Ollama 官网：<a href="https://ollama.com/download" target="_blank" class="text-primary hover:underline">https://ollama.com/download</a></li>
+                                <li data-i18n="step-1-desc-2">下载对应操作系统的安装包</li>
+                                <li data-i18n="step-1-desc-3">运行安装程序，按照提示完成安装</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="flex flex-col md:flex-row gap-6">
+                        <div class="md:w-1/4">
+                            <div class="bg-gradient-primary text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold">2</div>
+                        </div>
+                        <div class="md:w-3/4">
+                            <h4 class="text-xl font-semibold text-neutral-dark mb-3" data-i18n="step-2">下载模型</h4>
+                            <ol class="list-decimal list-inside text-neutral space-y-2 ml-4">
+                                <li data-i18n="step-2-desc-1">打开命令行工具（Windows：cmd 或 PowerShell，macOS/Linux：Terminal）</li>
+                                <li data-i18n="step-2-desc-2">输入以下命令下载模型（以 DeepSeek 为例）：</li>
+                                <div class="bg-neutral-light p-4 rounded-lg mt-2 mb-2">
+                                    <code class="text-sm font-mono">ollama pull deepseek-1.5b</code>
+                                </div>
+                                <li data-i18n="step-2-desc-3">等待模型下载完成</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="flex flex-col md:flex-row gap-6">
+                        <div class="md:w-1/4">
+                            <div class="bg-gradient-primary text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold">3</div>
+                        </div>
+                        <div class="md:w-3/4">
+                            <h4 class="text-xl font-semibold text-neutral-dark mb-3" data-i18n="step-3">运行模型</h4>
+                            <ol class="list-decimal list-inside text-neutral space-y-2 ml-4">
+                                <li data-i18n="step-3-desc-1">输入以下命令运行模型：</li>
+                                <div class="bg-neutral-light p-4 rounded-lg mt-2 mb-2">
+                                    <code class="text-sm font-mono">ollama run deepseek-1.5b</code>
+                                </div>
+                                <li data-i18n="step-3-desc-2">模型启动后，可以直接在命令行中与模型对话</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="flex flex-col md:flex-row gap-6">
+                        <div class="md:w-1/4">
+                            <div class="bg-gradient-primary text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold">4</div>
+                        </div>
+                        <div class="md:w-3/4">
+                            <h4 class="text-xl font-semibold text-neutral-dark mb-3" data-i18n="step-4">使用 API</h4>
+                            <p class="text-neutral mb-3" data-i18n="step-4-desc">Ollama 启动后会自动提供 REST API，可以通过以下方式访问：</p>
+                            <div class="bg-neutral-light p-4 rounded-lg">
+                                <pre class="text-sm font-mono"># 发送请求
+curl http://localhost:11434/api/generate -d '{"model": "deepseek-1.5b", "prompt": "Hello!"}'</pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 5 -->
+                    <div class="flex flex-col md:flex-row gap-6">
+                        <div class="md:w-1/4">
+                            <div class="bg-gradient-primary text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold">5</div>
+                        </div>
+                        <div class="md:w-3/4">
+                            <h4 class="text-xl font-semibold text-neutral-dark mb-3" data-i18n="step-5">管理模型</h4>
+                            <ul class="text-neutral space-y-3 ml-4">
+                                <li class="flex items-start">
+                                    <span class="font-medium mr-2" data-i18n="step-5-desc-1">查看已安装的模型：</span>
+                                    <div class="bg-neutral-light p-2 rounded ml-2">
+                                        <code class="text-sm font-mono">ollama list</code>
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="font-medium mr-2" data-i18n="step-5-desc-2">删除模型：</span>
+                                    <div class="bg-neutral-light p-2 rounded ml-2">
+                                        <code class="text-sm font-mono">ollama rm deepseek-1.5b</code>
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="font-medium mr-2" data-i18n="step-5-desc-3">拉取新模型：</span>
+                                    <div class="bg-neutral-light p-2 rounded ml-2">
+                                        <code class="text-sm font-mono">ollama pull llama3:8b</code>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Common Issues -->
+            <section class="bg-white rounded-2xl shadow-lg p-8 mb-12">
+                <h3 class="text-2xl font-bold text-neutral-dark mb-6" data-i18n="common-issues">常见问题</h3>
+                <div class="space-y-4">
+                    <div class="bg-neutral-light rounded-xl p-6">
+                        <h4 class="font-semibold text-neutral-dark mb-2" data-i18n="issue-1">模型下载速度慢</h4>
+                        <ul class="text-neutral space-y-1 ml-4 list-disc list-inside">
+                            <li data-i18n="issue-1-solution-1">尝试使用网络加速工具</li>
+                            <li data-i18n="issue-1-solution-2">或使用国内镜像源</li>
+                        </ul>
+                    </div>
+                    <div class="bg-neutral-light rounded-xl p-6">
+                        <h4 class="font-semibold text-neutral-dark mb-2" data-i18n="issue-2">内存不足</h4>
+                        <ul class="text-neutral space-y-1 ml-4 list-disc list-inside">
+                            <li data-i18n="issue-2-solution-1">选择更小的模型</li>
+                            <li data-i18n="issue-2-solution-2">关闭其他占用内存的应用</li>
+                        </ul>
+                    </div>
+                    <div class="bg-neutral-light rounded-xl p-6">
+                        <h4 class="font-semibold text-neutral-dark mb-2" data-i18n="issue-3">GPU 加速问题</h4>
+                        <ul class="text-neutral space-y-1 ml-4 list-disc list-inside">
+                            <li data-i18n="issue-3-solution-1">确保已安装最新的显卡驱动</li>
+                            <li data-i18n="issue-3-solution-2">对于 NVIDIA GPU，确保已安装 CUDA</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Conclusion -->
+            <section class="bg-white rounded-2xl shadow-lg p-8">
+                <h3 class="text-2xl font-bold text-neutral-dark mb-6" data-i18n="conclusion">结语</h3>
+                <p class="text-neutral leading-relaxed" data-i18n="conclusion-desc">
+                    本地部署大模型最好的选择就是 Ollama，当环境要求必须内网开发，数据严格隐私，则使用 Ollama 是最佳选择。Ollama 是本地 AI 大模型的一键启动器 + 管理器 + API 服务器。后续使用 Java 或 Python 需要调用大模型 API 时，可以直接调用本地大模型 API，方便快捷，注重隐私安全。
+                </p>
+                <div class="mt-6">
+                    <a href="https://ollama.com" target="_blank" class="bg-gradient-primary text-white font-medium px-8 py-3 rounded-lg hover:shadow-lg hover:-translate-y-1 transition-all duration-300 inline-block" data-i18n="visit-official">
+                        访问 Ollama 官网
+                    </a>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gradient-to-b from-neutral-dark to-black text-white py-12">
+        <div class="container-custom">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center space-x-3 mb-6 md:mb-0">
+                    <img 
+                        src="https://img.cdn.apipost.cn/client/user/1391646/avatar/efd43da5e950a2d9578cf0052e99c37769e72019c3a89.png" 
+                        alt="Hello Token" 
+                        class="w-10 h-10 object-contain"
+                    />
+                    <h3 class="text-2xl font-bold text-gradient">Hello Token</h3>
+                </div>
+                <div class="text-center md:text-right">
+                    <p class="text-gray-400 text-sm">
+                        © 2024 Hello Token. 保留所有权利.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

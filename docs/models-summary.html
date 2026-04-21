@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>本地大模型 Top 10 详细总结</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#10b981',
+                        accent: '#8b5cf6',
+                        neutral: '#6b7280',
+                        'neutral-light': '#f3f4f6',
+                        'neutral-dark': '#1f2937',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                },
+            }
+        }
+    </script>
+    <style>
+        .bg-gradient-primary {
+            background: linear-gradient(to right, #3b82f6, #8b5cf6);
+        }
+        .text-gradient {
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            background-image: linear-gradient(to right, #3b82f6, #8b5cf6);
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transform: translateY(-4px);
+        }
+        .section-padding {
+            padding-top: 3rem;
+            padding-bottom: 4rem;
+        }
+        @media (min-width: 768px) {
+            .section-padding {
+                padding-top: 4rem;
+                padding-bottom: 6rem;
+            }
+        }
+        .container-custom {
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+        @media (min-width: 640px) {
+            .container-custom {
+                max-width: 640px;
+            }
+        }
+        @media (min-width: 768px) {
+            .container-custom {
+                max-width: 768px;
+            }
+        }
+        @media (min-width: 1024px) {
+            .container-custom {
+                max-width: 1024px;
+            }
+        }
+        @media (min-width: 1280px) {
+            .container-custom {
+                max-width: 1280px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container-custom py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                    <img 
+                        src="https://img.cdn.apipost.cn/client/user/1391646/avatar/efd43da5e950a2d9578cf0052e99c37769e72019c3a89.png" 
+                        alt="Hello Token" 
+                        class="w-10 h-10 object-contain"
+                    />
+                    <h1 class="text-2xl font-bold text-gradient">Hello Token</h1>
+                </div>
+            <nav class="hidden md:flex space-x-8">
+                <a href="/" class="text-primary font-medium hover:scale-105 transition-transform duration-300">首页</a>
+                <a href="/" class="text-neutral hover:text-primary transition-colors duration-300">免费模型</a>
+                <a href="/" class="text-neutral hover:text-primary transition-colors duration-300">付费模型</a>
+                <a href="/" class="text-neutral hover:text-primary transition-colors duration-300">本地搭建</a>
+            </nav>
+            <button class="md:hidden text-neutral-dark hover:text-primary transition-colors duration-300">
+                <i class="fa fa-bars text-2xl"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="section-padding">
+        <div class="container-custom">
+            <!-- Hero Section -->
+            <div class="bg-gradient-primary text-white rounded-2xl p-12 mb-12 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">本地大模型 Top 10 详细总结</h2>
+                <p class="text-lg opacity-90 max-w-2xl mx-auto">
+                    由于先进的量化和模型优化，你可以在笔记本电脑或台式机上运行强大的大语言模型，即使你的内存不足8GB
+                </p>
+            </div>
+
+            <!-- Introduction -->
+            <section class="bg-white rounded-2xl shadow-lg p-8 mb-12">
+                <h3 class="text-2xl font-bold text-neutral-dark mb-6">解密量化：小型 LLM 如何适应中等硬件</h3>
+                <p class="text-neutral leading-relaxed mb-6">
+                    在深入了解最佳模型之前，让我们分解让本地 LLM 成为可能的技术栈。其秘诀在于量化——一种将模型权重从16位或32位浮点数缩减为4位或8位整数的过程，从而大幅减少内存需求而不对质量造成重大影响。例如，一个原本需要14GB FP16的7B参数模型，通过4位量化可以在只有4-5GB的内存中运行。
+                </p>
+                
+                <h4 class="text-xl font-semibold text-neutral-dark mb-4">关键技术概念</h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-neutral-light rounded-xl p-6">
+                        <h5 class="font-semibold text-neutral-dark mb-3">VRAM vs. RAM</h5>
+                        <p class="text-neutral text-sm">
+                            VRAM（在你的GPU上）速度快，适合LLM推理；RAM（系统内存）较慢但更丰富。为了获得最佳效果，请将模型保留在VRAM中。
+                        </p>
+                    </div>
+                    <div class="bg-neutral-light rounded-xl p-6">
+                        <h5 class="font-semibold text-neutral-dark mb-3">GGUF格式</h5>
+                        <p class="text-neutral text-sm">
+                            量化模型的首选格式，兼容大多数本地推理引擎。
+                        </p>
+                    </div>
+                    <div class="bg-neutral-light rounded-xl p-6">
+                        <h5 class="font-semibold text-neutral-dark mb-3">量化类型</h5>
+                        <p class="text-neutral text-sm">
+                            Q4_K_M 是质量和效率的完美平衡；Q2_K 或 IQ3_XS 节省更多空间但可能降低输出质量。
+                        </p>
+                    </div>
+                    <div class="bg-neutral-light rounded-xl p-6">
+                        <h5 class="font-semibold text-neutral-dark mb-3">内存开销</h5>
+                        <p class="text-neutral text-sm">
+                            始终预留模型文件大小的1.2倍来考虑激活和提示上下文。
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Top 10 Models -->
+            <section class="bg-white rounded-2xl shadow-lg p-8 mb-12">
+                <h3 class="text-2xl font-bold text-neutral-dark mb-6">最佳的 10 个小型本地 LLM（全部低于8GB！）</h3>
+                
+                <div class="space-y-8">
+                    <!-- Model 1 -->
+                    <div class="border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
+                            <h4 class="text-xl font-bold text-neutral-dark mb-2 md:mb-0">1、Llama 3.1 8B（量化版）</h4>
+                            <div class="flex items-center">
+                                <span class="text-sm bg-primary/10 text-primary px-3 py-1 rounded-full">8B 参数</span>
+                            </div>
+                        </div>
+                        <p class="text-neutral mb-4">
+                            Meta的Llama 3.1 8B是通用AI的佼佼者，拥有庞大的训练集和智能优化。像Q2_K（3.18GB文件，约7.2GB内存）和Q3_K_M（4.02GB文件，约7.98GB内存）这样的量化版本使其适用于大多数笔记本电脑。
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                            <div>
+                                <h5 class="text-sm font-medium text-neutral-dark mb-2">最佳用途</h5>
+                                <p class="text-sm text-neutral">聊天、代码、摘要和RAG任务</p>
+                            </div>
+                            <div>
+                                <h5 class="text-sm font-medium text-neutral-dark mb-2">内存需求</h5>
+                                <p class="text-sm text-neutral">Q2_K: ~7.2GB | Q3_K_M: ~7.98GB</p>
+                            </div>
+                            <div>
+                                <h5 class="text-sm font-medium text-neutral-dark mb-2">Ollama 命令</h5>
+                                <p class="text-sm text-neutral">ollama run llama3.1:8b</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-3">
+                            <a href="https://huggingface.co/meta-llama" target="_blank" class="bg-neutral-light text-neutral-dark px-4 py-2 rounded-lg hover:bg-neutral transition-colors text-sm">
+                                <i class="fa fa-external-link mr-2"></i> Hugging Face
+                            </a>
+                            <a href="https://ollama.com/library/llama3.1" target="_blank" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors text-sm">
+                                <i class="fa fa-download mr-2"></i> Ollama 库
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Model 2 -->
+                    <div class="border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
+                            <h4 class="text-xl font-bold text-neutral-dark mb-2 md:mb-0">2、Mistral 7B（量化版）</h4>
+                            <div class="flex items-center">
+                                <span class="text-sm bg-primary/10 text-primary px-3 py-1 rounded-full">7B 参数</span>
+                            </div>
+                        </div>
+                        <p class="text-neutral mb-4">
+                            Mistral 7B专为速度和效率而设计，采用GQA和SWA实现顶级的性能。Q4_K_M（4.37GB文件，6.87GB内存）和Q5_K_M（5.13GB文件，7.63GB内存）的量化版本非常适合8GB配置。
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                            <div>
+                                <h5 class="text-sm font-medium text-neutral-dark mb-2">最佳用途</h5>
+                                <p class="text-sm text-neutral">实时聊天机器人、边缘设备和商业用途</p>
+                            </div>
+                            <div>
+                                <h5 class="text-sm font-medium text-neutral-dark mb-2">内存需求</h5>
+                                <p class="text-sm text-neutral">Q4_K_M: ~6.87GB | Q5_K_M: ~7.63GB</p>
+                            </div>
+                            <div>
+                                <h5 class="text-sm font-medium text-neutral-dark mb-2">Ollama 命令</h5>
+                                <p class="text-sm text-neutral">ollama run mistral:7b</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-3">
+                            <a href="https://huggingface.co/mistralai" target="_blank" class="bg-neutral-light text-neutral-dark px-4 py-2 rounded-lg hover:bg-neutral transition-colors text-sm">
+                                <i class="fa fa-external-link mr-2"></i> Hugging Face
+                            </a>
+                            <a href="https://ollama.com/library/mistral" target="_blank" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors text-sm">
+                                <i class="fa fa-download mr-2"></i> Ollama 库
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Model 3 -->
+                    <div class="border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
+                            <h4 class="text-xl font-bold text-neutral-dark mb-2 md:mb-0">3、Gemma 3:4B（量化版）</h4>
+                            <div class="flex items-center">
+                                <span class="text-sm bg-primary/10 text-primary px-3 py-1 rounded-full">4B 参数</span>
+                            </div>
+                        </div>
+                        <p class="text-neutral mb-4">
+                            谷歌DeepMind的Gemma 3:4B虽小但却强大。Q4_K_M（1.71GB文件）只需4GB VRAM即可运行，非常适合移动设备和低端PC。
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                            <div>
+                                <h5 class="text-sm font-medium text-neutral-dark mb-2">最佳用途</h5>
+                                <p class="text-sm text-neutral">文本生成、问答和OCR任务</p>
+                            </div>
+                            <div>
+                                <h5 class="text-sm font-medium text-neutral-dark mb-2">内存需求</h5>
+                                <p class="text-sm text-neutral">Q4_K_M: ~4GB</p>
+                            </div>
+                            <div>
+                                <h5 class="text-sm font-medium text-neutral-dark mb-2">Ollama 命令</h5>
+                                <p class="text-sm text-neutral">ollama run gemma3:4b</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-3">
+                            <a href="https://huggingface.co/google" target="_blank" class="bg-neutral-light text-neutral-dark px-4 py-2 rounded-lg hover:bg-neutral transition-colors text-sm">
+                                <i class="fa fa-external-link mr-2"></i> Hugging Face
+                            </a>
+                            <a href="https://ollama.com/library/gemma3" target="_blank" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors text-sm">
+                                <i class="fa fa-download mr-2"></i> Ollama 库
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Model 4 -->
+                    <div class="border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
+                            <h4 class="text-xl font-bold text-neutral-dark mb-2 md:mb-0">4、Gemma 7B（量化版）</h4>
+                            <div class="flex items-center">
+                                <span class="text-sm bg-primary/10 text-primary px-3 py-1 rounded-full">7B 参数</span>
+                            </div>
+                        </div>
+                        <p class="text-neutral mb-4">
+                            更大的Gemma 7B在代码、数学和推理方面更具实力，但仍能容纳在8GB VRAM中（Q5_K_M：6.14GB，Q6_K：7.01GB）。
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                            <div>
+                                <h5 class="text-sm font-medium text-neutral-dark mb-2">最佳用途</h5>
+                                <p class="text-sm text-neutral">内容创作、聊天和知识工作</p>
+                            </div>
+                            <div>
+                                <h5 class="text-sm font-medium text-neutral-dark mb-2">内存需求</h5>
+                                <p class="text-sm text-neutral">Q5_K_M: ~6.14GB | Q6_K: ~7.01GB</p>
+                            </div>
+                            <div>
+                                <h5 class="text-sm font-medium text-neutral-dark mb-2">Ollama 命令</h5>
+                                <p class="text-sm text-neutral">ollama run gemma:7b</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-3">
+                            <a href="https://huggingface.co/google" target="_blank" class="bg-neutral-light text-neutral-dark px-4 py-2 rounded-lg hover:bg-neutral transition-colors text-sm">
+                                <i class="fa fa-external-link mr-2"></i> Hugging Face
+                            </a>
+                            <a href="https://ollama.com/library/gemma" target="_blank" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors text-sm">
+                                <i class="fa fa-download mr-2"></i> Ollama 库
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Model 5 -->
+                    <div class="border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
+                            <h4 class="text-xl font-bold text-neutral-dark mb-2 md:mb-0">5、Phi-3 Mini（3.8B，量化版）</h4>
+                            <div class="flex items-center">
+                                <span class="text-sm bg-primary/10 text-primary px-3 py-1 rounded-full">3.8B 参数</span>
+                            </div>
+                        </div>
+                        <p class="text-neutral mb-4">
+                            微软的Phi-3 Mini是一款紧凑的强大工具，适用于逻辑、编程和数学。Q8_0（4.06GB文件，7.48GB内存）完全在8GB限制内。
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                            <div>
+                                <h5 class="text-sm font-medium text-neutral-dark mb-2">最佳用途</h5>
+                                <p class="text-sm text-neutral">聊天、移动设备和低延迟任务</p>
+                            </div>
+                            <div>
+                                <h5 class="text-sm font-medium text-neutral-dark mb-2">内存需求</h5>
+                                <p class="text-sm text-neutral">Q8_0: ~7.48GB</p>
+                            </div>
+                            <div>
+                                <h5 class="text-sm font-medium text-neutral-dark mb-2">Ollama 命令</h5>
+                                <p class="text-sm text-neutral">ollama run phi3</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-3">
+                            <a href="https://huggingface.co/microsoft" target="_blank" class="bg-neutral-light text-neutral-dark px-4 py-2 rounded-lg hover:bg-neutral transition-colors text-sm">
+                                <i class="fa fa-external-link mr-2"></i> Hugging Face
+                            </a>
+                            <a href="https://ollama.com/library/phi3" target="_blank" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors text-sm">
+                                <i class="fa fa-download mr-2"></i> Ollama 库
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Model 6 -->
+                    <div class="border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
+                            <h4 class="text-xl font-bold text-neutral-dark mb-2 md:mb-0">6、DeepSeek R1 7B/8B（量化版）</h4>
+                            <div class="flex items-center">
+                                <span class="text-sm bg-primary/10 text-primary px-3 py-1 rounded-full">7B/8B 参数</span>
+                            </div>
+                        </div>
+                        <p class="text-neutral mb-4">
+                            DeepSeek的7B和8B模型以推理和代码能力著称。R1 7B Q4_K_M（4.22GB文件，6.72GB内存）和R1 8B（4.9GB文件，6GB VRAM）都适合8GB配置。
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                            <div>
+                                <h5 class="text-sm font-medium text-neutral-dark mb-2">最佳用途</h5>
+                                <p class="text-sm text-neutral">中小企业、客户服务和高级数据分析</p>
+                            </div>
+                            <div>
+                                <h5 class="text-sm font-medium text-neutral-dark mb-2">内存需求</h5>
+                                <p class="text-sm text-neutral">R1 7B: ~6.72GB | R1 8B: ~6GB</p>
+                            </div>
+                            <div>
+                                <h5 class="text-sm font-medium text-neutral-dark mb-2">Ollama 命令</h5>
+                                <p class="text-sm text-neutral">ollama run deepseek-r1:7b</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-3">
+                            <a href="https://huggingface.co/deepseek-ai" target="_blank" class="bg-neutral-light text-neutral-dark px-4 py-2 rounded-lg hover:bg-neutral transition-colors text-sm">
+                                <i class="fa fa-external-link mr-2"></i> Hugging Face
+                            </a>
+                            <a href="https://ollama.com/library/deepseek-r1" target="_blank" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors text-sm">
+                                <i class="fa fa-download mr-2"></i> Ollama 库
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Model 7 -->
+                    <div class="border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
+                            <h4 class="text-xl font-bold text-neutral-dark mb-2 md:mb-0">7、Qwen 1.5/2.5 7B（量化版）</h4>
+                            <div class="flex items-center">
+                                <span class="text-sm bg-primary/10 text-primary px-3 py-1 rounded-full">7B 参数</span>
+                            </div>
+                        </div>
+                        <p class="text-neutral mb-4">
+                            阿里巴巴的Qwen 7B模型是多语言且具有丰富的上下文（32K tokens）。Qwen 1.5 7B Q5_K_M（5.53GB）和Qwen2.5 7B（4.7GB，6GB VRAM）非常适合聊天机器人、翻译和编程帮助。
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                            <div>
+                                <h5 class="text-sm font-medium text-neutral-dark mb-2">最佳用途</h5>
+                                <p class="text-sm text-neutral">聊天机器人、翻译和编程帮助</p>
+                            </div>
+                            <div>
+                                <h5 class="text-sm font-medium text-neutral-dark mb-2">内存需求</h5>
+                                <p class="text-sm text-neutral">Qwen 1.5: ~5.53GB | Qwen 2.5: ~6GB</p>
+                            </div>
+                            <div>
+                                <h5 class="text-sm font-medium text-neutral-dark mb-2">Ollama 命令</h5>
+                                <p class="text-sm text-neutral">ollama run qwen:7b</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-3">
+                            <a href="https://huggingface.co/Qwen" target="_blank" class="bg-neutral-light text-neutral-dark px-4 py-2 rounded-lg hover:bg-neutral transition-colors text-sm">
+                                <i class="fa fa-external-link mr-2"></i> Hugging Face
+                            </a>
+                            <a href="https://ollama.com/library/qwen" target="_blank" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors text-sm">
+                                <i class="fa fa-download mr-2"></i> Ollama 库
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Model 8 -->
+                    <div class="border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
+                            <h4 class="text-xl font-bold text-neutral-dark mb-2 md:mb-0">8、Deepseek-coder-v2 6.7B（量化版）</h4>
+                            <div class="flex items-center">
+                                <span class="text-sm bg-primary/10 text-primary px-3 py-1 rounded-full">6.7B 参数</span>
+                            </div>
+                        </div>
+                        <p class="text-neutral mb-4">
+                            Deepseek-coder-v2 6.7B是程序员的梦想——经过微调，专门用于代码生成和理解。在3.8GB（6GB VRAM）下运行，是本地代码补全和开发工具的首选。
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                            <div>
+                                <h5 class="text-sm font-medium text-neutral-dark mb-2">最佳用途</h5>
+                                <p class="text-sm text-neutral">代码生成和理解、本地代码补全</p>
+                            </div>
+                            <div>
+                                <h5 class="text-sm font-medium text-neutral-dark mb-2">内存需求</h5>
+                                <p class="text-sm text-neutral">~6GB</p>
+                            </div>
+                            <div>
+                                <h5 class="text-sm font-medium text-neutral-dark mb-2">Ollama 命令</h5>
+                                <p class="text-sm text-neutral">ollama run deepseek-coder-v2:6.7b</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-3">
+                            <a href="https://huggingface.co/deepseek-ai" target="_blank" class="bg-neutral-light text-neutral-dark px-4 py-2 rounded-lg hover:bg-neutral transition-colors text-sm">
+                                <i class="fa fa-external-link mr-2"></i> Hugging Face
+                            </a>
+                            <a href="https://ollama.com/library/deepseek-coder-v2" target="_blank" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors text-sm">
+                                <i class="fa fa-download mr-2"></i> Ollama 库
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Model 9 -->
+                    <div class="border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
+                            <h4 class="text-xl font-bold text-neutral-dark mb-2 md:mb-0">9、BitNet b1.58 2B4T</h4>
+                            <div class="flex items-center">
+                                <span class="text-sm bg-primary/10 text-primary px-3 py-1 rounded-full">2B 参数</span>
+                            </div>
+                        </div>
+                        <p class="text-neutral mb-4">
+                            来自微软的BitNet b1.58 2B4T是效率的奇迹，使用1.58位权重仅需0.4GB内存即可运行。它非常适合边缘设备、物联网和纯CPU推理——比如设备上的翻译和移动助手。
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                            <div>
+                                <h5 class="text-sm font-medium text-neutral-dark mb-2">最佳用途</h5>
+                                <p class="text-sm text-neutral">边缘设备、物联网和纯CPU推理</p>
+                            </div>
+                            <div>
+                                <h5 class="text-sm font-medium text-neutral-dark mb-2">内存需求</h5>
+                                <p class="text-sm text-neutral">~0.4GB</p>
+                            </div>
+                            <div>
+                                <h5 class="text-sm font-medium text-neutral-dark mb-2">Ollama 命令</h5>
+                                <p class="text-sm text-neutral">ollama run hf.co/microsoft/bitnet-b1.58-2B-4T-gguf</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-3">
+                            <a href="https://huggingface.co/microsoft" target="_blank" class="bg-neutral-light text-neutral-dark px-4 py-2 rounded-lg hover:bg-neutral transition-colors text-sm">
+                                <i class="fa fa-external-link mr-2"></i> Hugging Face
+                            </a>
+                            <a href="https://huggingface.co/microsoft/bitnet-b1.58-2B-4T-gguf" target="_blank" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors text-sm">
+                                <i class="fa fa-download mr-2"></i> 模型文件
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Model 10 -->
+                    <div class="border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
+                            <h4 class="text-xl font-bold text-neutral-dark mb-2 md:mb-0">10、Orca-Mini 7B（量化版）</h4>
+                            <div class="flex items-center">
+                                <span class="text-sm bg-primary/10 text-primary px-3 py-1 rounded-full">7B 参数</span>
+                            </div>
+                        </div>
+                        <p class="text-neutral mb-4">
+                            Orca-Mini 7B基于Llama和Llama 2构建，是一个灵活的模型，适用于聊天、问答和指令遵循。Q4_K_M（4.08GB文件，6.58GB内存）和Q5_K_M（4.78GB文件，7.28GB内存）都是8GB友好的。
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                            <div>
+                                <h5 class="text-sm font-medium text-neutral-dark mb-2">最佳用途</h5>
+                                <p class="text-sm text-neutral">构建AI代理和对话工具</p>
+                            </div>
+                            <div>
+                                <h5 class="text-sm font-medium text-neutral-dark mb-2">内存需求</h5>
+                                <p class="text-sm text-neutral">Q4_K_M: ~6.58GB | Q5_K_M: ~7.28GB</p>
+                            </div>
+                            <div>
+                                <h5 class="text-sm font-medium text-neutral-dark mb-2">Ollama 命令</h5>
+                                <p class="text-sm text-neutral">ollama run orca-mini:7b</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-3">
+                            <a href="https://huggingface.co/psmathur/orca_mini_v3_7b" target="_blank" class="bg-neutral-light text-neutral-dark px-4 py-2 rounded-lg hover:bg-neutral transition-colors text-sm">
+                                <i class="fa fa-external-link mr-2"></i> Hugging Face
+                            </a>
+                            <a href="https://ollama.com/library/orca-mini" target="_blank" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors text-sm">
+                                <i class="fa fa-download mr-2"></i> Ollama 库
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Conclusion -->
+            <section class="bg-white rounded-2xl shadow-lg p-8">
+                <h3 class="text-2xl font-bold text-neutral-dark mb-6">结语</h3>
+                <p class="text-neutral leading-relaxed">
+                    由于先进的量化和模型优化技术，现在即使在普通的笔记本电脑或台式机上也能运行功能强大的大语言模型。本文介绍的10个模型都经过精心选择，确保它们在8GB内存或更少的情况下仍能提供出色的性能。
+                </p>
+                <p class="text-neutral leading-relaxed mt-4">
+                    无论你是开发者、学生还是研究人员，这些本地模型都能为你提供隐私、高效的AI能力，无需依赖云服务和高昂的订阅费用。选择最适合你硬件和需求的模型，开始你的本地AI之旅吧！
+                </p>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gradient-to-b from-neutral-dark to-black text-white py-12">
+        <div class="container-custom">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center space-x-3 mb-6 md:mb-0">
+                    <img 
+                        src="https://img.cdn.apipost.cn/client/user/1391646/avatar/efd43da5e950a2d9578cf0052e99c37769e72019c3a89.png" 
+                        alt="Hello Token" 
+                        class="w-10 h-10 object-contain"
+                    />
+                    <h3 class="text-2xl font-bold text-gradient">Hello Token</h3>
+                </div>
+                <div class="text-center md:text-right">
+                    <p class="text-gray-400 text-sm">
+                        © 2024 Hello Token. 保留所有权利.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

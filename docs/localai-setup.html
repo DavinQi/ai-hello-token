@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LocalAI 本地部署指南</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#10b981',
+                        accent: '#8b5cf6',
+                        neutral: '#6b7280',
+                        'neutral-light': '#f3f4f6',
+                        'neutral-dark': '#1f2937',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                },
+            }
+        }
+    </script>
+    <style>
+        .bg-gradient-primary {
+            background: linear-gradient(to right, #3b82f6, #8b5cf6);
+        }
+        .text-gradient {
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            background-image: linear-gradient(to right, #3b82f6, #8b5cf6);
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transform: translateY(-4px);
+        }
+        .section-padding {
+            padding-top: 3rem;
+            padding-bottom: 4rem;
+        }
+        @media (min-width: 768px) {
+            .section-padding {
+                padding-top: 4rem;
+                padding-bottom: 6rem;
+            }
+        }
+        .container-custom {
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+        @media (min-width: 640px) {
+            .container-custom {
+                max-width: 640px;
+            }
+        }
+        @media (min-width: 768px) {
+            .container-custom {
+                max-width: 768px;
+            }
+        }
+        @media (min-width: 1024px) {
+            .container-custom {
+                max-width: 1024px;
+            }
+        }
+        @media (min-width: 1280px) {
+            .container-custom {
+                max-width: 1280px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container-custom py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                    <img 
+                        src="https://img.cdn.apipost.cn/client/user/1391646/avatar/efd43da5e950a2d9578cf0052e99c37769e72019c3a89.png" 
+                        alt="Hello Token" 
+                        class="w-10 h-10 object-contain"
+                    />
+                    <h1 class="text-2xl font-bold text-gradient">Hello Token</h1>
+                </div>
+            <nav class="hidden md:flex space-x-8">
+                <a href="/" class="text-primary font-medium hover:scale-105 transition-transform duration-300">首页</a>
+                <a href="/" class="text-neutral hover:text-primary transition-colors duration-300">免费模型</a>
+                <a href="/" class="text-neutral hover:text-primary transition-colors duration-300">付费模型</a>
+                <a href="/" class="text-neutral hover:text-primary transition-colors duration-300">本地搭建</a>
+            </nav>
+            <button class="md:hidden text-neutral-dark hover:text-primary transition-colors duration-300">
+                <i class="fa fa-bars text-2xl"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="section-padding">
+        <div class="container-custom">
+            <!-- Hero Section -->
+            <div class="bg-gradient-primary text-white rounded-2xl p-12 mb-12 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">LocalAI 本地部署指南</h2>
+                <p class="text-lg opacity-90 max-w-2xl mx-auto">
+                    开源本地AI推理平台，让你在个人设备上轻松运行文本生成、图像创建、语音处理等完整AI功能
+                </p>
+            </div>
+
+            <!-- Why LocalAI -->
+            <section class="bg-white rounded-2xl shadow-lg p-8 mb-12">
+                <h3 class="text-2xl font-bold text-neutral-dark mb-6">为什么你应该选择 LocalAI？</h3>
+                <p class="text-neutral leading-relaxed mb-6">
+                    想象一下这样的场景：你在编写代码时，有一个智能助手实时提供建议；在处理文档时，AI能帮你快速总结要点；在创作内容时，AI为你生成配图和文字。这一切都在本地完成，数据完全私有，响应速度极快。
+                </p>
+                
+                <h4 class="text-xl font-semibold text-neutral-dark mb-4">LocalAI 的核心优势</h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-neutral-light rounded-xl p-6 card-hover">
+                        <div class="flex items-center mb-3">
+                            <i class="fa fa-lock text-primary text-xl mr-3"></i>
+                            <h5 class="font-semibold text-neutral-dark">数据绝对安全</h5>
+                        </div>
+                        <p class="text-neutral text-sm">
+                            所有推理过程都在本地，敏感信息永不外传
+                        </p>
+                    </div>
+                    <div class="bg-neutral-light rounded-xl p-6 card-hover">
+                        <div class="flex items-center mb-3">
+                            <i class="fa fa-dollar text-primary text-xl mr-3"></i>
+                            <h5 class="font-semibold text-neutral-dark">成本极致节省</h5>
+                        </div>
+                        <p class="text-neutral text-sm">
+                            一次性部署，长期免费使用
+                        </p>
+                    </div>
+                    <div class="bg-neutral-light rounded-xl p-6 card-hover">
+                        <div class="flex items-center mb-3">
+                            <i class="fa fa-bolt text-primary text-xl mr-3"></i>
+                            <h5 class="font-semibold text-neutral-dark">响应超低延迟</h5>
+                        </div>
+                        <p class="text-neutral text-sm">
+                            本地处理毫秒级响应，告别网络波动
+                        </p>
+                    </div>
+                    <div class="bg-neutral-light rounded-xl p-6 card-hover">
+                        <div class="flex items-center mb-3">
+                            <i class="fa fa-paint-brush text-primary text-xl mr-3"></i>
+                            <h5 class="font-semibold text-neutral-dark">功能全面覆盖</h5>
+                        </div>
+                        <p class="text-neutral text-sm">
+                            支持LLM、图像生成、语音处理等主流AI任务
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- System Requirements -->
+            <section class="bg-white rounded-2xl shadow-lg p-8 mb-12">
+                <h3 class="text-2xl font-bold text-neutral-dark mb-6">最低配置要求</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300">
+                        <h4 class="font-semibold text-neutral-dark mb-3 text-center">入门级</h4>
+                        <ul class="text-neutral space-y-2 ml-4 list-disc list-inside">
+                            <li>8GB 内存</li>
+                            <li>4核 CPU</li>
+                            <li>无 GPU 要求</li>
+                            <li>适合基本文本生成</li>
+                        </ul>
+                    </div>
+                    <div class="border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300">
+                        <h4 class="font-semibold text-neutral-dark mb-3 text-center">体验级</h4>
+                        <ul class="text-neutral space-y-2 ml-4 list-disc list-inside">
+                            <li>16GB 内存</li>
+                            <li>8核 CPU</li>
+                            <li>可选 GPU 加速</li>
+                            <li>适合多任务处理</li>
+                        </ul>
+                    </div>
+                    <div class="border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300">
+                        <h4 class="font-semibold text-neutral-dark mb-3 text-center">专业级</h4>
+                        <ul class="text-neutral space-y-2 ml-4 list-disc list-inside">
+                            <li>32GB 内存</li>
+                            <li>12核+ CPU</li>
+                            <li>GPU 加速（推荐）</li>
+                            <li>适合复杂AI任务</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <h4 class="text-xl font-semibold text-neutral-dark mb-4">环境准备：快速检查清单</h4>
+                <div class="bg-neutral-light rounded-xl p-6">
+                    <h5 class="font-medium text-neutral-dark mb-3">系统要求验证：</h5>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                        <div class="bg-white p-4 rounded-lg shadow-sm">
+                            <code class="text-sm font-mono">free -h</code>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm">
+                            <code class="text-sm font-mono">df -h</code>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm">
+                            <code class="text-sm font-mono">docker --version</code>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Deployment Steps -->
+            <section class="bg-white rounded-2xl shadow-lg p-8 mb-12">
+                <h3 class="text-2xl font-bold text-neutral-dark mb-6">部署步骤</h3>
+                
+                <h4 class="text-xl font-semibold text-neutral-dark mb-4">方案A：Docker 一键部署（最适合新手）</h4>
+                <div class="space-y-6">
+                    <!-- CPU Version -->
+                    <div class="border border-gray-200 rounded-xl p-6">
+                        <h5 class="font-semibold text-neutral-dark mb-3">基础 CPU 版本（推荐首次尝试）</h5>
+                        <div class="bg-neutral-light p-4 rounded-lg mb-4">
+                            <pre class="text-sm font-mono whitespace-pre-wrap">docker run -d --name my-localai \
+  -p 8080:8080 \
+  -v ./models:/models \
+  localai/localai:latest-aio-cpu</pre>
+                        </div>
+                        <p class="text-neutral text-sm">
+                            执行此命令后，LocalAI 服务会在后台运行，通过 http://localhost:8080 访问。
+                        </p>
+                    </div>
+
+                    <!-- GPU Version -->
+                    <div class="border border-gray-200 rounded-xl p-6">
+                        <h5 class="font-semibold text-neutral-dark mb-3">GPU 加速版本（性能追求者）</h5>
+                        <div class="bg-neutral-light p-4 rounded-lg mb-4">
+                            <pre class="text-sm font-mono whitespace-pre-wrap">docker run -d --name localai-gpu \
+  -p 8080:8080 \
+  --gpus all \
+  -v ./models:/models \
+  localai/localai:latest-aio-gpu-nvidia</pre>
+                        </div>
+                        <p class="text-neutral text-sm">
+                            此版本需要 NVIDIA GPU 和安装了 CUDA 驱动。
+                        </p>
+                    </div>
+                </div>
+
+                <h4 class="text-xl font-semibold text-neutral-dark mb-4 mt-8">方案B：源码编译安装（定制化需求）</h4>
+                <div class="border border-gray-200 rounded-xl p-6">
+                    <p class="text-neutral mb-4">适合需要深度定制或开发环境搭建的用户：</p>
+                    <div class="bg-neutral-light p-4 rounded-lg">
+                        <pre class="text-sm font-mono whitespace-pre-wrap">git clone https://gitcode.com/gh_mirrors/loc/LocalAI
+cd LocalAI
+make build</pre>
+                    </div>
+                </div>
+
+                <h4 class="text-xl font-semibold text-neutral-dark mb-4 mt-8">方案C：二进制包直装（极速体验）</h4>
+                <div class="border border-gray-200 rounded-xl p-6">
+                    <p class="text-neutral mb-4">追求最简单快捷的用户选择：</p>
+                    <div class="bg-neutral-light p-4 rounded-lg">
+                        <pre class="text-sm font-mono whitespace-pre-wrap">wget https://github.com/go-skynet/LocalAI/releases/latest/download/local-ai-linux-x86_64
+chmod +x local-ai-linux-x86_64
+./local-ai-linux-x86_64</pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Application Scenarios -->
+            <section class="bg-white rounded-2xl shadow-lg p-8 mb-12">
+                <h3 class="text-2xl font-bold text-neutral-dark mb-6">LocalAI 实战应用场景</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300">
+                        <h4 class="font-semibold text-neutral-dark mb-4">代码开发智能助手</h4>
+                        <ul class="text-neutral space-y-2 ml-4 list-disc list-inside">
+                            <li>智能代码补全和生成</li>
+                            <li>错误检测和修复建议</li>
+                            <li>代码逻辑解释和文档生成</li>
+                        </ul>
+                    </div>
+                    <div class="border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300">
+                        <h4 class="font-semibold text-neutral-dark mb-4">轻量级 Web 对话机器人</h4>
+                        <p class="text-neutral mb-4">
+                            通过 Streamlit 框架快速构建 Web 对话界面，让非技术用户也能轻松使用 AI 能力。
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Configuration Guide -->
+            <section class="bg-white rounded-2xl shadow-lg p-8 mb-12">
+                <h3 class="text-2xl font-bold text-neutral-dark mb-6">核心配置优化指南</h3>
+                
+                <h4 class="text-xl font-semibold text-neutral-dark mb-4">模型管理技巧</h4>
+                <p class="text-neutral mb-4">
+                    LocalAI 的 gallery/ 目录提供了丰富的预配置模型：
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                    <div class="bg-neutral-light p-4 rounded-lg">
+                        <h5 class="font-medium text-neutral-dark mb-2">智能对话</h5>
+                        <p class="text-sm text-neutral">llama3-instruct.yaml - 最新 Llama3 模型</p>
+                    </div>
+                    <div class="bg-neutral-light p-4 rounded-lg">
+                        <h5 class="font-medium text-neutral-dark mb-2">图像生成</h5>
+                        <p class="text-sm text-neutral">stablediffusion.yaml - 稳定扩散模型</p>
+                    </div>
+                    <div class="bg-neutral-light p-4 rounded-lg">
+                        <h5 class="font-medium text-neutral-dark mb-2">语音合成</h5>
+                        <p class="text-sm text-neutral">piper.yaml - 高质量语音生成</p>
+                    </div>
+                </div>
+
+                <h4 class="text-xl font-semibold text-neutral-dark mb-4">性能调优参数</h4>
+                <p class="text-neutral mb-4">
+                    根据你的硬件配置调整这些关键设置：
+                </p>
+                <div class="bg-neutral-light p-4 rounded-lg">
+                    <pre class="text-sm font-mono whitespace-pre-wrap"># 内存优化配置
+context_size: 2048    # 上下文长度（内存紧张时调低）
+threads: 2           # CPU核心数（按实际调整）
+batch_size: 256      # 批处理大小（平衡速度与内存）</pre>
+                </div>
+            </section>
+
+            <!-- Common Issues -->
+            <section class="bg-white rounded-2xl shadow-lg p-8 mb-12">
+                <h3 class="text-2xl font-bold text-neutral-dark mb-6">常见问题快速解决</h3>
+                
+                <div class="space-y-6">
+                    <div class="border border-gray-200 rounded-xl p-6">
+                        <h4 class="font-semibold text-neutral-dark mb-3">服务启动失败排查</h4>
+                        <p class="text-neutral mb-3">端口冲突检查：</p>
+                        <div class="bg-neutral-light p-3 rounded-lg mb-3">
+                            <code class="text-sm font-mono">netstat -tulpn | grep 8080</code>
+                        </div>
+                        <p class="text-neutral mb-3">模型加载问题：</p>
+                        <ul class="text-neutral space-y-1 ml-4 list-disc list-inside">
+                            <li>确认模型文件路径正确</li>
+                            <li>检查模型格式兼容性</li>
+                            <li>验证存储空间充足</li>
+                        </ul>
+                    </div>
+
+                    <div class="border border-gray-200 rounded-xl p-6">
+                        <h4 class="font-semibold text-neutral-dark mb-3">性能提升方法</h4>
+                        <ul class="text-neutral space-y-2 ml-4 list-disc list-inside">
+                            <li>模型选择策略：根据任务复杂度选择合适模型规模</li>
+                            <li>内存分配优化：合理设置使用上限避免系统卡顿</li>
+                            <li>缓存机制启用：减少重复加载提升响应速度</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Advanced Configuration -->
+            <section class="bg-white rounded-2xl shadow-lg p-8 mb-12">
+                <h3 class="text-2xl font-bold text-neutral-dark mb-6">进阶配置与安全建议</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="border border-gray-200 rounded-xl p-6">
+                        <h4 class="font-semibold text-neutral-dark mb-4">多模型并行管理</h4>
+                        <p class="text-neutral mb-4">
+                            LocalAI 支持同时运行多个模型，通过不同 API 端点访问：
+                        </p>
+                        <ul class="text-neutral space-y-2 ml-4 list-disc list-inside">
+                            <li>文本生成：/v1/chat/completions</li>
+                            <li>图像创建：/v1/images/generations</li>
+                            <li>语音处理：/v1/audio/transcriptions</li>
+                        </ul>
+                    </div>
+                    <div class="border border-gray-200 rounded-xl p-6">
+                        <h4 class="font-semibold text-neutral-dark mb-4">安全防护配置</h4>
+                        <ul class="text-neutral space-y-2 ml-4 list-disc list-inside">
+                            <li>访问权限控制：设置 API 密钥保护服务</li>
+                            <li>网络访问限制：仅允许可信 IP 访问</li>
+                            <li>资源使用监控：实时跟踪系统状态</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Maintenance -->
+            <section class="bg-white rounded-2xl shadow-lg p-8 mb-12">
+                <h3 class="text-2xl font-bold text-neutral-dark mb-6">日常维护与监控</h3>
+                <p class="text-neutral mb-6">
+                    建立简单的维护机制，确保服务长期稳定：
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-neutral-light p-4 rounded-lg">
+                        <h5 class="font-medium text-neutral-dark mb-2">日志定期查看</h5>
+                        <p class="text-sm text-neutral">及时发现潜在问题</p>
+                    </div>
+                    <div class="bg-neutral-light p-4 rounded-lg">
+                        <h5 class="font-medium text-neutral-dark mb-2">性能指标监控</h5>
+                        <p class="text-sm text-neutral">关注内存和 CPU 使用率</p>
+                    </div>
+                    <div class="bg-neutral-light p-4 rounded-lg">
+                        <h5 class="font-medium text-neutral-dark mb-2">版本及时更新</h5>
+                        <p class="text-sm text-neutral">获取最新功能和性能优化</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tips and Notes -->
+            <section class="bg-white rounded-2xl shadow-lg p-8 mb-12">
+                <h3 class="text-2xl font-bold text-neutral-dark mb-6">使用建议与注意事项</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h4 class="font-semibold text-neutral-dark mb-4">给新手的贴心提示</h4>
+                        <ul class="text-neutral space-y-2 ml-4 list-disc list-inside">
+                            <li>首次部署建议从 CPU 版本开始，熟悉后再尝试 GPU 加速</li>
+                            <li>模型文件通常较大，确保存储空间充足</li>
+                            <li>SSD 存储能显著提升模型加载速度</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-neutral-dark mb-4">性能优化关键点</h4>
+                        <ul class="text-neutral space-y-2 ml-4 list-disc list-inside">
+                            <li>多核 CPU 配置能带来更好的并发性能</li>
+                            <li>根据实际需求选择合适规模的模型</li>
+                            <li>定期备份重要配置文件和模型数据</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Conclusion -->
+            <section class="bg-white rounded-2xl shadow-lg p-8">
+                <h3 class="text-2xl font-bold text-neutral-dark mb-6">结语</h3>
+                <p class="text-neutral leading-relaxed">
+                    通过这篇实战指南，你已经掌握了 LocalAI 从环境准备到部署优化的完整流程。无论是个人学习、小型团队协作，还是特定业务场景应用，LocalAI 都能为你提供稳定可靠的本地 AI 推理能力。现在就开始构建属于你自己的 AI 平台，享受完全掌控的 AI 体验吧！
+                </p>
+                <div class="mt-8">
+                    <a href="https://gitcode.com/gh_mirrors/loc/LocalAI" target="_blank" class="bg-gradient-primary text-white font-medium px-8 py-3 rounded-lg hover:shadow-lg hover:-translate-y-1 transition-all duration-300 inline-block">
+                        访问 LocalAI 项目地址
+                    </a>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gradient-to-b from-neutral-dark to-black text-white py-12">
+        <div class="container-custom">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center space-x-3 mb-6 md:mb-0">
+                    <img 
+                        src="https://img.cdn.apipost.cn/client/user/1391646/avatar/efd43da5e950a2d9578cf0052e99c37769e72019c3a89.png" 
+                        alt="Hello Token" 
+                        class="w-10 h-10 object-contain"
+                    />
+                    <h3 class="text-2xl font-bold text-gradient">Hello Token</h3>
+                </div>
+                <div class="text-center md:text-right">
+                    <p class="text-gray-400 text-sm">
+                        © 2024 Hello Token. 保留所有权利.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
