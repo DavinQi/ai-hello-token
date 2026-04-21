@@ -89,7 +89,7 @@ const LocalSetup: React.FC<LocalSetupProps> = () => {
             </div>
             
             <a 
-              href="/docs/ollama-setup.html" 
+              href="/pages/ollama-setup.html" 
               target="_blank" 
               rel="noopener noreferrer"
               className="bg-gradient-primary text-white font-medium px-8 py-4 rounded-lg hover:shadow-lg hover:-translate-y-1 transition-all duration-300 inline-block"
@@ -207,7 +207,7 @@ const LocalSetup: React.FC<LocalSetupProps> = () => {
             </div>
             
             <a 
-              href="/docs/lm-studio-setup.html" 
+              href="/pages/lm-studio-setup.html" 
               target="_blank" 
               rel="noopener noreferrer"
               className="bg-gradient-primary text-white font-medium px-8 py-4 rounded-lg hover:shadow-lg hover:-translate-y-1 transition-all duration-300 inline-block"
@@ -325,7 +325,7 @@ const LocalSetup: React.FC<LocalSetupProps> = () => {
             </div>
             
             <a 
-              href="/docs/localai-setup.html" 
+              href="/pages/localai-setup.html" 
               target="_blank" 
               rel="noopener noreferrer"
               className="bg-gradient-primary text-white font-medium px-8 py-4 rounded-lg hover:shadow-lg hover:-translate-y-1 transition-all duration-300 inline-block"
@@ -435,7 +435,7 @@ const LocalSetup: React.FC<LocalSetupProps> = () => {
         
         <div className="flex flex-wrap gap-4">
           <a 
-            href="/docs/tools-comparison.html" 
+            href="/pages/tools-comparison.html" 
             target="_blank" 
             rel="noopener noreferrer"
             className="bg-gradient-primary text-white font-medium px-8 py-4 rounded-lg hover:shadow-lg hover:-translate-y-1 transition-all duration-300 inline-block"
@@ -443,7 +443,7 @@ const LocalSetup: React.FC<LocalSetupProps> = () => {
             {t('local.comparison.viewDetailedComparison')}
           </a>
           <a 
-            href="/docs/models-summary.html" 
+            href="/pages/models-summary.html" 
             target="_blank" 
             rel="noopener noreferrer"
             className="bg-white text-primary border-2 border-primary font-medium px-8 py-4 rounded-lg hover:bg-primary/5 transition-all duration-300 inline-block"
@@ -586,7 +586,7 @@ const LocalSetup: React.FC<LocalSetupProps> = () => {
         
         <div className="mt-8 text-center">
           <a 
-            href="/docs/models-summary.html" 
+            href="/pages/models-summary.html" 
             target="_blank" 
             rel="noopener noreferrer"
             className="bg-gradient-primary text-white font-medium px-8 py-4 rounded-lg hover:shadow-lg hover:-translate-y-1 transition-all duration-300 inline-block"
