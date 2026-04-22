@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ollama vs LM Studio 工具对比</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#10b981',
+                        accent: '#8b5cf6',
+                        neutral: '#6b7280',
+                        'neutral-light': '#f3f4f6',
+                        'neutral-dark': '#1f2937',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                },
+            }
+        }
+    </script>
+    <style>
+        .bg-gradient-primary {
+            background: linear-gradient(to right, #3b82f6, #8b5cf6);
+        }
+        .text-gradient {
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            background-image: linear-gradient(to right, #3b82f6, #8b5cf6);
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transform: translateY(-4px);
+        }
+        .section-padding {
+            padding-top: 3rem;
+            padding-bottom: 4rem;
+        }
+        @media (min-width: 768px) {
+            .section-padding {
+                padding-top: 4rem;
+                padding-bottom: 6rem;
+            }
+        }
+        .container-custom {
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+        @media (min-width: 640px) {
+            .container-custom {
+                max-width: 640px;
+            }
+        }
+        @media (min-width: 768px) {
+            .container-custom {
+                max-width: 768px;
+            }
+        }
+        @media (min-width: 1024px) {
+            .container-custom {
+                max-width: 1024px;
+            }
+        }
+        @media (min-width: 1280px) {
+            .container-custom {
+                max-width: 1280px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container-custom py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <a href="/" class="flex items-center space-x-3">
+                    <img 
+                        src="https://img.cdn.apipost.cn/client/user/1391646/avatar/efd43da5e950a2d9578cf0052e99c37769e72019c3a89.png" 
+                        alt="Hello Token" 
+                        class="w-10 h-10 object-contain"
+                    />
+                    <h1 class="text-2xl font-bold text-gradient">Hello Token</h1>
+                </a>
+                </div>
+            <nav class="hidden md:flex space-x-8">
+                <a href="/" class="text-primary font-medium hover:scale-105 transition-transform duration-300" data-i18n="home">首页</a>
+                <a href="/" class="text-neutral hover:text-primary transition-colors duration-300" data-i18n="free-models">免费模型</a>
+                <a href="/" class="text-neutral hover:text-primary transition-colors duration-300" data-i18n="paid-models">付费模型</a>
+                <a href="/" class="text-neutral hover:text-primary transition-colors duration-300" data-i18n="local-setup">本地搭建</a>
+                <button id="language-toggle" class="relative inline-flex items-center h-6 rounded-full w-11 transition-colors duration-300 ease-in-out bg-primary/20 hover:bg-primary/30 ml-4">
+                    <span class="sr-only">Toggle language</span>
+                    <span id="language-slider" class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-300 ease-in-out translate-x-1"></span>
+                    <span id="language-text" class="absolute inset-y-0 left-0 flex items-center pl-2 text-xs font-medium text-neutral-dark">中</span>
+                </button>
+            </nav>
+            <button class="md:hidden text-neutral-dark hover:text-primary transition-colors duration-300">
+                <i class="fa fa-bars text-2xl"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="section-padding">
+        <div class="container-custom">
+            <!-- Hero Section -->
+            <div class="bg-gradient-primary text-white rounded-2xl p-12 mb-12 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4" data-i18n="comparison-title">Ollama vs LM Studio vs LocalAI 工具对比</h2>
+                <p class="text-lg opacity-90 max-w-2xl mx-auto" data-i18n="comparison-description">
+                    详细对比三款流行的本地大模型运行工具，帮助你选择最适合的解决方案
+                </p>
+            </div>
+
+            <!-- Introduction -->
+            <section class="bg-white rounded-2xl shadow-lg p-8 mb-12">
+                <h3 class="text-2xl font-bold text-neutral-dark mb-6" data-i18n="introduction">简介</h3>
+                <p class="text-neutral leading-relaxed" data-i18n="introduction-desc">
+                    随着本地运行大型语言模型（LLM）的需求增长，越来越多开发者和 AI 爱好者开始寻找便捷、低成本且高隐私的推理工具。LM Studio 和 Ollama 是目前两个最受关注的本地 LLM 运行平台，各自定位不同、适用场景也不一样。本文将从核心定位、使用体验、模型管理与兼容性、性能与资源使用、典型使用场景等方面系统对比这两款工具，帮助你选出最符合需求的那一个。
+                </p>
+            </section>
+
+            <!-- Core Positioning -->
+            <section class="bg-white rounded-2xl shadow-lg p-8 mb-12">
+                <h3 class="text-2xl font-bold text-neutral-dark mb-6" data-i18n="core-positioning">核心定位对比</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left">
+                        <thead class="text-xs text-neutral-dark uppercase bg-neutral-light">
+                            <tr>
+                                <th scope="col" class="px-4 py-3" data-i18n="comparison-dimension">维度</th>
+                                <th scope="col" class="px-4 py-3" data-i18n="lm-studio">LM Studio</th>
+                                <th scope="col" class="px-4 py-3" data-i18n="ollama">Ollama</th>
+                                <th scope="col" class="px-4 py-3" data-i18n="localai">LocalAI</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="bg-white border-b hover:bg-neutral-light transition-colors">
+                                <td class="px-4 py-3 font-medium" data-i18n="core-position">核心定位</td>
+                                <td class="px-4 py-3" data-i18n="lm-studio-core-position">本地 LLM 可视化运行工具</td>
+                                <td class="px-4 py-3" data-i18n="ollama-core-position">本地 LLM 运行与分发平台</td>
+                                <td class="px-4 py-3" data-i18n="localai-core-position">本地 AI 推理引擎，OpenAI API 替代品</td>
+                            </tr>
+                            <tr class="bg-white border-b hover:bg-neutral-light transition-colors">
+                                <td class="px-4 py-3 font-medium" data-i18n="main-audience">主要受众</td>
+                                <td class="px-4 py-3" data-i18n="lm-studio-audience">AI 初学者、研究者、产品经理</td>
+                                <td class="px-4 py-3" data-i18n="ollama-audience">开发者、工程师、平台用户</td>
+                                <td class="px-4 py-3" data-i18n="localai-audience">专业开发者、DevOps 工程师、多模态应用开发者</td>
+                            </tr>
+                            <tr class="bg-white border-b hover:bg-neutral-light transition-colors">
+                                <td class="px-4 py-3 font-medium" data-i18n="usage-method">使用方式</td>
+                                <td class="px-4 py-3" data-i18n="lm-studio-usage">GUI 为主</td>
+                                <td class="px-4 py-3" data-i18n="ollama-usage">CLI + API 为主</td>
+                                <td class="px-4 py-3" data-i18n="localai-usage">Docker/命令行 + API 为主</td>
+                            </tr>
+                            <tr class="bg-white border-b hover:bg-neutral-light transition-colors">
+                                <td class="px-4 py-3 font-medium" data-i18n="difficulty-level">上手难度</td>
+                                <td class="px-4 py-3" data-i18n="lm-studio-difficulty">⭐ 非常低</td>
+                                <td class="px-4 py-3" data-i18n="ollama-difficulty">⭐⭐ 中等</td>
+                                <td class="px-4 py-3" data-i18n="localai-difficulty">⭐⭐⭐ 较高</td>
+                            </tr>
+                            <tr class="bg-white hover:bg-neutral-light transition-colors">
+                                <td class="px-4 py-3 font-medium" data-i18n="engineering-integration">工程集成能力</td>
+                                <td class="px-4 py-3" data-i18n="lm-studio-integration">一般</td>
+                                <td class="px-4 py-3" data-i18n="ollama-integration">很强</td>
+                                <td class="px-4 py-3" data-i18n="localai-integration">极强（完全兼容 OpenAI API）</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mt-6 p-4 bg-neutral-light rounded-lg">
+                    <p class="text-neutral italic" data-i18n="comparison-summary">
+                        <strong>一句话总结：</strong>LM Studio 像「本地 ChatGPT 客户端」，Ollama 像「LLM 版 Docker」，LocalAI 像「本地 OpenAI API 完整替代品」。
+                    </p>
+                </div>
+            </section>
+
+            <!-- User Experience -->
+            <section class="bg-white rounded-2xl shadow-lg p-8 mb-12">
+                <h3 class="text-2xl font-bold text-neutral-dark mb-6" data-i18n="user-experience">使用体验对比</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left">
+                        <thead class="text-xs text-neutral-dark uppercase bg-neutral-light">
+                            <tr>
+                                <th scope="col" class="px-4 py-3" data-i18n="item">项目</th>
+                                <th scope="col" class="px-4 py-3" data-i18n="lm-studio">LM Studio</th>
+                                <th scope="col" class="px-4 py-3" data-i18n="ollama">Ollama</th>
+                                <th scope="col" class="px-4 py-3" data-i18n="localai">LocalAI</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="bg-white border-b hover:bg-neutral-light transition-colors">
+                                <td class="px-4 py-3 font-medium" data-i18n="operation-method">操作方式</td>
+                                <td class="px-4 py-3" data-i18n="lm-studio-operation">全图形界面</td>
+                                <td class="px-4 py-3" data-i18n="ollama-operation">命令行</td>
+                                <td class="px-4 py-3" data-i18n="localai-operation">Docker/命令行</td>
+                            </tr>
+                            <tr class="bg-white border-b hover:bg-neutral-light transition-colors">
+                                <td class="px-4 py-3 font-medium" data-i18n="model-download">模型下载</td>
+                                <td class="px-4 py-3" data-i18n="lm-studio-download">GUI 内搜索 / 点击下载</td>
+                                <td class="px-4 py-3" data-i18n="ollama-download">ollama pull</td>
+                                <td class="px-4 py-3" data-i18n="localai-download">手动下载或配置</td>
+                            </tr>
+                            <tr class="bg-white border-b hover:bg-neutral-light transition-colors">
+                                <td class="px-4 py-3 font-medium" data-i18n="chat-experience">对话体验</td>
+                                <td class="px-4 py-3" data-i18n="lm-studio-chat">类 ChatGPT</td>
+                                <td class="px-4 py-3" data-i18n="ollama-chat">终端 / API</td>
+                                <td class="px-4 py-3" data-i18n="localai-chat">API / 网页界面</td>
+                            </tr>
+                            <tr class="bg-white border-b hover:bg-neutral-light transition-colors">
+                                <td class="px-4 py-3 font-medium" data-i18n="prompt-debugging">Prompt 调试</td>
+                                <td class="px-4 py-3" data-i18n="lm-studio-debugging">非常方便</td>
+                                <td class="px-4 py-3" data-i18n="ollama-debugging">需要手动配置</td>
+                                <td class="px-4 py-3" data-i18n="localai-debugging">通过 API 调试</td>
+                            </tr>
+                            <tr class="bg-white hover:bg-neutral-light transition-colors">
+                                <td class="px-4 py-3 font-medium" data-i18n="learning-cost">学习成本</td>
+                                <td class="px-4 py-3" data-i18n="lm-studio-learning">低</td>
+                                <td class="px-4 py-3" data-i18n="ollama-learning">偏工程向</td>
+                                <td class="px-4 py-3" data-i18n="localai-learning">较高（需要 Docker 知识）</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Model Management -->
+            <section class="bg-white rounded-2xl shadow-lg p-8 mb-12">
+                <h3 class="text-2xl font-bold text-neutral-dark mb-6" data-i18n="model-management">模型管理与兼容性</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left">
+                        <thead class="text-xs text-neutral-dark uppercase bg-neutral-light">
+                            <tr>
+                                <th scope="col" class="px-4 py-3" data-i18n="dimension">维度</th>
+                                <th scope="col" class="px-4 py-3" data-i18n="lm-studio">LM Studio</th>
+                                <th scope="col" class="px-4 py-3" data-i18n="ollama">Ollama</th>
+                                <th scope="col" class="px-4 py-3" data-i18n="localai">LocalAI</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="bg-white border-b hover:bg-neutral-light transition-colors">
+                                <td class="px-4 py-3 font-medium" data-i18n="model-format">模型格式</td>
+                                <td class="px-4 py-3" data-i18n="lm-studio-format">GGUF</td>
+                                <td class="px-4 py-3" data-i18n="ollama-format">Ollama 官方模型格式</td>
+                                <td class="px-4 py-3" data-i18n="localai-format">GGUF、GPTQ、Diffusers 等多种格式</td>
+                            </tr>
+                            <tr class="bg-white border-b hover:bg-neutral-light transition-colors">
+                                <td class="px-4 py-3 font-medium" data-i18n="model-source">模型来源</td>
+                                <td class="px-4 py-3" data-i18n="lm-studio-source">Hugging Face（可视化）</td>
+                                <td class="px-4 py-3" data-i18n="ollama-source">Ollama Registry</td>
+                                <td class="px-4 py-3" data-i18n="localai-source">手动下载或配置</td>
+                            </tr>
+                            <tr class="bg-white border-b hover:bg-neutral-light transition-colors">
+                                <td class="px-4 py-3 font-medium" data-i18n="custom-model">自定义模型</td>
+                                <td class="px-4 py-3" data-i18n="lm-studio-custom">手动导入</td>
+                                <td class="px-4 py-3" data-i18n="ollama-custom">Modelfile 定义</td>
+                                <td class="px-4 py-3" data-i18n="localai-custom">YAML 配置文件定义</td>
+                            </tr>
+                            <tr class="bg-white border-b hover:bg-neutral-light transition-colors">
+                                <td class="px-4 py-3 font-medium" data-i18n="model-switching">模型切换</td>
+                                <td class="px-4 py-3" data-i18n="lm-studio-switch">GUI 切换</td>
+                                <td class="px-4 py-3" data-i18n="ollama-switch">命令切换</td>
+                                <td class="px-4 py-3" data-i18n="localai-switch">API 端点切换</td>
+                            </tr>
+                            <tr class="bg-white hover:bg-neutral-light transition-colors">
+                                <td class="px-4 py-3 font-medium" data-i18n="model-reuse">模型复用</td>
+                                <td class="px-4 py-3" data-i18n="lm-studio-reuse">单机为主</td>
+                                <td class="px-4 py-3" data-i18n="ollama-reuse">可服务化复用</td>
+                                <td class="px-4 py-3" data-i18n="localai-reuse">多模型并行运行</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Performance -->
+            <section class="bg-white rounded-2xl shadow-lg p-8 mb-12">
+                <h3 class="text-2xl font-bold text-neutral-dark mb-6" data-i18n="performance">性能与资源使用</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left">
+                        <thead class="text-xs text-neutral-dark uppercase bg-neutral-light">
+                            <tr>
+                                <th scope="col" class="px-4 py-3" data-i18n="item">项目</th>
+                                <th scope="col" class="px-4 py-3" data-i18n="lm-studio">LM Studio</th>
+                                <th scope="col" class="px-4 py-3" data-i18n="ollama">Ollama</th>
+                                <th scope="col" class="px-4 py-3" data-i18n="localai">LocalAI</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="bg-white border-b hover:bg-neutral-light transition-colors">
+                                <td class="px-4 py-3 font-medium" data-i18n="architecture">运行架构</td>
+                                <td class="px-4 py-3" data-i18n="lm-studio-architecture">GUI + 本地推理</td>
+                                <td class="px-4 py-3" data-i18n="ollama-architecture">轻量服务进程</td>
+                                <td class="px-4 py-3" data-i18n="localai-architecture">Docker 容器 / 服务进程</td>
+                            </tr>
+                            <tr class="bg-white border-b hover:bg-neutral-light transition-colors">
+                                <td class="px-4 py-3 font-medium" data-i18n="memory-usage">内存占用</td>
+                                <td class="px-4 py-3" data-i18n="lm-studio-memory">稍高（含 UI）</td>
+                                <td class="px-4 py-3" data-i18n="ollama-memory">较低</td>
+                                <td class="px-4 py-3" data-i18n="localai-memory">可配置，根据模型规模</td>
+                            </tr>
+                            <tr class="bg-white border-b hover:bg-neutral-light transition-colors">
+                                <td class="px-4 py-3 font-medium" data-i18n="loading-speed">模型加载速度</td>
+                                <td class="px-4 py-3" data-i18n="lm-studio-speed">中等</td>
+                                <td class="px-4 py-3" data-i18n="ollama-speed">较快</td>
+                                <td class="px-4 py-3" data-i18n="localai-speed">中等（取决于配置）</td>
+                            </tr>
+                            <tr class="bg-white border-b hover:bg-neutral-light transition-colors">
+                                <td class="px-4 py-3 font-medium" data-i18n="long-running">长时间运行</td>
+                                <td class="px-4 py-3" data-i18n="lm-studio-long-running">不推荐</td>
+                                <td class="px-4 py-3" data-i18n="ollama-long-running">推荐</td>
+                                <td class="px-4 py-3" data-i18n="localai-long-running">推荐（适合服务器部署）</td>
+                            </tr>
+                            <tr class="bg-white hover:bg-neutral-light transition-colors">
+                                <td class="px-4 py-3 font-medium" data-i18n="concurrency">多任务并发</td>
+                                <td class="px-4 py-3" data-i18n="lm-studio-concurrency">不适合</td>
+                                <td class="px-4 py-3" data-i18n="ollama-concurrency">支持</td>
+                                <td class="px-4 py-3" data-i18n="localai-concurrency">强支持（多模型并行）</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Development Capabilities -->
+            <section class="bg-white rounded-2xl shadow-lg p-8 mb-12">
+                <h3 class="text-2xl font-bold text-neutral-dark mb-6" data-i18n="development-capabilities">开发与自动化能力</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left">
+                        <thead class="text-xs text-neutral-dark uppercase bg-neutral-light">
+                            <tr>
+                                <th scope="col" class="px-4 py-3" data-i18n="capability">能力</th>
+                                <th scope="col" class="px-4 py-3" data-i18n="lm-studio">LM Studio</th>
+                                <th scope="col" class="px-4 py-3" data-i18n="ollama">Ollama</th>
+                                <th scope="col" class="px-4 py-3" data-i18n="localai">LocalAI</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="bg-white border-b hover:bg-neutral-light transition-colors">
+                                <td class="px-4 py-3 font-medium" data-i18n="api-calling">API 调用</td>
+                                <td class="px-4 py-3" data-i18n="lm-studio-api">基础支持</td>
+                                <td class="px-4 py-3" data-i18n="ollama-api">原生支持</td>
+                                <td class="px-4 py-3" data-i18n="localai-api">完全兼容 OpenAI API</td>
+                            </tr>
+                            <tr class="bg-white border-b hover:bg-neutral-light transition-colors">
+                                <td class="px-4 py-3 font-medium" data-i18n="script-integration">脚本集成</td>
+                                <td class="px-4 py-3" data-i18n="lm-studio-script">较弱</td>
+                                <td class="px-4 py-3" data-i18n="ollama-script">非常强</td>
+                                <td class="px-4 py-3" data-i18n="localai-script">极强（企业级集成）</td>
+                            </tr>
+                            <tr class="bg-white border-b hover:bg-neutral-light transition-colors">
+                                <td class="px-4 py-3 font-medium" data-i18n="ci-automation">CI / 自动化</td>
+                                <td class="px-4 py-3" data-i18n="lm-studio-ci">不适合</td>
+                                <td class="px-4 py-3" data-i18n="ollama-ci">非常适合</td>
+                                <td class="px-4 py-3" data-i18n="localai-ci">非常适合（Docker 部署）</td>
+                            </tr>
+                            <tr class="bg-white border-b hover:bg-neutral-light transition-colors">
+                                <td class="px-4 py-3 font-medium" data-i18n="backend-service">后端服务</td>
+                                <td class="px-4 py-3" data-i18n="lm-studio-backend">不推荐</td>
+                                <td class="px-4 py-3" data-i18n="ollama-backend">推荐</td>
+                                <td class="px-4 py-3" data-i18n="localai-backend">强烈推荐（企业级服务）</td>
+                            </tr>
+                            <tr class="bg-white hover:bg-neutral-light transition-colors">
+                                <td class="px-4 py-3 font-medium" data-i18n="agent-workflow">Agent / Workflow</td>
+                                <td class="px-4 py-3" data-i18n="lm-studio-agent">较弱</td>
+                                <td class="px-4 py-3" data-i18n="ollama-agent">非常适合</td>
+                                <td class="px-4 py-3" data-i18n="localai-agent">极强（原生支持 MCP 协议）</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Use Cases -->
+            <section class="bg-white rounded-2xl shadow-lg p-8 mb-12">
+                <h3 class="text-2xl font-bold text-neutral-dark mb-6" data-i18n="use-cases">典型使用场景对比</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-neutral-light rounded-xl p-6 card-hover">
+                        <h4 class="font-semibold text-neutral-dark mb-3" data-i18n="local-model-testing">本地试用新模型</h4>
+                        <p class="text-neutral text-sm" data-i18n="local-model-testing-desc">
+                            <strong>推荐：</strong>LM Studio<br>
+                            <strong>原因：</strong>图形界面直观，一键下载和运行模型
+                        </p>
+                    </div>
+                    <div class="bg-neutral-light rounded-xl p-6 card-hover">
+                        <h4 class="font-semibold text-neutral-dark mb-3" data-i18n="prompt-testing">Prompt 调试 / 对比模型效果</h4>
+                        <p class="text-neutral text-sm" data-i18n="prompt-testing-desc">
+                            <strong>推荐：</strong>LM Studio<br>
+                            <strong>原因：</strong>可视化界面便于快速调整和比较
+                        </p>
+                    </div>
+                    <div class="bg-neutral-light rounded-xl p-6 card-hover">
+                        <h4 class="font-semibold text-neutral-dark mb-3" data-i18n="teaching-demo">教学演示 / 离线体验</h4>
+                        <p class="text-neutral text-sm" data-i18n="teaching-demo-desc">
+                            <strong>推荐：</strong>LM Studio<br>
+                            <strong>原因：</strong>界面友好，适合展示给非技术人员
+                        </p>
+                    </div>
+                    <div class="bg-neutral-light rounded-xl p-6 card-hover">
+                        <h4 class="font-semibold text-neutral-dark mb-3" data-i18n="local-agent-dev">本地 Agent 开发</h4>
+                        <p class="text-neutral text-sm" data-i18n="local-agent-dev-desc">
+                            <strong>推荐：</strong>Ollama<br>
+                            <strong>原因：</strong>API 支持完善，适合集成到工作流
+                        </p>
+                    </div>
+                    <div class="bg-neutral-light rounded-xl p-6 card-hover">
+                        <h4 class="font-semibold text-neutral-dark mb-3" data-i18n="backend-integration">后端服务接入</h4>
+                        <p class="text-neutral text-sm" data-i18n="backend-integration-desc">
+                            <strong>推荐：</strong>Ollama / LocalAI<br>
+                            <strong>原因：</strong>轻量级服务，适合部署为后端服务
+                        </p>
+                    </div>
+                    <div class="bg-neutral-light rounded-xl p-6 card-hover">
+                        <h4 class="font-semibold text-neutral-dark mb-3" data-i18n="automated-reasoning">自动化推理 / 批处理</h4>
+                        <p class="text-neutral text-sm" data-i18n="automated-reasoning-desc">
+                            <strong>推荐：</strong>Ollama<br>
+                            <strong>原因：</strong>命令行和 API 支持，适合自动化脚本
+                        </p>
+                    </div>
+                    <div class="bg-neutral-light rounded-xl p-6 card-hover">
+                        <h4 class="font-semibold text-neutral-dark mb-3" data-i18n="multimodal-dev">多模态应用开发</h4>
+                        <p class="text-neutral text-sm" data-i18n="multimodal-dev-desc">
+                            <strong>推荐：</strong>LocalAI<br>
+                            <strong>原因：</strong>支持文本、图像、语音等多模态能力
+                        </p>
+                    </div>
+                    <div class="bg-neutral-light rounded-xl p-6 card-hover">
+                        <h4 class="font-semibold text-neutral-dark mb-3" data-i18n="enterprise-deployment">企业级私有化部署</h4>
+                        <p class="text-neutral text-sm" data-i18n="enterprise-deployment-desc">
+                            <strong>推荐：</strong>LocalAI<br>
+                            <strong>原因：</strong>Docker 部署，完全兼容 OpenAI API
+                        </p>
+                    </div>
+                    <div class="bg-neutral-light rounded-xl p-6 card-hover">
+                        <h4 class="font-semibold text-neutral-dark mb-3" data-i18n="agent-architecture">Agent 协同架构研究</h4>
+                        <p class="text-neutral text-sm" data-i18n="agent-architecture-desc">
+                            <strong>推荐：</strong>LocalAI<br>
+                            <strong>原因：</strong>原生支持 MCP 协议，可连接外部工具
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- How to Choose -->
+            <section class="bg-white rounded-2xl shadow-lg p-8 mb-12">
+                <h3 class="text-2xl font-bold text-neutral-dark mb-6" data-i18n="how-to-choose">如何选择</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-neutral-light rounded-xl p-6">
+                        <h4 class="font-semibold text-neutral-dark mb-4" data-i18n="choose-lm-studio">选择 LM Studio 如果你是：</h4>
+                        <ul class="text-neutral space-y-2 ml-4 list-disc list-inside" data-i18n="choose-lm-studio-list">
+                            <li>AI 初学者或非技术用户</li>
+                            <li>想要快速试用和测试新模型</li>
+                            <li>需要直观的图形界面</li>
+                            <li>主要用于教学演示或个人学习</li>
+                            <li>不需要将模型集成到其他系统</li>
+                        </ul>
+                    </div>
+                    <div class="bg-neutral-light rounded-xl p-6">
+                        <h4 class="font-semibold text-neutral-dark mb-4" data-i18n="choose-ollama">选择 Ollama 如果你是：</h4>
+                        <ul class="text-neutral space-y-2 ml-4 list-disc list-inside" data-i18n="choose-ollama-list">
+                            <li>开发者或工程师</li>
+                            <li>需要将模型集成到应用或服务中</li>
+                            <li>希望通过 API 调用模型</li>
+                            <li>需要在服务器或容器中运行模型</li>
+                            <li>重视资源使用效率和稳定性</li>
+                        </ul>
+                    </div>
+                    <div class="bg-neutral-light rounded-xl p-6">
+                        <h4 class="font-semibold text-neutral-dark mb-4" data-i18n="choose-localai">选择 LocalAI 如果你是：</h4>
+                        <ul class="text-neutral space-y-2 ml-4 list-disc list-inside" data-i18n="choose-localai-list">
+                            <li>专业开发者或 DevOps 工程师</li>
+                            <li>需要多模态 AI 能力（文本、图像、语音）</li>
+                            <li>希望完全替代 OpenAI API</li>
+                            <li>需要企业级私有化部署</li>
+                            <li>研究 Agent 协同架构或 MCP 协议</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Conclusion -->
+            <section class="bg-white rounded-2xl shadow-lg p-8">
+                <h3 class="text-2xl font-bold text-neutral-dark mb-6" data-i18n="conclusion">结语</h3>
+                <p class="text-neutral leading-relaxed" data-i18n="conclusion-desc">
+                    LM Studio、Ollama 和 LocalAI 都是推动本地 LLM 部署与隐私 AI 应用的重要工具，但它们面向不同类型的用户和工作流。无需绝对的"哪一个更好"，关键是根据你的技术背景、硬件资源和项目需求选出最合适的那个，它们都能为你提供无需云调用、无需按 token 付费的本地语言模型推理能力。
+                </p>
+                <p class="text-neutral leading-relaxed mt-4" data-i18n="conclusion-summary">
+                    总结来说：LM Studio 适合初学者和非技术用户，提供直观的图形界面；Ollama 适合开发者和工程师，提供轻量级的命令行和 API 支持；LocalAI 适合专业开发者和企业用户，提供完整的 OpenAI API 替代品和多模态能力。
+                </p>
+                <div class="mt-8 flex flex-wrap gap-4 justify-center">
+                    <a href="https://lmstudio.ai/" target="_blank" class="bg-gradient-primary text-white font-medium px-8 py-3 rounded-lg hover:shadow-lg hover:-translate-y-1 transition-all duration-300 inline-block text-center" data-i18n="visit-lm-studio">
+                        访问 LM Studio 官网
+                    </a>
+                    <a href="https://ollama.com/" target="_blank" class="bg-gradient-primary text-white font-medium px-8 py-3 rounded-lg hover:shadow-lg hover:-translate-y-1 transition-all duration-300 inline-block text-center" data-i18n="visit-ollama">
+                        访问 Ollama 官网
+                    </a>
+                    <a href="https://gitcode.com/gh_mirrors/loc/LocalAI" target="_blank" class="bg-gradient-primary text-white font-medium px-8 py-3 rounded-lg hover:shadow-lg hover:-translate-y-1 transition-all duration-300 inline-block text-center" data-i18n="visit-localai">
+                        访问 LocalAI 项目地址
+                    </a>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gradient-to-b from-neutral-dark to-black text-white py-12">
+        <div class="container-custom">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center space-x-3 mb-6 md:mb-0">
+                    <img 
+                        src="https://img.cdn.apipost.cn/client/user/1391646/avatar/efd43da5e950a2d9578cf0052e99c37769e72019c3a89.png" 
+                        alt="Hello Token" 
+                        class="w-10 h-10 object-contain"
+                    />
+                    <h3 class="text-2xl font-bold text-gradient">Hello Token</h3>
+                </div>
+                <div class="text-center md:text-right">
+                    <p class="text-gray-400 text-sm">
+                        © 2024 Hello Token. 保留所有权利.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 国际化支持
+        const translations = {
+            zh: {
+                'home': '首页',
+                'free-models': '免费模型',
+                'paid-models': '付费模型',
+                'local-setup': '本地搭建',
+                'language-zh': '中文',
+                'language-en': 'English',
+                'comparison-title': 'Ollama vs LM Studio vs LocalAI 工具对比',
+                'comparison-description': '详细对比三款流行的本地大模型运行工具，帮助你选择最适合的解决方案',
+                'introduction': '简介',
+                'introduction-desc': '随着本地运行大型语言模型（LLM）的需求增长，越来越多开发者和 AI 爱好者开始寻找便捷、低成本且高隐私的推理工具。LM Studio 和 Ollama 是目前两个最受关注的本地 LLM 运行平台，各自定位不同、适用场景也不一样。本文将从核心定位、使用体验、模型管理与兼容性、性能与资源使用、典型使用场景等方面系统对比这两款工具，帮助你选出最符合需求的那一个。',
+                'core-positioning': '核心定位对比',
+                'comparison-dimension': '维度',
+                'lm-studio': 'LM Studio',
+                'ollama': 'Ollama',
+                'localai': 'LocalAI',
+                'core-position': '核心定位',
+                'lm-studio-core-position': '本地 LLM 可视化运行工具',
+                'ollama-core-position': '本地 LLM 运行与分发平台',
+                'localai-core-position': '本地 AI 推理引擎，OpenAI API 替代品',
+                'main-audience': '主要受众',
+                'lm-studio-audience': 'AI 初学者、研究者、产品经理',
+                'ollama-audience': '开发者、工程师、平台用户',
+                'localai-audience': '专业开发者、DevOps 工程师、多模态应用开发者',
+                'usage-method': '使用方式',
+                'lm-studio-usage': 'GUI 为主',
+                'ollama-usage': 'CLI + API 为主',
+                'localai-usage': 'Docker/命令行 + API 为主',
+                'difficulty-level': '上手难度',
+                'lm-studio-difficulty': '⭐ 非常低',
+                'ollama-difficulty': '⭐⭐ 中等',
+                'localai-difficulty': '⭐⭐⭐ 较高',
+                'engineering-integration': '工程集成能力',
+                'lm-studio-integration': '一般',
+                'ollama-integration': '很强',
+                'localai-integration': '极强（完全兼容 OpenAI API）',
+                'comparison-summary': '<strong>一句话总结：</strong>LM Studio 像「本地 ChatGPT 客户端」，Ollama 像「LLM 版 Docker」，LocalAI 像「本地 OpenAI API 完整替代品」。',
+                'user-experience': '使用体验对比',
+                'item': '项目',
+                'operation-method': '操作方式',
+                'lm-studio-operation': '全图形界面',
+                'ollama-operation': '命令行',
+                'localai-operation': 'Docker/命令行',
+                'model-download': '模型下载',
+                'lm-studio-download': 'GUI 内搜索 / 点击下载',
+                'ollama-download': 'ollama pull',
+                'localai-download': '手动下载或配置',
+                'chat-experience': '对话体验',
+                'lm-studio-chat': '类 ChatGPT',
+                'ollama-chat': '终端 / API',
+                'localai-chat': 'API / 网页界面',
+                'prompt-debugging': 'Prompt 调试',
+                'lm-studio-debugging': '非常方便',
+                'ollama-debugging': '需要手动配置',
+                'localai-debugging': '通过 API 调试',
+                'learning-cost': '学习成本',
+                'lm-studio-learning': '低',
+                'ollama-learning': '偏工程向',
+                'localai-learning': '较高（需要 Docker 知识）',
+                'model-management': '模型管理与兼容性',
+                'dimension': '维度',
+                'model-format': '模型格式',
+                'lm-studio-format': 'GGUF',
+                'ollama-format': 'Ollama 官方模型格式',
+                'localai-format': 'GGUF、GPTQ、Diffusers 等多种格式',
+                'model-source': '模型来源',
+                'lm-studio-source': 'Hugging Face（可视化）',
+                'ollama-source': 'Ollama Registry',
+                'localai-source': '手动下载或配置',
+                'custom-model': '自定义模型',
+                'lm-studio-custom': '手动导入',
+                'ollama-custom': 'Modelfile 定义',
+                'localai-custom': 'YAML 配置文件定义',
+                'model-switching': '模型切换',
+                'lm-studio-switch': 'GUI 切换',
+                'ollama-switch': '命令切换',
+                'localai-switch': 'API 端点切换',
+                'model-reuse': '模型复用',
+                'lm-studio-reuse': '单机为主',
+                'ollama-reuse': '可服务化复用',
+                'localai-reuse': '多模型并行运行',
+                'performance': '性能与资源使用',
+                'architecture': '运行架构',
+                'lm-studio-architecture': 'GUI + 本地推理',
+                'ollama-architecture': '轻量服务进程',
+                'localai-architecture': 'Docker 容器 / 服务进程',
+                'memory-usage': '内存占用',
+                'lm-studio-memory': '稍高（含 UI）',
+                'ollama-memory': '较低',
+                'localai-memory': '可配置，根据模型规模',
+                'loading-speed': '模型加载速度',
+                'lm-studio-speed': '中等',
+                'ollama-speed': '较快',
+                'localai-speed': '中等（取决于配置）',
+                'long-running': '长时间运行',
+                'lm-studio-long-running': '不推荐',
+                'ollama-long-running': '推荐',
+                'localai-long-running': '推荐（适合服务器部署）',
+                'concurrency': '多任务并发',
+                'lm-studio-concurrency': '不适合',
+                'ollama-concurrency': '支持',
+                'localai-concurrency': '强支持（多模型并行）',
+                'development-capabilities': '开发与自动化能力',
+                'capability': '能力',
+                'api-calling': 'API 调用',
+                'lm-studio-api': '基础支持',
+                'ollama-api': '原生支持',
+                'localai-api': '完全兼容 OpenAI API',
+                'script-integration': '脚本集成',
+                'lm-studio-script': '较弱',
+                'ollama-script': '非常强',
+                'localai-script': '极强（企业级集成）',
+                'ci-automation': 'CI / 自动化',
+                'lm-studio-ci': '不适合',
+                'ollama-ci': '非常适合',
+                'localai-ci': '非常适合（Docker 部署）',
+                'backend-service': '后端服务',
+                'lm-studio-backend': '不推荐',
+                'ollama-backend': '推荐',
+                'localai-backend': '强烈推荐（企业级服务）',
+                'agent-workflow': 'Agent / Workflow',
+                'lm-studio-agent': '较弱',
+                'ollama-agent': '非常适合',
+                'localai-agent': '极强（原生支持 MCP 协议）',
+                'use-cases': '典型使用场景对比',
+                'local-model-testing': '本地试用新模型',
+                'local-model-testing-desc': '<strong>推荐：</strong>LM Studio<br><strong>原因：</strong>图形界面直观，一键下载和运行模型',
+                'prompt-testing': 'Prompt 调试 / 对比模型效果',
+                'prompt-testing-desc': '<strong>推荐：</strong>LM Studio<br><strong>原因：</strong>可视化界面便于快速调整和比较',
+                'teaching-demo': '教学演示 / 离线体验',
+                'teaching-demo-desc': '<strong>推荐：</strong>LM Studio<br><strong>原因：</strong>界面友好，适合展示给非技术人员',
+                'local-agent-dev': '本地 Agent 开发',
+                'local-agent-dev-desc': '<strong>推荐：</strong>Ollama<br><strong>原因：</strong>API 支持完善，适合集成到工作流',
+                'backend-integration': '后端服务接入',
+                'backend-integration-desc': '<strong>推荐：</strong>Ollama / LocalAI<br><strong>原因：</strong>轻量级服务，适合部署为后端服务',
+                'automated-reasoning': '自动化推理 / 批处理',
+                'automated-reasoning-desc': '<strong>推荐：</strong>Ollama<br><strong>原因：</strong>命令行和 API 支持，适合自动化脚本',
+                'multimodal-dev': '多模态应用开发',
+                'multimodal-dev-desc': '<strong>推荐：</strong>LocalAI<br><strong>原因：</strong>支持文本、图像、语音等多模态能力',
+                'enterprise-deployment': '企业级私有化部署',
+                'enterprise-deployment-desc': '<strong>推荐：</strong>LocalAI<br><strong>原因：</strong>Docker 部署，完全兼容 OpenAI API',
+                'agent-architecture': 'Agent 协同架构研究',
+                'agent-architecture-desc': '<strong>推荐：</strong>LocalAI<br><strong>原因：</strong>原生支持 MCP 协议，可连接外部工具',
+                'how-to-choose': '如何选择',
+                'choose-lm-studio': '选择 LM Studio 如果你是：',
+                'choose-lm-studio-list': 'AI 初学者或非技术用户\n想要快速试用和测试新模型\n需要直观的图形界面\n主要用于教学演示或个人学习\n不需要将模型集成到其他系统',
+                'choose-ollama': '选择 Ollama 如果你是：',
+                'choose-ollama-list': '开发者或工程师\n需要将模型集成到应用或服务中\n希望通过 API 调用模型\n需要在服务器或容器中运行模型\n重视资源使用效率和稳定性',
+                'choose-localai': '选择 LocalAI 如果你是：',
+                'choose-localai-list': '专业开发者或 DevOps 工程师\n需要多模态 AI 能力（文本、图像、语音）\n希望完全替代 OpenAI API\n需要企业级私有化部署\n研究 Agent 协同架构或 MCP 协议',
+                'conclusion': '结语',
+                'conclusion-desc': 'LM Studio、Ollama 和 LocalAI 都是推动本地 LLM 部署与隐私 AI 应用的重要工具，但它们面向不同类型的用户和工作流。无需绝对的"哪一个更好"，关键是根据你的技术背景、硬件资源和项目需求选出最合适的那个，它们都能为你提供无需云调用、无需按 token 付费的本地语言模型推理能力。',
+                'conclusion-summary': '总结来说：LM Studio 适合初学者和非技术用户，提供直观的图形界面；Ollama 适合开发者和工程师，提供轻量级的命令行和 API 支持；LocalAI 适合专业开发者和企业用户，提供完整的 OpenAI API 替代品和多模态能力。',
+                'visit-lm-studio': '访问 LM Studio 官网',
+                'visit-ollama': '访问 Ollama 官网',
+                'visit-localai': '访问 LocalAI 项目地址'
+            },
+            en: {
+                'home': 'Home',
+                'free-models': 'Free Models',
+                'paid-models': 'Paid Models',
+                'local-setup': 'Local Setup',
+                'language-zh': '中文',
+                'language-en': 'English',
+                'comparison-title': 'Ollama vs LM Studio vs LocalAI Tool Comparison',
+                'comparison-description': 'A detailed comparison of three popular local large model running tools to help you choose the most suitable solution',
+                'introduction': 'Introduction',
+                'introduction-desc': 'With the growing demand for running large language models (LLMs) locally, more and more developers and AI enthusiasts are looking for convenient, low-cost, and privacy-focused inference tools. LM Studio and Ollama are currently the two most popular local LLM running platforms, each with different positioning and applicable scenarios. This article will systematically compare these two tools in terms of core positioning, user experience, model management and compatibility, performance and resource usage, and typical use cases to help you select the one that best meets your needs.',
+                'core-positioning': 'Core Positioning Comparison',
+                'comparison-dimension': 'Dimension',
+                'lm-studio': 'LM Studio',
+                'ollama': 'Ollama',
+                'localai': 'LocalAI',
+                'core-position': 'Core Positioning',
+                'lm-studio-core-position': 'Local LLM Visualization Tool',
+                'ollama-core-position': 'Local LLM Runtime and Distribution Platform',
+                'localai-core-position': 'Local AI Inference Engine, OpenAI API Alternative',
+                'main-audience': 'Main Audience',
+                'lm-studio-audience': 'AI Beginners, Researchers, Product Managers',
+                'ollama-audience': 'Developers, Engineers, Platform Users',
+                'localai-audience': 'Professional Developers, DevOps Engineers, Multimodal Application Developers',
+                'usage-method': 'Usage Method',
+                'lm-studio-usage': 'GUI-Based',
+                'ollama-usage': 'CLI + API-Based',
+                'localai-usage': 'Docker/Command Line + API-Based',
+                'difficulty-level': 'Difficulty Level',
+                'lm-studio-difficulty': '⭐ Very Low',
+                'ollama-difficulty': '⭐⭐ Medium',
+                'localai-difficulty': '⭐⭐⭐ High',
+                'engineering-integration': 'Engineering Integration Capability',
+                'lm-studio-integration': 'Average',
+                'ollama-integration': 'Strong',
+                'localai-integration': 'Extremely Strong (Fully Compatible with OpenAI API)',
+                'comparison-summary': '<strong>One-sentence summary:</strong> LM Studio is like a "local ChatGPT client", Ollama is like "LLM version of Docker", and LocalAI is like "complete local OpenAI API alternative".',
+                'user-experience': 'User Experience Comparison',
+                'item': 'Item',
+                'operation-method': 'Operation Method',
+                'lm-studio-operation': 'Full GUI',
+                'ollama-operation': 'Command Line',
+                'localai-operation': 'Docker/Command Line',
+                'model-download': 'Model Download',
+                'lm-studio-download': 'GUI Search / Click to Download',
+                'ollama-download': 'ollama pull',
+                'localai-download': 'Manual Download or Configuration',
+                'chat-experience': 'Chat Experience',
+                'lm-studio-chat': 'ChatGPT-like',
+                'ollama-chat': 'Terminal / API',
+                'localai-chat': 'API / Web Interface',
+                'prompt-debugging': 'Prompt Debugging',
+                'lm-studio-debugging': 'Very Convenient',
+                'ollama-debugging': 'Requires Manual Configuration',
+                'localai-debugging': 'API-Based Debugging',
+                'learning-cost': 'Learning Cost',
+                'lm-studio-learning': 'Low',
+                'ollama-learning': 'Engineering-Oriented',
+                'localai-learning': 'High (Requires Docker Knowledge)',
+                'model-management': 'Model Management and Compatibility',
+                'dimension': 'Dimension',
+                'model-format': 'Model Format',
+                'lm-studio-format': 'GGUF',
+                'ollama-format': 'Ollama Official Model Format',
+                'localai-format': 'GGUF, GPTQ, Diffusers, and other formats',
+                'model-source': 'Model Source',
+                'lm-studio-source': 'Hugging Face (Visual)',
+                'ollama-source': 'Ollama Registry',
+                'localai-source': 'Manual Download or Configuration',
+                'custom-model': 'Custom Model',
+                'lm-studio-custom': 'Manual Import',
+                'ollama-custom': 'Modelfile Definition',
+                'localai-custom': 'YAML Configuration File Definition',
+                'model-switching': 'Model Switching',
+                'lm-studio-switch': 'GUI Switching',
+                'ollama-switch': 'Command Switching',
+                'localai-switch': 'API Endpoint Switching',
+                'model-reuse': 'Model Reuse',
+                'lm-studio-reuse': 'Single Machine Focus',
+                'ollama-reuse': 'Serviceable Reuse',
+                'localai-reuse': 'Multi-Model Parallel Running',
+                'performance': 'Performance and Resource Usage',
+                'architecture': 'Runtime Architecture',
+                'lm-studio-architecture': 'GUI + Local Inference',
+                'ollama-architecture': 'Lightweight Service Process',
+                'localai-architecture': 'Docker Container / Service Process',
+                'memory-usage': 'Memory Usage',
+                'lm-studio-memory': 'Slightly High (Including UI)',
+                'ollama-memory': 'Low',
+                'localai-memory': 'Configurable, Based on Model Size',
+                'loading-speed': 'Model Loading Speed',
+                'lm-studio-speed': 'Medium',
+                'ollama-speed': 'Fast',
+                'localai-speed': 'Medium (Depends on Configuration)',
+                'long-running': 'Long-Term Running',
+                'lm-studio-long-running': 'Not Recommended',
+                'ollama-long-running': 'Recommended',
+                'localai-long-running': 'Recommended (Suitable for Server Deployment)',
+                'concurrency': 'Multi-Task Concurrency',
+                'lm-studio-concurrency': 'Not Suitable',
+                'ollama-concurrency': 'Supported',
+                'localai-concurrency': 'Strongly Supported (Multi-Model Parallel)',
+                'development-capabilities': 'Development and Automation Capabilities',
+                'capability': 'Capability',
+                'api-calling': 'API Calling',
+                'lm-studio-api': 'Basic Support',
+                'ollama-api': 'Native Support',
+                'localai-api': 'Fully Compatible with OpenAI API',
+                'script-integration': 'Script Integration',
+                'lm-studio-script': 'Weak',
+                'ollama-script': 'Very Strong',
+                'localai-script': 'Extremely Strong (Enterprise-Grade Integration)',
+                'ci-automation': 'CI / Automation',
+                'lm-studio-ci': 'Not Suitable',
+                'ollama-ci': 'Very Suitable',
+                'localai-ci': 'Very Suitable (Docker Deployment)',
+                'backend-service': 'Backend Service',
+                'lm-studio-backend': 'Not Recommended',
+                'ollama-backend': 'Recommended',
+                'localai-backend': 'Highly Recommended (Enterprise-Grade Service)',
+                'agent-workflow': 'Agent / Workflow',
+                'lm-studio-agent': 'Weak',
+                'ollama-agent': 'Very Suitable',
+                'localai-agent': 'Extremely Strong (Native MCP Protocol Support)',
+                'use-cases': 'Typical Use Case Comparison',
+                'local-model-testing': 'Local New Model Testing',
+                'local-model-testing-desc': '<strong>Recommended:</strong> LM Studio<br><strong>Reason:</strong> Intuitive GUI, one-click download and run models',
+                'prompt-testing': 'Prompt Debugging / Model Effect Comparison',
+                'prompt-testing-desc': '<strong>Recommended:</strong> LM Studio<br><strong>Reason:</strong> Visual interface便于快速调整和比较',
+                'teaching-demo': 'Teaching Demo / Offline Experience',
+                'teaching-demo-desc': '<strong>Recommended:</strong> LM Studio<br><strong>Reason:</strong> User-friendly interface, suitable for showing to non-technical personnel',
+                'local-agent-dev': 'Local Agent Development',
+                'local-agent-dev-desc': '<strong>Recommended:</strong> Ollama<br><strong>Reason:</strong> Complete API support, suitable for workflow integration',
+                'backend-integration': 'Backend Service Integration',
+                'backend-integration-desc': '<strong>Recommended:</strong> Ollama / LocalAI<br><strong>Reason:</strong> Lightweight service, suitable for deployment as backend service',
+                'automated-reasoning': 'Automated Reasoning / Batch Processing',
+                'automated-reasoning-desc': '<strong>Recommended:</strong> Ollama<br><strong>Reason:</strong> Command line and API support, suitable for automation scripts',
+                'multimodal-dev': 'Multimodal Application Development',
+                'multimodal-dev-desc': '<strong>Recommended:</strong> LocalAI<br><strong>Reason:</strong> Supports text, image, voice and other multimodal capabilities',
+                'enterprise-deployment': 'Enterprise-Grade Private Deployment',
+                'enterprise-deployment-desc': '<strong>Recommended:</strong> LocalAI<br><strong>Reason:</strong> Docker deployment, fully compatible with OpenAI API',
+                'agent-architecture': 'Agent Collaboration Architecture Research',
+                'agent-architecture-desc': '<strong>Recommended:</strong> LocalAI<br><strong>Reason:</strong> Native MCP protocol support, can connect to external tools',
+                'how-to-choose': 'How to Choose',
+                'choose-lm-studio': 'Choose LM Studio if you are:',
+                'choose-lm-studio-list': 'AI beginner or non-technical user\nWant to quickly try and test new models\nNeed an intuitive graphical interface\nMainly for teaching demonstrations or personal learning\nDon\'t need to integrate models into other systems',
+                'choose-ollama': 'Choose Ollama if you are:',
+                'choose-ollama-list': 'Developer or engineer\nNeed to integrate models into applications or services\nHope to call models through API\nNeed to run models on servers or containers\nValue resource usage efficiency and stability',
+                'choose-localai': 'Choose LocalAI if you are:',
+                'choose-localai-list': 'Professional developer or DevOps engineer\nNeed multimodal AI capabilities (text, image, voice)\nHope to completely replace OpenAI API\nNeed enterprise-grade private deployment\nResearch agent collaboration architecture or MCP protocol',
+                'conclusion': 'Conclusion',
+                'conclusion-desc': 'LM Studio, Ollama, and LocalAI are all important tools promoting local LLM deployment and privacy AI applications, but they target different types of users and workflows. There\'s no absolute "which one is better" - the key is to choose the most suitable one based on your technical background, hardware resources, and project requirements. All of them can provide you with local language model inference capabilities without cloud calls or token-based payments.',
+                'conclusion-summary': 'In summary: LM Studio is suitable for beginners and non-technical users, providing an intuitive graphical interface; Ollama is suitable for developers and engineers, providing lightweight command line and API support; LocalAI is suitable for professional developers and enterprise users, providing a complete OpenAI API alternative and multimodal capabilities.',
+                'visit-lm-studio': 'Visit LM Studio Official Website',
+                'visit-ollama': 'Visit Ollama Official Website',
+                'visit-localai': 'Visit LocalAI Project Repository'
+            }
+        };
+
+        let currentLang = 'zh';
+
+        function changeLanguage(lang) {
+            currentLang = lang;
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    if (key.includes('-list')) {
+                        element.innerHTML = translations[lang][key].split('\n').map(item => `<li>${item}</li>`).join('');
+                    } else if (key.includes('-desc') || key === 'comparison-summary') {
+                        element.innerHTML = translations[lang][key];
+                    } else {
+                        element.textContent = translations[lang][key];
+                    }
+                }
+            });
+            document.title = translations[lang]['comparison-title'];
+            localStorage.setItem('language', lang);
+            // Update language toggle UI
+            const slider = document.getElementById('language-slider');
+            const text = document.getElementById('language-text');
+            if (slider && text) {
+                slider.className = lang === 'zh' ? 'inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-300 ease-in-out translate-x-6' : 'inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-300 ease-in-out translate-x-1';
+                text.textContent = lang === 'zh' ? 'EN' : '中';
+            }
+        }
+
+        // 初始化语言
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedLanguage = localStorage.getItem('language') || 'zh';
+            currentLang = savedLanguage;
+            changeLanguage(savedLanguage);
+            
+            // Add event listener for language toggle
+            document.getElementById('language-toggle').addEventListener('click', () => {
+                const newLang = currentLang === 'zh' ? 'en' : 'zh';
+                changeLanguage(newLang);
+            });
+        });
+    </script>
+</body>
+</html>
