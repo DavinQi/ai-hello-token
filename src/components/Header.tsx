@@ -12,12 +12,14 @@ const Header: React.FC = () => {
     <header className="bg-primary text-white sticky top-0 z-50 shadow-md">
       <div className="container-custom py-4 flex justify-between items-center">
         <div className="flex items-center space-x-3">
-          <img 
-            src="https://img.cdn.apipost.cn/client/user/1391646/avatar/efd43da5e950a2d9578cf0052e99c37769e72019c3a89.png" 
-            alt="Hello Token" 
-            className="w-10 h-10 object-contain animate-pulse-slow"
-          />
-          <h1 className="text-2xl font-bold">Hello Token</h1>
+          <a href="#all" className="flex items-center space-x-3">
+            <img 
+              src="https://img.cdn.apipost.cn/client/user/1391646/avatar/efd43da5e950a2d9578cf0052e99c37769e72019c3a89.png" 
+              alt="Hello Token" 
+              className="w-10 h-10 object-contain animate-pulse-slow"
+            />
+            <h1 className="text-2xl font-bold">Hello Token</h1>
+          </a>
         </div>
         <div className="flex items-center space-x-8">
           <nav className="hidden md:flex space-x-8">
@@ -30,9 +32,15 @@ const Header: React.FC = () => {
           </nav>
           <button 
             onClick={toggleLanguage}
-            className="flex items-center space-x-2 text-white hover:text-white/80 transition-colors duration-300 px-4 py-2 rounded-lg border border-white/30 hover:border-white"
+            className="relative inline-flex items-center h-6 rounded-full w-11 transition-colors duration-300 ease-in-out bg-white/20 hover:bg-white/30"
           >
-            <span>{language === 'zh' ? 'EN' : '中文'}</span>
+            <span className="sr-only">Toggle language</span>
+            <span 
+              className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-300 ease-in-out ${language === 'zh' ? 'translate-x-6' : 'translate-x-1'}`}
+            ></span>
+            <span className="absolute inset-y-0 left-0 flex items-center pl-2 text-xs font-medium text-white">
+              {language === 'zh' ? 'EN' : '中'}
+            </span>
           </button>
           <button className="md:hidden text-white hover:text-white/80 transition-colors duration-300">
             <i className="fa fa-bars text-2xl"></i>

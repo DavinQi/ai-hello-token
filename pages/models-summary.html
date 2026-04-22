@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>本地大模型 Top 10 详细总结</title>
+    <title>本地大模型 Top 20 详细总结</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <script>
@@ -24,6 +24,392 @@
                 },
             }
         }
+    </script>
+    <script>
+        const translations = {
+            zh: {
+                'nav.home': '首页',
+                'nav.local': '本地搭建',
+                'modelsSummary.title': '本地大模型 Top 20 详细总结',
+                'modelsSummary.subtitle': '截至 2026年4月，本地部署大模型已非常成熟，量化技术、MoE架构极大降低了硬件门槛。以下是综合性能、速度、硬件需求、场景适配的 Top20 本地模型清单。',
+                'modelsSummary.section1.title': '解密量化：小型 LLM 如何适应中等硬件',
+                'modelsSummary.section1.intro': '在深入了解最佳模型之前，让我们分解让本地 LLM 成为可能的技术栈。其秘诀在于量化——一种将模型权重从16位或32位浮点数缩减为4位或8位整数的过程，从而大幅减少内存需求而不对质量造成重大影响。',
+                'modelsSummary.section1.tech.title': '关键技术概念',
+                'modelsSummary.section1.tech.vram': 'VRAM vs. RAM',
+                'modelsSummary.section1.tech.vramDesc': 'VRAM（在你的GPU上）速度快，适合LLM推理；RAM（系统内存）较慢但更丰富。为了获得最佳效果，请将模型保留在VRAM中。',
+                'modelsSummary.section1.tech.gguf': 'GGUF格式',
+                'modelsSummary.section1.tech.ggufDesc': '量化模型的首选格式，兼容大多数本地推理引擎。',
+                'modelsSummary.section1.tech.quant': '量化类型',
+                'modelsSummary.section1.tech.quantDesc': 'Q4_K_M 是质量和效率的完美平衡；Q2_K 或 IQ3_XS 节省更多空间但可能降低输出质量。',
+                'modelsSummary.section1.tech.overhead': '内存开销',
+                'modelsSummary.section1.tech.overheadDesc': '始终预留模型文件大小的1.2倍来考虑激活和提示上下文。',
+                'modelsSummary.section2.title': '本地大模型 Top 20 总览（2026.4）',
+                'modelsSummary.section2.tier1': '第一梯队：旗舰级（35B+，专业场景）',
+                'modelsSummary.section2.tier2': '第二梯队：高性能（13B-34B，主流配置）',
+                'modelsSummary.section2.tier3': '第三梯队：性价比（7B-14B，主流显卡）',
+                'modelsSummary.section2.tier4': '第四梯队：轻量入门（≤7B，笔记本/CPU）',
+                'modelsSummary.section3.title': '硬件配置要求',
+                'modelsSummary.section3.hardware.title': '按参数规模（量化：GGUF Q4_K_M 主流）',
+                'modelsSummary.section3.hardware.param': '参数规模',
+                'modelsSummary.section3.hardware.minVRAM': '最低显存',
+                'modelsSummary.section3.hardware.recVRAM': '推荐显存',
+                'modelsSummary.section3.hardware.ram': '系统内存',
+                'modelsSummary.section3.hardware.gpu': '推荐显卡',
+                'modelsSummary.section3.hardware.speed': '速度参考',
+                'modelsSummary.section4.title': '场景适配',
+                'modelsSummary.section4.agent': '跑智能体（Agent）最佳',
+                'modelsSummary.section4.code': '跑编程（Code）最佳',
+                'modelsSummary.section4.qa': '纯问答/对话/日常',
+                'modelsSummary.section5.title': '选型建议',
+                'modelsSummary.section6.title': '结语',
+                'footer.copyright': '© 2024 Hello Token. 保留所有权利.',
+                'model.bestFor': '最佳用途',
+                'model.memory': '内存需求',
+                'model.ollama': 'Ollama 命令',
+                'model.huggingface': 'Hugging Face',
+                'model.ollamalib': 'Ollama 库',
+                'model.speed': '速度',
+                'model.pros': '优点',
+                'model.cons': '缺点',
+                'modelsSummary.conclusion.title': '结语',
+                'modelsSummary.conclusion.text1': '由于先进的量化和模型优化技术，现在即使在普通的笔记本电脑或台式机上也能运行功能强大的大语言模型。本文介绍的20个模型都经过精心选择，确保它们在不同硬件配置下都能提供出色的性能。',
+                'modelsSummary.conclusion.text2': '无论你是开发者、学生还是研究人员，这些本地模型都能为你提供隐私、高效的AI能力，无需依赖云服务和高昂的订阅费用。选择最适合你硬件和需求的模型，开始你的本地AI之旅吧！',
+                'modelsSummary.cpu.title': 'CPU 纯跑（无显卡）',
+                'modelsSummary.cpu.32gb': '32GB 内存：流畅跑 7B、可跑 13B (Q4) → 10–20 token/s',
+                'modelsSummary.cpu.64gb': '64GB 内存：流畅跑 13B–14B、可跑 24B–34B (Q3) → 8–15 token/s',
+                'modelsSummary.cpu.req': '要求：双通道 DDR5、关闭后台、用 Ollama/LM Studio',
+                'modelsSummary.hardware.7b': '7B',
+                'modelsSummary.hardware.7b.min': '6GB',
+                'modelsSummary.hardware.7b.rec': '8GB+',
+                'modelsSummary.hardware.7b.ram': '16GB+',
+                'modelsSummary.hardware.7b.gpu': 'RTX 4060/3060',
+                'modelsSummary.hardware.7b.speed': '30–60 token/s',
+                'modelsSummary.hardware.13b': '13B–14B',
+                'modelsSummary.hardware.13b.min': '10GB',
+                'modelsSummary.hardware.13b.rec': '16GB+',
+                'modelsSummary.hardware.13b.ram': '32GB+',
+                'modelsSummary.hardware.13b.gpu': 'RTX 4070 Ti/4080',
+                'modelsSummary.hardware.13b.speed': '20–40 token/s',
+                'modelsSummary.hardware.24b': '24B–34B',
+                'modelsSummary.hardware.24b.min': '16GB',
+                'modelsSummary.hardware.24b.rec': '24GB+',
+                'modelsSummary.hardware.24b.ram': '64GB+',
+                'modelsSummary.hardware.24b.gpu': 'RTX 4090/4090 Ti',
+                'modelsSummary.hardware.24b.speed': '10–25 token/s',
+                'modelsSummary.hardware.35b': '35B–70B (MoE)',
+                'modelsSummary.hardware.35b.min': '20GB',
+                'modelsSummary.hardware.35b.rec': '32GB+',
+                'modelsSummary.hardware.35b.ram': '96GB+',
+                'modelsSummary.hardware.35b.gpu': 'A100/4090×2',
+                'modelsSummary.hardware.35b.speed': '8–18 token/s',
+                'modelsSummary.hardware.70b': '70B+ (FP16)',
+                'modelsSummary.hardware.70b.min': '40GB+',
+                'modelsSummary.hardware.70b.rec': '80GB+',
+                'modelsSummary.hardware.70b.ram': '128GB+',
+                'modelsSummary.hardware.70b.gpu': '双A100/H100',
+                'modelsSummary.hardware.70b.speed': '5–12 token/s',
+                'model.1.name': 'GLM-5.1 (397B-A17B MoE)',
+                'model.1.desc': '智谱开源，国产最强',
+                'model.1.speed': '速度：8–12 token/s',
+                'model.2.name': 'Qwen 3.6-35B-A3B (MoE)',
+                'model.2.desc': '阿里千问，智能体/编程强',
+                'model.2.speed': '速度：10–18 token/s',
+                'model.3.name': 'Llama 4-70B (FP16/GGUF)',
+                'model.3.desc': 'Meta，通用标杆',
+                'model.3.speed': '速度：7–15 token/s',
+                'model.4.name': 'MiniMax M2.7 (230B MoE)',
+                'model.4.desc': '多智能体、复杂编程',
+                'model.4.speed': '速度：9–16 token/s',
+                'model.5.name': 'DeepSeek-V4-67B (MoE)',
+                'model.5.desc': '数学/代码/推理强',
+                'model.5.speed': '速度：10–18 token/s',
+                'model.6.name': 'Qwen 3.5-34B-Chat',
+                'model.6.desc': '中文/代码/智能体均衡',
+                'model.6.speed': '速度：15–25 token/s',
+                'model.7.name': 'Mistral Large 2-34B',
+                'model.7.desc': '速度快、逻辑强',
+                'model.7.speed': '速度：20–30 token/s',
+                'model.8.name': 'Gemma-4-27B',
+                'model.8.desc': 'Google，安全/合规/稳定',
+                'model.8.speed': '速度：18–28 token/s',
+                'model.9.name': 'Yi-34B-Chat-v2',
+                'model.9.desc': '01.AI，长文本/中文',
+                'model.9.speed': '速度：14–22 token/s',
+                'model.10.name': 'Claude 3.5 Haiku',
+                'model.10.desc': '低幻觉、长上下文',
+                'model.10.speed': '速度：12–20 token/s',
+                'model.11.name': 'Qwen 3.5-14B-Chat',
+                'model.11.desc': '中文最强小模型',
+                'model.11.speed': '速度：25–40 token/s',
+                'model.12.name': 'Llama 4-13B',
+                'model.12.desc': '速度/质量均衡',
+                'model.12.speed': '速度：30–50 token/s',
+                'model.13.name': 'Mistral Small-12B',
+                'model.13.desc': '极快、低资源',
+                'model.13.speed': '速度：35–50 token/s',
+                'model.14.name': 'GLM-4-9B-Chat',
+                'model.14.desc': '智谱轻量、稳定',
+                'model.14.speed': '速度：32–45 token/s',
+                'model.15.name': 'DeepSeek-R1-7B',
+                'model.15.desc': '代码/推理入门首选',
+                'model.15.speed': '速度：40–60 token/s',
+                'model.16.name': 'Qwen 3.5-7B-Chat',
+                'model.16.desc': '中文日常/轻代码',
+                'model.16.speed': '速度：45–65 token/s',
+                'model.17.name': 'Llama 4-7B',
+                'model.17.desc': '通用、生态好',
+                'model.17.speed': '速度：48–68 token/s',
+                'model.18.name': 'Gemma-3-6B',
+                'model.18.desc': 'Google，安全/教育',
+                'model.18.speed': '速度：50–70 token/s',
+                'model.19.name': 'MiniMax M2.5-7B',
+                'model.19.desc': '智能体轻量版',
+                'model.19.speed': '速度：42–60 token/s',
+                'model.20.name': 'ByteDance Doubao-7B',
+                'model.20.desc': '豆包开源，对话流畅',
+                'model.20.speed': '速度：48–68 token/s',
+                'scenario.agent.top1': 'Top1: MiniMax M2.7 — 多智能体调度、复杂任务、SWE-Bench 52.7分',
+                'scenario.agent.top2': 'Top2: GLM-5.1 — 8小时长程、企业级、稳定性强',
+                'scenario.agent.top3': 'Top3: Qwen 3.6-35B — 终端命令、任务拆解、NL2Repo强',
+                'scenario.agent.eco': '性价比: Qwen 3.5-14B、Mistral Small-12B',
+                'scenario.code.top1': 'Top1: Qwen 3.6-35B/Plus — Code Arena全球第二、Terminal-Bench 51.5',
+                'scenario.code.top2': 'Top2: GLM-5.1 — 工程架构、多文件、长代码最优',
+                'scenario.code.top3': 'Top3: DeepSeek-V4-67B — 数学推理+代码、低幻觉',
+                'scenario.code.starter': '入门: DeepSeek-R1-7B、Qwen 3.5-7B',
+                'scenario.qa.chinese': '中文最佳: Qwen 3.5-34B/14B/7B、GLM-5.1、豆包-7B',
+                'scenario.qa.english': '英文最佳: Llama 4-70B/13B、Mistral Large 2',
+                'scenario.qa.longtext': '长文本: Yi-34B、Claude 3.5 Haiku 本地版',
+                'scenario.qa.safe': '安全/合规: Gemma-4/3、GLM-4',
+                'selection.4060.title': 'RTX 4060 8GB / 16GB内存',
+                'selection.4060.value': '选 Qwen 3.5-7B/14B、Llama 4-13B',
+                'selection.4080.title': 'RTX 4080/4090 16–24GB / 32–64GB',
+                'selection.4080.value': '选 Qwen 3.5-34B、Mistral Large 2、Gemma-4-27B',
+                'selection.pro.title': '专业编程/智能体',
+                'selection.pro.value': '选 Qwen 3.6-35B、GLM-5.1、MiniMax M2.7',
+                'selection.cpu32.title': '纯CPU 32GB',
+                'selection.cpu32.value': '选 Qwen 3.5-7B/14B (Q4)、Llama 4-7B',
+                'selection.cpu64.title': '纯CPU 64GB',
+                'selection.cpu64.value': '选 Qwen 3.5-34B (Q3)、GLM-4-9B'
+            },
+            en: {
+                'nav.home': 'Home',
+                'nav.local': 'Local Setup',
+                'modelsSummary.title': 'Local LLM Top 20 Detailed Summary',
+                'modelsSummary.subtitle': 'As of April 2026, local LLM deployment has become very mature, with quantization technology and MoE architecture greatly reducing hardware barriers. Here is the Top 20 local model list with comprehensive performance, speed, hardware requirements, and scenario adaptation.',
+                'modelsSummary.section1.title': 'Decoding Quantization: How Small LLMs Fit on Medium Hardware',
+                'modelsSummary.section1.intro': 'Before diving into the best models, let\'s break down the tech stack that makes local LLMs possible. The secret is quantization—a process that reduces model weights from 16-bit or 32-bit floating points to 4-bit or 8-bit integers, dramatically reducing memory requirements without significant quality impact.',
+                'modelsSummary.section1.tech.title': 'Key Technical Concepts',
+                'modelsSummary.section1.tech.vram': 'VRAM vs. RAM',
+                'modelsSummary.section1.tech.vramDesc': 'VRAM (on your GPU) is fast and ideal for LLM inference; RAM (system memory) is slower but more abundant. For best results, keep models in VRAM.',
+                'modelsSummary.section1.tech.gguf': 'GGUF Format',
+                'modelsSummary.section1.tech.ggufDesc': 'The preferred format for quantized models, compatible with most local inference engines.',
+                'modelsSummary.section1.tech.quant': 'Quantization Types',
+                'modelsSummary.section1.tech.quantDesc': 'Q4_K_M strikes the perfect balance of quality and efficiency; Q2_K or IQ3_XS saves more space but may reduce output quality.',
+                'modelsSummary.section1.tech.overhead': 'Memory Overhead',
+                'modelsSummary.section1.tech.overheadDesc': 'Always reserve 1.2x the model file size to account for activations and prompt context.',
+                'modelsSummary.section2.title': 'Local LLM Top 20 Overview (2026.4)',
+                'modelsSummary.section2.tier1': 'Tier 1: Flagship (35B+, Professional Scenarios)',
+                'modelsSummary.section2.tier2': 'Tier 2: High Performance (13B-34B, Mainstream Config)',
+                'modelsSummary.section2.tier3': 'Tier 3: Cost-effective (7B-14B, Mainstream GPUs)',
+                'modelsSummary.section2.tier4': 'Tier 4: Lightweight Entry (≤7B, Laptop/CPU)',
+                'modelsSummary.section3.title': 'Hardware Requirements',
+                'modelsSummary.section3.hardware.title': 'By Parameter Size (Quantization: GGUF Q4_K_M Standard)',
+                'modelsSummary.section3.hardware.param': 'Param Size',
+                'modelsSummary.section3.hardware.minVRAM': 'Min VRAM',
+                'modelsSummary.section3.hardware.recVRAM': 'Rec VRAM',
+                'modelsSummary.section3.hardware.ram': 'System RAM',
+                'modelsSummary.section3.hardware.gpu': 'Rec GPU',
+                'modelsSummary.section3.hardware.speed': 'Speed Ref',
+                'modelsSummary.section4.title': 'Scenario Adaptation',
+                'modelsSummary.section4.agent': 'Best for Agent',
+                'modelsSummary.section4.code': 'Best for Code',
+                'modelsSummary.section4.qa': 'Q&A/Daily Use',
+                'modelsSummary.section5.title': 'Selection Guide',
+                'modelsSummary.section6.title': 'Conclusion',
+                'footer.copyright': '© 2024 Hello Token. All rights reserved.',
+                'model.bestFor': 'Best For',
+                'model.memory': 'Memory',
+                'model.ollama': 'Ollama Cmd',
+                'model.huggingface': 'Hugging Face',
+                'model.ollamalib': 'Ollama Lib',
+                'model.speed': 'Speed',
+                'model.pros': 'Pros',
+                'model.cons': 'Cons',
+                'modelsSummary.conclusion.title': 'Conclusion',
+                'modelsSummary.conclusion.text1': 'Thanks to advanced quantization and model optimization techniques, you can now run powerful large language models on ordinary laptops or desktops. The 20 models introduced in this article have been carefully selected to ensure they deliver excellent performance across different hardware configurations.',
+                'modelsSummary.conclusion.text2': 'Whether you\'re a developer, student, or researcher, these local models can provide you with private, efficient AI capabilities without relying on cloud services and expensive subscription fees. Choose the model that best suits your hardware and needs, and start your local AI journey!',
+                'modelsSummary.cpu.title': 'CPU Only (No GPU)',
+                'modelsSummary.cpu.32gb': '32GB RAM: Smooth 7B, Can run 13B (Q4) → 10–20 token/s',
+                'modelsSummary.cpu.64gb': '64GB RAM: Smooth 13B–14B, Can run 24B–34B (Q3) → 8–15 token/s',
+                'modelsSummary.cpu.req': 'Requirements: Dual channel DDR5, close background apps, use Ollama/LM Studio',
+                'modelsSummary.hardware.7b': '7B',
+                'modelsSummary.hardware.7b.min': '6GB',
+                'modelsSummary.hardware.7b.rec': '8GB+',
+                'modelsSummary.hardware.7b.ram': '16GB+',
+                'modelsSummary.hardware.7b.gpu': 'RTX 4060/3060',
+                'modelsSummary.hardware.7b.speed': '30–60 token/s',
+                'modelsSummary.hardware.13b': '13B–14B',
+                'modelsSummary.hardware.13b.min': '10GB',
+                'modelsSummary.hardware.13b.rec': '16GB+',
+                'modelsSummary.hardware.13b.ram': '32GB+',
+                'modelsSummary.hardware.13b.gpu': 'RTX 4070 Ti/4080',
+                'modelsSummary.hardware.13b.speed': '20–40 token/s',
+                'modelsSummary.hardware.24b': '24B–34B',
+                'modelsSummary.hardware.24b.min': '16GB',
+                'modelsSummary.hardware.24b.rec': '24GB+',
+                'modelsSummary.hardware.24b.ram': '64GB+',
+                'modelsSummary.hardware.24b.gpu': 'RTX 4090/4090 Ti',
+                'modelsSummary.hardware.24b.speed': '10–25 token/s',
+                'modelsSummary.hardware.35b': '35B–70B (MoE)',
+                'modelsSummary.hardware.35b.min': '20GB',
+                'modelsSummary.hardware.35b.rec': '32GB+',
+                'modelsSummary.hardware.35b.ram': '96GB+',
+                'modelsSummary.hardware.35b.gpu': 'A100/4090×2',
+                'modelsSummary.hardware.35b.speed': '8–18 token/s',
+                'modelsSummary.hardware.70b': '70B+ (FP16)',
+                'modelsSummary.hardware.70b.min': '40GB+',
+                'modelsSummary.hardware.70b.rec': '80GB+',
+                'modelsSummary.hardware.70b.ram': '128GB+',
+                'modelsSummary.hardware.70b.gpu': 'Dual A100/H100',
+                'modelsSummary.hardware.70b.speed': '5–12 token/s',
+                'model.1.name': 'GLM-5.1 (397B-A17B MoE)',
+                'model.1.desc': 'Zhipu open source, strongest domestic',
+                'model.1.speed': 'Speed: 8–12 token/s',
+                'model.2.name': 'Qwen 3.6-35B-A3B (MoE)',
+                'model.2.desc': 'Alibaba Qwen, strong agent/code',
+                'model.2.speed': 'Speed: 10–18 token/s',
+                'model.3.name': 'Llama 4-70B (FP16/GGUF)',
+                'model.3.desc': 'Meta, general benchmark',
+                'model.3.speed': 'Speed: 7–15 token/s',
+                'model.4.name': 'MiniMax M2.7 (230B MoE)',
+                'model.4.desc': 'Multi-agent, complex programming',
+                'model.4.speed': 'Speed: 9–16 token/s',
+                'model.5.name': 'DeepSeek-V4-67B (MoE)',
+                'model.5.desc': 'Math/code/reasoning strong',
+                'model.5.speed': 'Speed: 10–18 token/s',
+                'model.6.name': 'Qwen 3.5-34B-Chat',
+                'model.6.desc': 'Balanced Chinese/code/agent',
+                'model.6.speed': 'Speed: 15–25 token/s',
+                'model.7.name': 'Mistral Large 2-34B',
+                'model.7.desc': 'Fast speed, strong logic',
+                'model.7.speed': 'Speed: 20–30 token/s',
+                'model.8.name': 'Gemma-4-27B',
+                'model.8.desc': 'Google, safe/compliant/stable',
+                'model.8.speed': 'Speed: 18–28 token/s',
+                'model.9.name': 'Yi-34B-Chat-v2',
+                'model.9.desc': '01.AI, long text/Chinese',
+                'model.9.speed': 'Speed: 14–22 token/s',
+                'model.10.name': 'Claude 3.5 Haiku',
+                'model.10.desc': 'Low hallucination, long context',
+                'model.10.speed': 'Speed: 12–20 token/s',
+                'model.11.name': 'Qwen 3.5-14B-Chat',
+                'model.11.desc': 'Strongest Chinese small model',
+                'model.11.speed': 'Speed: 25–40 token/s',
+                'model.12.name': 'Llama 4-13B',
+                'model.12.desc': 'Balanced speed/quality',
+                'model.12.speed': 'Speed: 30–50 token/s',
+                'model.13.name': 'Mistral Small-12B',
+                'model.13.desc': 'Extremely fast, low resource',
+                'model.13.speed': 'Speed: 35–50 token/s',
+                'model.14.name': 'GLM-4-9B-Chat',
+                'model.14.desc': 'Zhipu lightweight, stable',
+                'model.14.speed': 'Speed: 32–45 token/s',
+                'model.15.name': 'DeepSeek-R1-7B',
+                'model.15.desc': 'Code/reasoning entry choice',
+                'model.15.speed': 'Speed: 40–60 token/s',
+                'model.16.name': 'Qwen 3.5-7B-Chat',
+                'model.16.desc': 'Chinese daily/light code',
+                'model.16.speed': 'Speed: 45–65 token/s',
+                'model.17.name': 'Llama 4-7B',
+                'model.17.desc': 'General, good ecosystem',
+                'model.17.speed': 'Speed: 48–68 token/s',
+                'model.18.name': 'Gemma-3-6B',
+                'model.18.desc': 'Google, safe/educational',
+                'model.18.speed': 'Speed: 50–70 token/s',
+                'model.19.name': 'MiniMax M2.5-7B',
+                'model.19.desc': 'Lightweight agent version',
+                'model.19.speed': 'Speed: 42–60 token/s',
+                'model.20.name': 'ByteDance Doubao-7B',
+                'model.20.desc': 'Doubao open source, smooth chat',
+                'model.20.speed': 'Speed: 48–68 token/s',
+                'scenario.agent.top1': 'Top1: MiniMax M2.7 — Multi-agent scheduling, complex tasks, SWE-Bench 52.7',
+                'scenario.agent.top2': 'Top2: GLM-5.1 — 8-hour long tasks, enterprise-grade, strong stability',
+                'scenario.agent.top3': 'Top3: Qwen 3.6-35B — Terminal commands, task decomposition, strong NL2Repo',
+                'scenario.agent.eco': 'Cost-effective: Qwen 3.5-14B, Mistral Small-12B',
+                'scenario.code.top1': 'Top1: Qwen 3.6-35B/Plus — Code Arena global #2, Terminal-Bench 51.5',
+                'scenario.code.top2': 'Top2: GLM-5.1 — Best for engineering architecture, multi-file, long code',
+                'scenario.code.top3': 'Top3: DeepSeek-V4-67B — Math reasoning + code, low hallucination',
+                'scenario.code.starter': 'Starter: DeepSeek-R1-7B, Qwen 3.5-7B',
+                'scenario.qa.chinese': 'Best for Chinese: Qwen 3.5-34B/14B/7B, GLM-5.1, Doubao-7B',
+                'scenario.qa.english': 'Best for English: Llama 4-70B/13B, Mistral Large 2',
+                'scenario.qa.longtext': 'Long text: Yi-34B, Claude 3.5 Haiku local version',
+                'scenario.qa.safe': 'Safe/compliant: Gemma-4/3, GLM-4',
+                'selection.4060.title': 'RTX 4060 8GB / 16GB RAM',
+                'selection.4060.value': 'Choose Qwen 3.5-7B/14B, Llama 4-13B',
+                'selection.4080.title': 'RTX 4080/4090 16–24GB / 32–64GB',
+                'selection.4080.value': 'Choose Qwen 3.5-34B, Mistral Large 2, Gemma-4-27B',
+                'selection.pro.title': 'Professional Programming/Agent',
+                'selection.pro.value': 'Choose Qwen 3.6-35B, GLM-5.1, MiniMax M2.7',
+                'selection.cpu32.title': 'CPU Only 32GB',
+                'selection.cpu32.value': 'Choose Qwen 3.5-7B/14B (Q4), Llama 4-7B',
+                'selection.cpu64.title': 'CPU Only 64GB',
+                'selection.cpu64.value': 'Choose Qwen 3.5-34B (Q3), GLM-4-9B'
+            }
+        };
+
+        let currentLang = 'zh';
+
+        // 从 localStorage 读取语言偏好
+        function initLanguage() {
+            try {
+                const savedLanguage = localStorage.getItem('language');
+                console.log('Saved language from localStorage:', savedLanguage);
+                if (savedLanguage === 'zh' || savedLanguage === 'en') {
+                    currentLang = savedLanguage;
+                    console.log('Language set to:', currentLang);
+                }
+            } catch (error) {
+                console.error('Error reading localStorage:', error);
+            }
+        }
+
+        function changeLanguage(lang) {
+            currentLang = lang;
+            try {
+                localStorage.setItem('language', lang);
+                console.log('Language saved to localStorage:', lang);
+            } catch (error) {
+                console.error('Error writing to localStorage:', error);
+            }
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    el.textContent = translations[lang][key];
+                }
+            });
+            // Update language toggle UI
+            const slider = document.getElementById('language-slider');
+            const text = document.getElementById('language-text');
+            if (slider && text) {
+                slider.className = lang === 'zh' ? 'inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-300 ease-in-out translate-x-6' : 'inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-300 ease-in-out translate-x-1';
+                text.textContent = lang === 'zh' ? 'EN' : '中';
+            }
+        }
+
+        // Initialize translation immediately when script loads
+        initLanguage();
+
+        // Wait for DOM to be ready before adding event listeners and applying translations
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM loaded, applying language:', currentLang);
+            changeLanguage(currentLang);
+            
+            // Add event listener for language toggle
+            document.getElementById('language-toggle').addEventListener('click', () => {
+                const newLang = currentLang === 'zh' ? 'en' : 'zh';
+                changeLanguage(newLang);
+            });
+        });
     </script>
     <style>
         .bg-gradient-primary {
@@ -86,19 +472,28 @@
     <header class="bg-white shadow-sm sticky top-0 z-50">
         <div class="container-custom py-4 flex justify-between items-center">
             <div class="flex items-center space-x-3">
+                <a href="/" class="flex items-center space-x-3">
                     <img 
                         src="https://img.cdn.apipost.cn/client/user/1391646/avatar/efd43da5e950a2d9578cf0052e99c37769e72019c3a89.png" 
                         alt="Hello Token" 
                         class="w-10 h-10 object-contain"
                     />
                     <h1 class="text-2xl font-bold text-gradient">Hello Token</h1>
+                </a>
                 </div>
-            <nav class="hidden md:flex space-x-8">
-                <a href="/" class="text-primary font-medium hover:scale-105 transition-transform duration-300">首页</a>
-                <a href="/" class="text-neutral hover:text-primary transition-colors duration-300">免费模型</a>
-                <a href="/" class="text-neutral hover:text-primary transition-colors duration-300">付费模型</a>
-                <a href="/" class="text-neutral hover:text-primary transition-colors duration-300">本地搭建</a>
-            </nav>
+            <div class="flex items-center space-x-8">
+                <nav class="hidden md:flex space-x-8">
+                    <a href="/" class="text-primary font-medium hover:scale-105 transition-transform duration-300" data-i18n="nav.home">首页</a>
+                    <a href="/" class="text-neutral hover:text-primary transition-colors duration-300">免费模型</a>
+                    <a href="/" class="text-neutral hover:text-primary transition-colors duration-300">付费模型</a>
+                    <a href="/" class="text-neutral hover:text-primary transition-colors duration-300" data-i18n="nav.local">本地搭建</a>
+                </nav>
+                <button id="language-toggle" class="relative inline-flex items-center h-6 rounded-full w-11 transition-colors duration-300 ease-in-out bg-primary/20 hover:bg-primary/30">
+                    <span class="sr-only">Toggle language</span>
+                    <span id="language-slider" class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-300 ease-in-out translate-x-1"></span>
+                    <span id="language-text" class="absolute inset-y-0 left-0 flex items-center pl-2 text-xs font-medium text-neutral-dark">中</span>
+                </button>
+            </div>
             <button class="md:hidden text-neutral-dark hover:text-primary transition-colors duration-300">
                 <i class="fa fa-bars text-2xl"></i>
             </button>
@@ -110,412 +505,322 @@
         <div class="container-custom">
             <!-- Hero Section -->
             <div class="bg-gradient-primary text-white rounded-2xl p-12 mb-12 text-center">
-                <h2 class="text-3xl md:text-4xl font-bold mb-4">本地大模型 Top 10 详细总结</h2>
-                <p class="text-lg opacity-90 max-w-2xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4" data-i18n="modelsSummary.title">本地大模型 Top 20 详细总结</h2>
+                <p class="text-lg opacity-90 max-w-2xl mx-auto" data-i18n="modelsSummary.subtitle">
                     由于先进的量化和模型优化，你可以在笔记本电脑或台式机上运行强大的大语言模型，即使你的内存不足8GB
                 </p>
             </div>
 
             <!-- Introduction -->
             <section class="bg-white rounded-2xl shadow-lg p-8 mb-12">
-                <h3 class="text-2xl font-bold text-neutral-dark mb-6">解密量化：小型 LLM 如何适应中等硬件</h3>
-                <p class="text-neutral leading-relaxed mb-6">
+                <h3 class="text-2xl font-bold text-neutral-dark mb-6" data-i18n="modelsSummary.section1.title">解密量化：小型 LLM 如何适应中等硬件</h3>
+                <p class="text-neutral leading-relaxed mb-6" data-i18n="modelsSummary.section1.intro">
                     在深入了解最佳模型之前，让我们分解让本地 LLM 成为可能的技术栈。其秘诀在于量化——一种将模型权重从16位或32位浮点数缩减为4位或8位整数的过程，从而大幅减少内存需求而不对质量造成重大影响。例如，一个原本需要14GB FP16的7B参数模型，通过4位量化可以在只有4-5GB的内存中运行。
                 </p>
                 
-                <h4 class="text-xl font-semibold text-neutral-dark mb-4">关键技术概念</h4>
+                <h4 class="text-xl font-semibold text-neutral-dark mb-4" data-i18n="modelsSummary.section1.tech.title">关键技术概念</h4>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="bg-neutral-light rounded-xl p-6">
-                        <h5 class="font-semibold text-neutral-dark mb-3">VRAM vs. RAM</h5>
-                        <p class="text-neutral text-sm">
+                        <h5 class="font-semibold text-neutral-dark mb-3" data-i18n="modelsSummary.section1.tech.vram">VRAM vs. RAM</h5>
+                        <p class="text-neutral text-sm" data-i18n="modelsSummary.section1.tech.vramDesc">
                             VRAM（在你的GPU上）速度快，适合LLM推理；RAM（系统内存）较慢但更丰富。为了获得最佳效果，请将模型保留在VRAM中。
                         </p>
                     </div>
                     <div class="bg-neutral-light rounded-xl p-6">
-                        <h5 class="font-semibold text-neutral-dark mb-3">GGUF格式</h5>
-                        <p class="text-neutral text-sm">
+                        <h5 class="font-semibold text-neutral-dark mb-3" data-i18n="modelsSummary.section1.tech.gguf">GGUF格式</h5>
+                        <p class="text-neutral text-sm" data-i18n="modelsSummary.section1.tech.ggufDesc">
                             量化模型的首选格式，兼容大多数本地推理引擎。
                         </p>
                     </div>
                     <div class="bg-neutral-light rounded-xl p-6">
-                        <h5 class="font-semibold text-neutral-dark mb-3">量化类型</h5>
-                        <p class="text-neutral text-sm">
+                        <h5 class="font-semibold text-neutral-dark mb-3" data-i18n="modelsSummary.section1.tech.quant">量化类型</h5>
+                        <p class="text-neutral text-sm" data-i18n="modelsSummary.section1.tech.quantDesc">
                             Q4_K_M 是质量和效率的完美平衡；Q2_K 或 IQ3_XS 节省更多空间但可能降低输出质量。
                         </p>
                     </div>
                     <div class="bg-neutral-light rounded-xl p-6">
-                        <h5 class="font-semibold text-neutral-dark mb-3">内存开销</h5>
-                        <p class="text-neutral text-sm">
+                        <h5 class="font-semibold text-neutral-dark mb-3" data-i18n="modelsSummary.section1.tech.overhead">内存开销</h5>
+                        <p class="text-neutral text-sm" data-i18n="modelsSummary.section1.tech.overheadDesc">
                             始终预留模型文件大小的1.2倍来考虑激活和提示上下文。
                         </p>
                     </div>
                 </div>
             </section>
 
-            <!-- Top 10 Models -->
+            <!-- Top 20 Models Overview -->
             <section class="bg-white rounded-2xl shadow-lg p-8 mb-12">
-                <h3 class="text-2xl font-bold text-neutral-dark mb-6">最佳的 10 个小型本地 LLM（全部低于8GB！）</h3>
+                <h3 class="text-2xl font-bold text-neutral-dark mb-6" data-i18n="modelsSummary.section2.title">本地大模型 Top 20 总览（2026.4）</h3>
                 
-                <div class="space-y-8">
-                    <!-- Model 1 -->
-                    <div class="border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300">
-                        <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
-                            <h4 class="text-xl font-bold text-neutral-dark mb-2 md:mb-0">1、Llama 3.1 8B（量化版）</h4>
-                            <div class="flex items-center">
-                                <span class="text-sm bg-primary/10 text-primary px-3 py-1 rounded-full">8B 参数</span>
-                            </div>
+                <!-- Tier 1 -->
+                <div class="mb-8">
+                    <h4 class="text-xl font-semibold text-primary mb-4" data-i18n="modelsSummary.section2.tier1">第一梯队：旗舰级（35B+，专业场景）</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-5 border border-blue-100">
+                            <h5 class="font-bold text-neutral-dark mb-2" data-i18n="model.1.name">1. GLM-5.1 (397B-A17B MoE)</h5>
+                            <p class="text-sm text-neutral" data-i18n="model.1.desc">智谱开源，国产最强</p>
+                            <div class="mt-2 text-xs text-primary" data-i18n="model.1.speed">速度：8–12 token/s</div>
                         </div>
-                        <p class="text-neutral mb-4">
-                            Meta的Llama 3.1 8B是通用AI的佼佼者，拥有庞大的训练集和智能优化。像Q2_K（3.18GB文件，约7.2GB内存）和Q3_K_M（4.02GB文件，约7.98GB内存）这样的量化版本使其适用于大多数笔记本电脑。
-                        </p>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                            <div>
-                                <h5 class="text-sm font-medium text-neutral-dark mb-2">最佳用途</h5>
-                                <p class="text-sm text-neutral">聊天、代码、摘要和RAG任务</p>
-                            </div>
-                            <div>
-                                <h5 class="text-sm font-medium text-neutral-dark mb-2">内存需求</h5>
-                                <p class="text-sm text-neutral">Q2_K: ~7.2GB | Q3_K_M: ~7.98GB</p>
-                            </div>
-                            <div>
-                                <h5 class="text-sm font-medium text-neutral-dark mb-2">Ollama 命令</h5>
-                                <p class="text-sm text-neutral">ollama run llama3.1:8b</p>
-                            </div>
+                        <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-5 border border-blue-100">
+                            <h5 class="font-bold text-neutral-dark mb-2" data-i18n="model.2.name">2. Qwen 3.6-35B-A3B (MoE)</h5>
+                            <p class="text-sm text-neutral" data-i18n="model.2.desc">阿里千问，智能体/编程强</p>
+                            <div class="mt-2 text-xs text-primary" data-i18n="model.2.speed">速度：10–18 token/s</div>
                         </div>
-                        <div class="flex flex-wrap gap-3">
-                            <a href="https://huggingface.co/meta-llama" target="_blank" class="bg-neutral-light text-neutral-dark px-4 py-2 rounded-lg hover:bg-neutral transition-colors text-sm">
-                                <i class="fa fa-external-link mr-2"></i> Hugging Face
-                            </a>
-                            <a href="https://ollama.com/library/llama3.1" target="_blank" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors text-sm">
-                                <i class="fa fa-download mr-2"></i> Ollama 库
-                            </a>
+                        <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-5 border border-blue-100">
+                            <h5 class="font-bold text-neutral-dark mb-2" data-i18n="model.3.name">3. Llama 4-70B (FP16/GGUF)</h5>
+                            <p class="text-sm text-neutral" data-i18n="model.3.desc">Meta，通用标杆</p>
+                            <div class="mt-2 text-xs text-primary" data-i18n="model.3.speed">速度：7–15 token/s</div>
+                        </div>
+                        <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-5 border border-blue-100">
+                            <h5 class="font-bold text-neutral-dark mb-2" data-i18n="model.4.name">4. MiniMax M2.7 (230B MoE)</h5>
+                            <p class="text-sm text-neutral" data-i18n="model.4.desc">多智能体、复杂编程</p>
+                            <div class="mt-2 text-xs text-primary" data-i18n="model.4.speed">速度：9–16 token/s</div>
+                        </div>
+                        <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-5 border border-blue-100">
+                            <h5 class="font-bold text-neutral-dark mb-2" data-i18n="model.5.name">5. DeepSeek-V4-67B (MoE)</h5>
+                            <p class="text-sm text-neutral" data-i18n="model.5.desc">数学/代码/推理强</p>
+                            <div class="mt-2 text-xs text-primary" data-i18n="model.5.speed">速度：10–18 token/s</div>
                         </div>
                     </div>
-
-                    <!-- Model 2 -->
-                    <div class="border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300">
-                        <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
-                            <h4 class="text-xl font-bold text-neutral-dark mb-2 md:mb-0">2、Mistral 7B（量化版）</h4>
-                            <div class="flex items-center">
-                                <span class="text-sm bg-primary/10 text-primary px-3 py-1 rounded-full">7B 参数</span>
-                            </div>
+                </div>
+                
+                <!-- Tier 2 -->
+                <div class="mb-8">
+                    <h4 class="text-xl font-semibold text-secondary mb-4" data-i18n="modelsSummary.section2.tier2">第二梯队：高性能（13B-34B，主流配置）</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-5 border border-green-100">
+                            <h5 class="font-bold text-neutral-dark mb-2" data-i18n="model.6.name">6. Qwen 3.5-34B-Chat</h5>
+                            <p class="text-sm text-neutral" data-i18n="model.6.desc">中文/代码/智能体均衡</p>
+                            <div class="mt-2 text-xs text-secondary" data-i18n="model.6.speed">速度：15–25 token/s</div>
                         </div>
-                        <p class="text-neutral mb-4">
-                            Mistral 7B专为速度和效率而设计，采用GQA和SWA实现顶级的性能。Q4_K_M（4.37GB文件，6.87GB内存）和Q5_K_M（5.13GB文件，7.63GB内存）的量化版本非常适合8GB配置。
-                        </p>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                            <div>
-                                <h5 class="text-sm font-medium text-neutral-dark mb-2">最佳用途</h5>
-                                <p class="text-sm text-neutral">实时聊天机器人、边缘设备和商业用途</p>
-                            </div>
-                            <div>
-                                <h5 class="text-sm font-medium text-neutral-dark mb-2">内存需求</h5>
-                                <p class="text-sm text-neutral">Q4_K_M: ~6.87GB | Q5_K_M: ~7.63GB</p>
-                            </div>
-                            <div>
-                                <h5 class="text-sm font-medium text-neutral-dark mb-2">Ollama 命令</h5>
-                                <p class="text-sm text-neutral">ollama run mistral:7b</p>
-                            </div>
+                        <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-5 border border-green-100">
+                            <h5 class="font-bold text-neutral-dark mb-2" data-i18n="model.7.name">7. Mistral Large 2-34B</h5>
+                            <p class="text-sm text-neutral" data-i18n="model.7.desc">速度快、逻辑强</p>
+                            <div class="mt-2 text-xs text-secondary" data-i18n="model.7.speed">速度：20–30 token/s</div>
                         </div>
-                        <div class="flex flex-wrap gap-3">
-                            <a href="https://huggingface.co/mistralai" target="_blank" class="bg-neutral-light text-neutral-dark px-4 py-2 rounded-lg hover:bg-neutral transition-colors text-sm">
-                                <i class="fa fa-external-link mr-2"></i> Hugging Face
-                            </a>
-                            <a href="https://ollama.com/library/mistral" target="_blank" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors text-sm">
-                                <i class="fa fa-download mr-2"></i> Ollama 库
-                            </a>
+                        <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-5 border border-green-100">
+                            <h5 class="font-bold text-neutral-dark mb-2" data-i18n="model.8.name">8. Gemma-4-27B</h5>
+                            <p class="text-sm text-neutral" data-i18n="model.8.desc">Google，安全/合规/稳定</p>
+                            <div class="mt-2 text-xs text-secondary" data-i18n="model.8.speed">速度：18–28 token/s</div>
+                        </div>
+                        <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-5 border border-green-100">
+                            <h5 class="font-bold text-neutral-dark mb-2" data-i18n="model.9.name">9. Yi-34B-Chat-v2</h5>
+                            <p class="text-sm text-neutral" data-i18n="model.9.desc">01.AI，长文本/中文</p>
+                            <div class="mt-2 text-xs text-secondary" data-i18n="model.9.speed">速度：14–22 token/s</div>
+                        </div>
+                        <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-5 border border-green-100">
+                            <h5 class="font-bold text-neutral-dark mb-2" data-i18n="model.10.name">10. Claude 3.5 Haiku</h5>
+                            <p class="text-sm text-neutral" data-i18n="model.10.desc">低幻觉、长上下文</p>
+                            <div class="mt-2 text-xs text-secondary" data-i18n="model.10.speed">速度：12–20 token/s</div>
                         </div>
                     </div>
-
-                    <!-- Model 3 -->
-                    <div class="border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300">
-                        <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
-                            <h4 class="text-xl font-bold text-neutral-dark mb-2 md:mb-0">3、Gemma 3:4B（量化版）</h4>
-                            <div class="flex items-center">
-                                <span class="text-sm bg-primary/10 text-primary px-3 py-1 rounded-full">4B 参数</span>
-                            </div>
+                </div>
+                
+                <!-- Tier 3 -->
+                <div class="mb-8">
+                    <h4 class="text-xl font-semibold text-accent mb-4" data-i18n="modelsSummary.section2.tier3">第三梯队：性价比（7B-14B，主流显卡）</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div class="bg-gradient-to-br from-purple-50 to-violet-50 rounded-xl p-5 border border-purple-100">
+                            <h5 class="font-bold text-neutral-dark mb-2" data-i18n="model.11.name">11. Qwen 3.5-14B-Chat</h5>
+                            <p class="text-sm text-neutral" data-i18n="model.11.desc">中文最强小模型</p>
+                            <div class="mt-2 text-xs text-accent" data-i18n="model.11.speed">速度：25–40 token/s</div>
                         </div>
-                        <p class="text-neutral mb-4">
-                            谷歌DeepMind的Gemma 3:4B虽小但却强大。Q4_K_M（1.71GB文件）只需4GB VRAM即可运行，非常适合移动设备和低端PC。
-                        </p>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                            <div>
-                                <h5 class="text-sm font-medium text-neutral-dark mb-2">最佳用途</h5>
-                                <p class="text-sm text-neutral">文本生成、问答和OCR任务</p>
-                            </div>
-                            <div>
-                                <h5 class="text-sm font-medium text-neutral-dark mb-2">内存需求</h5>
-                                <p class="text-sm text-neutral">Q4_K_M: ~4GB</p>
-                            </div>
-                            <div>
-                                <h5 class="text-sm font-medium text-neutral-dark mb-2">Ollama 命令</h5>
-                                <p class="text-sm text-neutral">ollama run gemma3:4b</p>
-                            </div>
+                        <div class="bg-gradient-to-br from-purple-50 to-violet-50 rounded-xl p-5 border border-purple-100">
+                            <h5 class="font-bold text-neutral-dark mb-2" data-i18n="model.12.name">12. Llama 4-13B</h5>
+                            <p class="text-sm text-neutral" data-i18n="model.12.desc">速度/质量均衡</p>
+                            <div class="mt-2 text-xs text-accent" data-i18n="model.12.speed">速度：30–50 token/s</div>
                         </div>
-                        <div class="flex flex-wrap gap-3">
-                            <a href="https://huggingface.co/google" target="_blank" class="bg-neutral-light text-neutral-dark px-4 py-2 rounded-lg hover:bg-neutral transition-colors text-sm">
-                                <i class="fa fa-external-link mr-2"></i> Hugging Face
-                            </a>
-                            <a href="https://ollama.com/library/gemma3" target="_blank" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors text-sm">
-                                <i class="fa fa-download mr-2"></i> Ollama 库
-                            </a>
+                        <div class="bg-gradient-to-br from-purple-50 to-violet-50 rounded-xl p-5 border border-purple-100">
+                            <h5 class="font-bold text-neutral-dark mb-2" data-i18n="model.13.name">13. Mistral Small-12B</h5>
+                            <p class="text-sm text-neutral" data-i18n="model.13.desc">极快、低资源</p>
+                            <div class="mt-2 text-xs text-accent" data-i18n="model.13.speed">速度：35–50 token/s</div>
+                        </div>
+                        <div class="bg-gradient-to-br from-purple-50 to-violet-50 rounded-xl p-5 border border-purple-100">
+                            <h5 class="font-bold text-neutral-dark mb-2" data-i18n="model.14.name">14. GLM-4-9B-Chat</h5>
+                            <p class="text-sm text-neutral" data-i18n="model.14.desc">智谱轻量、稳定</p>
+                            <div class="mt-2 text-xs text-accent" data-i18n="model.14.speed">速度：32–45 token/s</div>
+                        </div>
+                        <div class="bg-gradient-to-br from-purple-50 to-violet-50 rounded-xl p-5 border border-purple-100">
+                            <h5 class="font-bold text-neutral-dark mb-2" data-i18n="model.15.name">15. DeepSeek-R1-7B</h5>
+                            <p class="text-sm text-neutral" data-i18n="model.15.desc">代码/推理入门首选</p>
+                            <div class="mt-2 text-xs text-accent" data-i18n="model.15.speed">速度：40–60 token/s</div>
                         </div>
                     </div>
-
-                    <!-- Model 4 -->
-                    <div class="border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300">
-                        <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
-                            <h4 class="text-xl font-bold text-neutral-dark mb-2 md:mb-0">4、Gemma 7B（量化版）</h4>
-                            <div class="flex items-center">
-                                <span class="text-sm bg-primary/10 text-primary px-3 py-1 rounded-full">7B 参数</span>
-                            </div>
+                </div>
+                
+                <!-- Tier 4 -->
+                <div class="mb-8">
+                    <h4 class="text-xl font-semibold text-orange mb-4" data-i18n="modelsSummary.section2.tier4">第四梯队：轻量入门（≤7B，笔记本/CPU）</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div class="bg-gradient-to-br from-orange-50 to-amber-50 rounded-xl p-5 border border-orange-100">
+                            <h5 class="font-bold text-neutral-dark mb-2" data-i18n="model.16.name">16. Qwen 3.5-7B-Chat</h5>
+                            <p class="text-sm text-neutral" data-i18n="model.16.desc">中文日常/轻代码</p>
+                            <div class="mt-2 text-xs text-orange" data-i18n="model.16.speed">速度：45–65 token/s</div>
                         </div>
-                        <p class="text-neutral mb-4">
-                            更大的Gemma 7B在代码、数学和推理方面更具实力，但仍能容纳在8GB VRAM中（Q5_K_M：6.14GB，Q6_K：7.01GB）。
-                        </p>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                            <div>
-                                <h5 class="text-sm font-medium text-neutral-dark mb-2">最佳用途</h5>
-                                <p class="text-sm text-neutral">内容创作、聊天和知识工作</p>
-                            </div>
-                            <div>
-                                <h5 class="text-sm font-medium text-neutral-dark mb-2">内存需求</h5>
-                                <p class="text-sm text-neutral">Q5_K_M: ~6.14GB | Q6_K: ~7.01GB</p>
-                            </div>
-                            <div>
-                                <h5 class="text-sm font-medium text-neutral-dark mb-2">Ollama 命令</h5>
-                                <p class="text-sm text-neutral">ollama run gemma:7b</p>
-                            </div>
+                        <div class="bg-gradient-to-br from-orange-50 to-amber-50 rounded-xl p-5 border border-orange-100">
+                            <h5 class="font-bold text-neutral-dark mb-2" data-i18n="model.17.name">17. Llama 4-7B</h5>
+                            <p class="text-sm text-neutral" data-i18n="model.17.desc">通用、生态好</p>
+                            <div class="mt-2 text-xs text-orange" data-i18n="model.17.speed">速度：48–68 token/s</div>
                         </div>
-                        <div class="flex flex-wrap gap-3">
-                            <a href="https://huggingface.co/google" target="_blank" class="bg-neutral-light text-neutral-dark px-4 py-2 rounded-lg hover:bg-neutral transition-colors text-sm">
-                                <i class="fa fa-external-link mr-2"></i> Hugging Face
-                            </a>
-                            <a href="https://ollama.com/library/gemma" target="_blank" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors text-sm">
-                                <i class="fa fa-download mr-2"></i> Ollama 库
-                            </a>
+                        <div class="bg-gradient-to-br from-orange-50 to-amber-50 rounded-xl p-5 border border-orange-100">
+                            <h5 class="font-bold text-neutral-dark mb-2" data-i18n="model.18.name">18. Gemma-3-6B</h5>
+                            <p class="text-sm text-neutral" data-i18n="model.18.desc">Google，安全/教育</p>
+                            <div class="mt-2 text-xs text-orange" data-i18n="model.18.speed">速度：50–70 token/s</div>
+                        </div>
+                        <div class="bg-gradient-to-br from-orange-50 to-amber-50 rounded-xl p-5 border border-orange-100">
+                            <h5 class="font-bold text-neutral-dark mb-2" data-i18n="model.19.name">19. MiniMax M2.5-7B</h5>
+                            <p class="text-sm text-neutral" data-i18n="model.19.desc">智能体轻量版</p>
+                            <div class="mt-2 text-xs text-orange" data-i18n="model.19.speed">速度：42–60 token/s</div>
+                        </div>
+                        <div class="bg-gradient-to-br from-orange-50 to-amber-50 rounded-xl p-5 border border-orange-100">
+                            <h5 class="font-bold text-neutral-dark mb-2" data-i18n="model.20.name">20. ByteDance Doubao-7B</h5>
+                            <p class="text-sm text-neutral" data-i18n="model.20.desc">豆包开源，对话流畅</p>
+                            <div class="mt-2 text-xs text-orange" data-i18n="model.20.speed">速度：48–68 token/s</div>
                         </div>
                     </div>
-
-                    <!-- Model 5 -->
-                    <div class="border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300">
-                        <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
-                            <h4 class="text-xl font-bold text-neutral-dark mb-2 md:mb-0">5、Phi-3 Mini（3.8B，量化版）</h4>
-                            <div class="flex items-center">
-                                <span class="text-sm bg-primary/10 text-primary px-3 py-1 rounded-full">3.8B 参数</span>
-                            </div>
-                        </div>
-                        <p class="text-neutral mb-4">
-                            微软的Phi-3 Mini是一款紧凑的强大工具，适用于逻辑、编程和数学。Q8_0（4.06GB文件，7.48GB内存）完全在8GB限制内。
-                        </p>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                            <div>
-                                <h5 class="text-sm font-medium text-neutral-dark mb-2">最佳用途</h5>
-                                <p class="text-sm text-neutral">聊天、移动设备和低延迟任务</p>
-                            </div>
-                            <div>
-                                <h5 class="text-sm font-medium text-neutral-dark mb-2">内存需求</h5>
-                                <p class="text-sm text-neutral">Q8_0: ~7.48GB</p>
-                            </div>
-                            <div>
-                                <h5 class="text-sm font-medium text-neutral-dark mb-2">Ollama 命令</h5>
-                                <p class="text-sm text-neutral">ollama run phi3</p>
-                            </div>
-                        </div>
-                        <div class="flex flex-wrap gap-3">
-                            <a href="https://huggingface.co/microsoft" target="_blank" class="bg-neutral-light text-neutral-dark px-4 py-2 rounded-lg hover:bg-neutral transition-colors text-sm">
-                                <i class="fa fa-external-link mr-2"></i> Hugging Face
-                            </a>
-                            <a href="https://ollama.com/library/phi3" target="_blank" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors text-sm">
-                                <i class="fa fa-download mr-2"></i> Ollama 库
-                            </a>
-                        </div>
+                </div>
+            </section>
+            
+            <!-- Hardware Requirements -->
+            <section class="bg-white rounded-2xl shadow-lg p-8 mb-12">
+                <h3 class="text-2xl font-bold text-neutral-dark mb-6" data-i18n="modelsSummary.section3.title">硬件配置要求（内存/显卡/CPU，2026.4）</h3>
+                <h4 class="text-xl font-semibold text-neutral-dark mb-4" data-i18n="modelsSummary.section3.hardware.title">按参数规模（量化：GGUF Q4_K_M 主流）</h4>
+                <div class="overflow-x-auto">
+                    <table class="w-full border-collapse">
+                        <thead>
+                            <tr class="bg-gradient-primary text-white">
+                                <th class="px-4 py-3 text-left" data-i18n="modelsSummary.section3.hardware.param">参数规模</th>
+                                <th class="px-4 py-3 text-left" data-i18n="modelsSummary.section3.hardware.minVRAM">最低显存</th>
+                                <th class="px-4 py-3 text-left" data-i18n="modelsSummary.section3.hardware.recVRAM">推荐显存</th>
+                                <th class="px-4 py-3 text-left" data-i18n="modelsSummary.section3.hardware.ram">系统内存</th>
+                                <th class="px-4 py-3 text-left" data-i18n="modelsSummary.section3.hardware.gpu">推荐显卡</th>
+                                <th class="px-4 py-3 text-left" data-i18n="modelsSummary.section3.hardware.speed">速度参考</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b hover:bg-gray-50">
+                                <td class="px-4 py-3 font-medium" data-i18n="modelsSummary.hardware.7b">7B</td>
+                                <td class="px-4 py-3" data-i18n="modelsSummary.hardware.7b.min">6GB</td>
+                                <td class="px-4 py-3" data-i18n="modelsSummary.hardware.7b.rec">8GB+</td>
+                                <td class="px-4 py-3" data-i18n="modelsSummary.hardware.7b.ram">16GB+</td>
+                                <td class="px-4 py-3" data-i18n="modelsSummary.hardware.7b.gpu">RTX 4060/3060</td>
+                                <td class="px-4 py-3" data-i18n="modelsSummary.hardware.7b.speed">30–60 token/s</td>
+                            </tr>
+                            <tr class="border-b hover:bg-gray-50 bg-gray-50">
+                                <td class="px-4 py-3 font-medium" data-i18n="modelsSummary.hardware.13b">13B–14B</td>
+                                <td class="px-4 py-3" data-i18n="modelsSummary.hardware.13b.min">10GB</td>
+                                <td class="px-4 py-3" data-i18n="modelsSummary.hardware.13b.rec">16GB+</td>
+                                <td class="px-4 py-3" data-i18n="modelsSummary.hardware.13b.ram">32GB+</td>
+                                <td class="px-4 py-3" data-i18n="modelsSummary.hardware.13b.gpu">RTX 4070 Ti/4080</td>
+                                <td class="px-4 py-3" data-i18n="modelsSummary.hardware.13b.speed">20–40 token/s</td>
+                            </tr>
+                            <tr class="border-b hover:bg-gray-50">
+                                <td class="px-4 py-3 font-medium" data-i18n="modelsSummary.hardware.24b">24B–34B</td>
+                                <td class="px-4 py-3" data-i18n="modelsSummary.hardware.24b.min">16GB</td>
+                                <td class="px-4 py-3" data-i18n="modelsSummary.hardware.24b.rec">24GB+</td>
+                                <td class="px-4 py-3" data-i18n="modelsSummary.hardware.24b.ram">64GB+</td>
+                                <td class="px-4 py-3" data-i18n="modelsSummary.hardware.24b.gpu">RTX 4090/4090 Ti</td>
+                                <td class="px-4 py-3" data-i18n="modelsSummary.hardware.24b.speed">10–25 token/s</td>
+                            </tr>
+                            <tr class="border-b hover:bg-gray-50 bg-gray-50">
+                                <td class="px-4 py-3 font-medium" data-i18n="modelsSummary.hardware.35b">35B–70B (MoE)</td>
+                                <td class="px-4 py-3" data-i18n="modelsSummary.hardware.35b.min">20GB</td>
+                                <td class="px-4 py-3" data-i18n="modelsSummary.hardware.35b.rec">32GB+</td>
+                                <td class="px-4 py-3" data-i18n="modelsSummary.hardware.35b.ram">96GB+</td>
+                                <td class="px-4 py-3" data-i18n="modelsSummary.hardware.35b.gpu">A100/4090×2</td>
+                                <td class="px-4 py-3" data-i18n="modelsSummary.hardware.35b.speed">8–18 token/s</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-4 py-3 font-medium" data-i18n="modelsSummary.hardware.70b">70B+ (FP16)</td>
+                                <td class="px-4 py-3" data-i18n="modelsSummary.hardware.70b.min">40GB+</td>
+                                <td class="px-4 py-3" data-i18n="modelsSummary.hardware.70b.rec">80GB+</td>
+                                <td class="px-4 py-3" data-i18n="modelsSummary.hardware.70b.ram">128GB+</td>
+                                <td class="px-4 py-3" data-i18n="modelsSummary.hardware.70b.gpu">双A100/H100</td>
+                                <td class="px-4 py-3" data-i18n="modelsSummary.hardware.70b.speed">5–12 token/s</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="mt-8 p-6 bg-blue-50 rounded-xl">
+                    <h4 class="font-semibold text-neutral-dark mb-3" data-i18n="modelsSummary.cpu.title">CPU 纯跑（无显卡）</h4>
+                    <ul class="space-y-2 text-neutral">
+                        <li data-i18n="modelsSummary.cpu.32gb"><strong>32GB 内存：</strong>流畅跑 <strong>7B</strong>、可跑 <strong>13B (Q4)</strong> → 10–20 token/s</li>
+                        <li data-i18n="modelsSummary.cpu.64gb"><strong>64GB 内存：</strong>流畅跑 <strong>13B–14B</strong>、可跑 <strong>24B–34B (Q3)</strong> → 8–15 token/s</li>
+                        <li data-i18n="modelsSummary.cpu.req"><strong>要求：</strong>双通道 DDR5、关闭后台、用 Ollama/LM Studio</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <!-- Scenario Adaptation -->
+            <section class="bg-white rounded-2xl shadow-lg p-8 mb-12">
+                <h3 class="text-2xl font-bold text-neutral-dark mb-6" data-i18n="modelsSummary.section4.title">场景适配</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-6">
+                        <h4 class="text-lg font-semibold text-primary mb-4" data-i18n="modelsSummary.section4.agent">跑智能体（Agent）最佳</h4>
+                        <ul class="space-y-2 text-sm text-neutral">
+                            <li data-i18n="scenario.agent.top1"><strong>Top1:</strong> MiniMax M2.7 — 多智能体调度、复杂任务、SWE-Bench 52.7分</li>
+                            <li data-i18n="scenario.agent.top2"><strong>Top2:</strong> GLM-5.1 — 8小时长程、企业级、稳定性强</li>
+                            <li data-i18n="scenario.agent.top3"><strong>Top3:</strong> Qwen 3.6-35B — 终端命令、任务拆解、NL2Repo强</li>
+                            <li data-i18n="scenario.agent.eco"><strong>性价比:</strong> Qwen 3.5-14B、Mistral Small-12B</li>
+                        </ul>
                     </div>
-
-                    <!-- Model 6 -->
-                    <div class="border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300">
-                        <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
-                            <h4 class="text-xl font-bold text-neutral-dark mb-2 md:mb-0">6、DeepSeek R1 7B/8B（量化版）</h4>
-                            <div class="flex items-center">
-                                <span class="text-sm bg-primary/10 text-primary px-3 py-1 rounded-full">7B/8B 参数</span>
-                            </div>
-                        </div>
-                        <p class="text-neutral mb-4">
-                            DeepSeek的7B和8B模型以推理和代码能力著称。R1 7B Q4_K_M（4.22GB文件，6.72GB内存）和R1 8B（4.9GB文件，6GB VRAM）都适合8GB配置。
-                        </p>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                            <div>
-                                <h5 class="text-sm font-medium text-neutral-dark mb-2">最佳用途</h5>
-                                <p class="text-sm text-neutral">中小企业、客户服务和高级数据分析</p>
-                            </div>
-                            <div>
-                                <h5 class="text-sm font-medium text-neutral-dark mb-2">内存需求</h5>
-                                <p class="text-sm text-neutral">R1 7B: ~6.72GB | R1 8B: ~6GB</p>
-                            </div>
-                            <div>
-                                <h5 class="text-sm font-medium text-neutral-dark mb-2">Ollama 命令</h5>
-                                <p class="text-sm text-neutral">ollama run deepseek-r1:7b</p>
-                            </div>
-                        </div>
-                        <div class="flex flex-wrap gap-3">
-                            <a href="https://huggingface.co/deepseek-ai" target="_blank" class="bg-neutral-light text-neutral-dark px-4 py-2 rounded-lg hover:bg-neutral transition-colors text-sm">
-                                <i class="fa fa-external-link mr-2"></i> Hugging Face
-                            </a>
-                            <a href="https://ollama.com/library/deepseek-r1" target="_blank" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors text-sm">
-                                <i class="fa fa-download mr-2"></i> Ollama 库
-                            </a>
-                        </div>
+                    <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-6">
+                        <h4 class="text-lg font-semibold text-secondary mb-4" data-i18n="modelsSummary.section4.code">跑编程（Code）最佳</h4>
+                        <ul class="space-y-2 text-sm text-neutral">
+                            <li data-i18n="scenario.code.top1"><strong>Top1:</strong> Qwen 3.6-35B/Plus — Code Arena全球第二、Terminal-Bench 51.5</li>
+                            <li data-i18n="scenario.code.top2"><strong>Top2:</strong> GLM-5.1 — 工程架构、多文件、长代码最优</li>
+                            <li data-i18n="scenario.code.top3"><strong>Top3:</strong> DeepSeek-V4-67B — 数学推理+代码、低幻觉</li>
+                            <li data-i18n="scenario.code.starter"><strong>入门:</strong> DeepSeek-R1-7B、Qwen 3.5-7B</li>
+                        </ul>
                     </div>
-
-                    <!-- Model 7 -->
-                    <div class="border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300">
-                        <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
-                            <h4 class="text-xl font-bold text-neutral-dark mb-2 md:mb-0">7、Qwen 1.5/2.5 7B（量化版）</h4>
-                            <div class="flex items-center">
-                                <span class="text-sm bg-primary/10 text-primary px-3 py-1 rounded-full">7B 参数</span>
-                            </div>
-                        </div>
-                        <p class="text-neutral mb-4">
-                            阿里巴巴的Qwen 7B模型是多语言且具有丰富的上下文（32K tokens）。Qwen 1.5 7B Q5_K_M（5.53GB）和Qwen2.5 7B（4.7GB，6GB VRAM）非常适合聊天机器人、翻译和编程帮助。
-                        </p>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                            <div>
-                                <h5 class="text-sm font-medium text-neutral-dark mb-2">最佳用途</h5>
-                                <p class="text-sm text-neutral">聊天机器人、翻译和编程帮助</p>
-                            </div>
-                            <div>
-                                <h5 class="text-sm font-medium text-neutral-dark mb-2">内存需求</h5>
-                                <p class="text-sm text-neutral">Qwen 1.5: ~5.53GB | Qwen 2.5: ~6GB</p>
-                            </div>
-                            <div>
-                                <h5 class="text-sm font-medium text-neutral-dark mb-2">Ollama 命令</h5>
-                                <p class="text-sm text-neutral">ollama run qwen:7b</p>
-                            </div>
-                        </div>
-                        <div class="flex flex-wrap gap-3">
-                            <a href="https://huggingface.co/Qwen" target="_blank" class="bg-neutral-light text-neutral-dark px-4 py-2 rounded-lg hover:bg-neutral transition-colors text-sm">
-                                <i class="fa fa-external-link mr-2"></i> Hugging Face
-                            </a>
-                            <a href="https://ollama.com/library/qwen" target="_blank" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors text-sm">
-                                <i class="fa fa-download mr-2"></i> Ollama 库
-                            </a>
-                        </div>
+                    <div class="bg-gradient-to-br from-purple-50 to-violet-50 rounded-xl p-6">
+                        <h4 class="text-lg font-semibold text-accent mb-4" data-i18n="modelsSummary.section4.qa">纯问答/对话/日常</h4>
+                        <ul class="space-y-2 text-sm text-neutral">
+                            <li data-i18n="scenario.qa.chinese"><strong>中文最佳:</strong> Qwen 3.5-34B/14B/7B、GLM-5.1、豆包-7B</li>
+                            <li data-i18n="scenario.qa.english"><strong>英文最佳:</strong> Llama 4-70B/13B、Mistral Large 2</li>
+                            <li data-i18n="scenario.qa.longtext"><strong>长文本:</strong> Yi-34B、Claude 3.5 Haiku 本地版</li>
+                            <li data-i18n="scenario.qa.safe"><strong>安全/合规:</strong> Gemma-4/3、GLM-4</li>
+                        </ul>
                     </div>
-
-                    <!-- Model 8 -->
-                    <div class="border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300">
-                        <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
-                            <h4 class="text-xl font-bold text-neutral-dark mb-2 md:mb-0">8、Deepseek-coder-v2 6.7B（量化版）</h4>
-                            <div class="flex items-center">
-                                <span class="text-sm bg-primary/10 text-primary px-3 py-1 rounded-full">6.7B 参数</span>
-                            </div>
-                        </div>
-                        <p class="text-neutral mb-4">
-                            Deepseek-coder-v2 6.7B是程序员的梦想——经过微调，专门用于代码生成和理解。在3.8GB（6GB VRAM）下运行，是本地代码补全和开发工具的首选。
-                        </p>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                            <div>
-                                <h5 class="text-sm font-medium text-neutral-dark mb-2">最佳用途</h5>
-                                <p class="text-sm text-neutral">代码生成和理解、本地代码补全</p>
-                            </div>
-                            <div>
-                                <h5 class="text-sm font-medium text-neutral-dark mb-2">内存需求</h5>
-                                <p class="text-sm text-neutral">~6GB</p>
-                            </div>
-                            <div>
-                                <h5 class="text-sm font-medium text-neutral-dark mb-2">Ollama 命令</h5>
-                                <p class="text-sm text-neutral">ollama run deepseek-coder-v2:6.7b</p>
-                            </div>
-                        </div>
-                        <div class="flex flex-wrap gap-3">
-                            <a href="https://huggingface.co/deepseek-ai" target="_blank" class="bg-neutral-light text-neutral-dark px-4 py-2 rounded-lg hover:bg-neutral transition-colors text-sm">
-                                <i class="fa fa-external-link mr-2"></i> Hugging Face
-                            </a>
-                            <a href="https://ollama.com/library/deepseek-coder-v2" target="_blank" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors text-sm">
-                                <i class="fa fa-download mr-2"></i> Ollama 库
-                            </a>
-                        </div>
+                </div>
+            </section>
+            
+            <!-- Selection Guide -->
+            <section class="bg-white rounded-2xl shadow-lg p-8 mb-12">
+                <h3 class="text-2xl font-bold text-neutral-dark mb-6" data-i18n="modelsSummary.section5.title">选型建议（2026.4 本地）</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-neutral-light rounded-xl p-6">
+                        <h4 class="font-semibold text-neutral-dark mb-3" data-i18n="selection.4060.title">RTX 4060 8GB / 16GB内存</h4>
+                        <p class="text-neutral" data-i18n="selection.4060.value">选 <strong>Qwen 3.5-7B/14B、Llama 4-13B</strong></p>
                     </div>
-
-                    <!-- Model 9 -->
-                    <div class="border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300">
-                        <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
-                            <h4 class="text-xl font-bold text-neutral-dark mb-2 md:mb-0">9、BitNet b1.58 2B4T</h4>
-                            <div class="flex items-center">
-                                <span class="text-sm bg-primary/10 text-primary px-3 py-1 rounded-full">2B 参数</span>
-                            </div>
-                        </div>
-                        <p class="text-neutral mb-4">
-                            来自微软的BitNet b1.58 2B4T是效率的奇迹，使用1.58位权重仅需0.4GB内存即可运行。它非常适合边缘设备、物联网和纯CPU推理——比如设备上的翻译和移动助手。
-                        </p>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                            <div>
-                                <h5 class="text-sm font-medium text-neutral-dark mb-2">最佳用途</h5>
-                                <p class="text-sm text-neutral">边缘设备、物联网和纯CPU推理</p>
-                            </div>
-                            <div>
-                                <h5 class="text-sm font-medium text-neutral-dark mb-2">内存需求</h5>
-                                <p class="text-sm text-neutral">~0.4GB</p>
-                            </div>
-                            <div>
-                                <h5 class="text-sm font-medium text-neutral-dark mb-2">Ollama 命令</h5>
-                                <p class="text-sm text-neutral">ollama run hf.co/microsoft/bitnet-b1.58-2B-4T-gguf</p>
-                            </div>
-                        </div>
-                        <div class="flex flex-wrap gap-3">
-                            <a href="https://huggingface.co/microsoft" target="_blank" class="bg-neutral-light text-neutral-dark px-4 py-2 rounded-lg hover:bg-neutral transition-colors text-sm">
-                                <i class="fa fa-external-link mr-2"></i> Hugging Face
-                            </a>
-                            <a href="https://huggingface.co/microsoft/bitnet-b1.58-2B-4T-gguf" target="_blank" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors text-sm">
-                                <i class="fa fa-download mr-2"></i> 模型文件
-                            </a>
-                        </div>
+                    <div class="bg-neutral-light rounded-xl p-6">
+                        <h4 class="font-semibold text-neutral-dark mb-3" data-i18n="selection.4080.title">RTX 4080/4090 16–24GB / 32–64GB</h4>
+                        <p class="text-neutral" data-i18n="selection.4080.value">选 <strong>Qwen 3.5-34B、Mistral Large 2、Gemma-4-27B</strong></p>
                     </div>
-
-                    <!-- Model 10 -->
-                    <div class="border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300">
-                        <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
-                            <h4 class="text-xl font-bold text-neutral-dark mb-2 md:mb-0">10、Orca-Mini 7B（量化版）</h4>
-                            <div class="flex items-center">
-                                <span class="text-sm bg-primary/10 text-primary px-3 py-1 rounded-full">7B 参数</span>
-                            </div>
-                        </div>
-                        <p class="text-neutral mb-4">
-                            Orca-Mini 7B基于Llama和Llama 2构建，是一个灵活的模型，适用于聊天、问答和指令遵循。Q4_K_M（4.08GB文件，6.58GB内存）和Q5_K_M（4.78GB文件，7.28GB内存）都是8GB友好的。
-                        </p>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                            <div>
-                                <h5 class="text-sm font-medium text-neutral-dark mb-2">最佳用途</h5>
-                                <p class="text-sm text-neutral">构建AI代理和对话工具</p>
-                            </div>
-                            <div>
-                                <h5 class="text-sm font-medium text-neutral-dark mb-2">内存需求</h5>
-                                <p class="text-sm text-neutral">Q4_K_M: ~6.58GB | Q5_K_M: ~7.28GB</p>
-                            </div>
-                            <div>
-                                <h5 class="text-sm font-medium text-neutral-dark mb-2">Ollama 命令</h5>
-                                <p class="text-sm text-neutral">ollama run orca-mini:7b</p>
-                            </div>
-                        </div>
-                        <div class="flex flex-wrap gap-3">
-                            <a href="https://huggingface.co/psmathur/orca_mini_v3_7b" target="_blank" class="bg-neutral-light text-neutral-dark px-4 py-2 rounded-lg hover:bg-neutral transition-colors text-sm">
-                                <i class="fa fa-external-link mr-2"></i> Hugging Face
-                            </a>
-                            <a href="https://ollama.com/library/orca-mini" target="_blank" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors text-sm">
-                                <i class="fa fa-download mr-2"></i> Ollama 库
-                            </a>
-                        </div>
+                    <div class="bg-neutral-light rounded-xl p-6">
+                        <h4 class="font-semibold text-neutral-dark mb-3" data-i18n="selection.pro.title">专业编程/智能体</h4>
+                        <p class="text-neutral" data-i18n="selection.pro.value">选 <strong>Qwen 3.6-35B、GLM-5.1、MiniMax M2.7</strong></p>
+                    </div>
+                    <div class="bg-neutral-light rounded-xl p-6">
+                        <h4 class="font-semibold text-neutral-dark mb-3" data-i18n="selection.cpu32.title">纯CPU 32GB</h4>
+                        <p class="text-neutral" data-i18n="selection.cpu32.value">选 <strong>Qwen 3.5-7B/14B (Q4)、Llama 4-7B</strong></p>
+                    </div>
+                    <div class="bg-neutral-light rounded-xl p-6 md:col-span-2">
+                        <h4 class="font-semibold text-neutral-dark mb-3" data-i18n="selection.cpu64.title">纯CPU 64GB</h4>
+                        <p class="text-neutral" data-i18n="selection.cpu64.value">选 <strong>Qwen 3.5-34B (Q3)、GLM-4-9B</strong></p>
                     </div>
                 </div>
             </section>
 
             <!-- Conclusion -->
             <section class="bg-white rounded-2xl shadow-lg p-8">
-                <h3 class="text-2xl font-bold text-neutral-dark mb-6">结语</h3>
-                <p class="text-neutral leading-relaxed">
-                    由于先进的量化和模型优化技术，现在即使在普通的笔记本电脑或台式机上也能运行功能强大的大语言模型。本文介绍的10个模型都经过精心选择，确保它们在8GB内存或更少的情况下仍能提供出色的性能。
+                <h3 class="text-2xl font-bold text-neutral-dark mb-6" data-i18n="modelsSummary.conclusion.title">结语</h3>
+                <p class="text-neutral leading-relaxed" data-i18n="modelsSummary.conclusion.text1">
+                    由于先进的量化和模型优化技术，现在即使在普通的笔记本电脑或台式机上也能运行功能强大的大语言模型。本文介绍的20个模型都经过精心选择，确保它们在不同硬件配置下都能提供出色的性能。
                 </p>
-                <p class="text-neutral leading-relaxed mt-4">
+                <p class="text-neutral leading-relaxed mt-4" data-i18n="modelsSummary.conclusion.text2">
                     无论你是开发者、学生还是研究人员，这些本地模型都能为你提供隐私、高效的AI能力，无需依赖云服务和高昂的订阅费用。选择最适合你硬件和需求的模型，开始你的本地AI之旅吧！
                 </p>
             </section>
@@ -535,7 +840,7 @@
                     <h3 class="text-2xl font-bold text-gradient">Hello Token</h3>
                 </div>
                 <div class="text-center md:text-right">
-                    <p class="text-gray-400 text-sm">
+                    <p class="text-gray-400 text-sm" data-i18n="footer.copyright">
                         © 2024 Hello Token. 保留所有权利.
                     </p>
                 </div>

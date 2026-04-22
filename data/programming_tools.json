@@ -25,7 +25,7 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://claude.ai/code",
       "rating": 100,
-      "logo": "https://www.anthropic.com/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=www.anthropic.com&sz=128"
     },
     {
       "id": "codex",
@@ -51,7 +51,7 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://openai.com/codex",
       "rating": 96,
-      "logo": "https://openai.com/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=openai.com&sz=128"
     },
     {
       "id": "trae",
@@ -77,7 +77,7 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://trae.ai",
       "rating": 92,
-      "logo": "https://www.trae.ai/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=www.trae.ai&sz=128"
     },
     {
       "id": "opencode",
@@ -103,7 +103,7 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://opencode.ai",
       "rating": 88,
-      "logo": "https://opencode.ai/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=opencode.ai&sz=128"
     },
     {
       "id": "codebuddy",
@@ -129,7 +129,7 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://codebuddy.ai",
       "rating": 84,
-      "logo": "https://codebuddy.ai/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=codebuddy.ai&sz=128"
     },
     {
       "id": "cursor-ai",
@@ -155,7 +155,7 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://cursor.sh",
       "rating": 95,
-      "logo": "https://cursor.sh/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=cursor.sh&sz=128"
     },
     {
       "id": "kiro",
@@ -181,7 +181,7 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://kiro.dev",
       "rating": 80,
-      "logo": "https://kiro.dev/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=kiro.dev&sz=128"
     },
     {
       "id": "windsurf",
@@ -207,7 +207,7 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://codeium.com/windsurf",
       "rating": 80,
-      "logo": "https://codeium.com/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=codeium.com&sz=128"
     },
     {
       "id": "github-copilot",
@@ -233,7 +233,7 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://github.com/copilot",
       "rating": 78,
-      "logo": "https://github.githubassets.com/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=github.githubassets.com&sz=128"
     },
     {
       "id": "tongyi-lingma",
@@ -259,7 +259,7 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://tongyi.aliyun.com/lingma",
       "rating": 82,
-      "logo": "https://tongyi.aliyun.com/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=tongyi.aliyun.com&sz=128"
     },
     {
       "id": "gemini-cli",
@@ -285,7 +285,7 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://gemini.google.com/cli",
       "rating": 72,
-      "logo": "https://www.google.com/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=www.google.com&sz=128"
     },
     {
       "id": "qoder",
@@ -311,7 +311,7 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://qoder.ai",
       "rating": 68,
-      "logo": "https://qoder.ai/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=qoder.ai&sz=128"
     }
   ]
 }

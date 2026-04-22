@@ -12,7 +12,7 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://developer.nvidia.com/nim",
       "rating": 5,
-      "logo": "https://developer.nvidia.com/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=developer.nvidia.com&sz=128"
     },
     {
       "id": "groq-free",
@@ -25,7 +25,7 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://groq.com",
       "rating": 2,
-      "logo": "https://groq.com/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=groq.com&sz=128"
     },
     {
       "id": "cerebras-free",
@@ -38,7 +38,7 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://cerebras.ai",
       "rating": 5,
-      "logo": "https://cerebras.ai/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=cerebras.ai&sz=128"
     },
     {
       "id": "google-ai-studio-free",
@@ -51,7 +51,7 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://makersuite.google.com",
       "rating": 4.5,
-      "logo": "https://makersuite.google.com/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=makersuite.google.com&sz=128"
     },
     {
       "id": "cloudflare-workers-ai-free",
@@ -64,7 +64,7 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://workers.cloudflare.com/ai",
       "rating": 4,
-      "logo": "https://workers.cloudflare.com/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=workers.cloudflare.com&sz=128"
     },
     {
       "id": "openrouter-free",
@@ -77,7 +77,7 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://openrouter.ai",
       "rating": 4,
-      "logo": "https://openrouter.ai/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=openrouter.ai&sz=128"
     },
     {
       "id": "deepinfra-free",
@@ -90,7 +90,7 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://deepinfra.com",
       "rating": 2,
-      "logo": "https://deepinfra.com/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=deepinfra.com&sz=128"
     },
     {
       "id": "hugging-face-free",
@@ -103,7 +103,7 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://huggingface.co",
       "rating": 3,
-      "logo": "https://huggingface.co/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=huggingface.co&sz=128"
     },
     {
       "id": "perplexity-api-free",
@@ -116,7 +116,7 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://www.perplexity.ai",
       "rating": 2,
-      "logo": "https://www.perplexity.ai/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=www.perplexity.ai&sz=128"
     },
     {
       "id": "sambanova-free",
@@ -129,7 +129,7 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://sambanova.ai",
       "rating": 2,
-      "logo": "https://sambanova.ai/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=sambanova.ai&sz=128"
     },
     {
       "id": "fireworks-ai-free",
@@ -142,7 +142,7 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://fireworks.ai",
       "rating": 3,
-      "logo": "https://fireworks.ai/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=fireworks.ai&sz=128"
     },
     {
       "id": "hyperbolic-free",
@@ -155,7 +155,7 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://hyperbolic.xyz",
       "rating": 2,
-      "logo": "https://hyperbolic.xyz/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=hyperbolic.xyz&sz=128"
     },
     {
       "id": "ovhcloud-ai-free",
@@ -168,7 +168,7 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://www.ovhcloud.com/en/ai/ai-endpoints/",
       "rating": 2,
-      "logo": "https://www.ovhcloud.com/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=www.ovhcloud.com&sz=128"
     },
     {
       "id": "replicate-free",
@@ -181,7 +181,7 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://replicate.com",
       "rating": 2,
-      "logo": "https://replicate.com/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=replicate.com&sz=128"
     },
     {
       "id": "codestral-free",
@@ -194,7 +194,7 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://mistral.ai",
       "rating": 2,
-      "logo": "https://mistral.ai/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=mistral.ai&sz=128"
     },
     {
       "id": "zai-free",
@@ -207,7 +207,7 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://zai.chat",
       "rating": 5,
-      "logo": "https://zai.chat/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=zai.chat&sz=128"
     },
     {
       "id": "scaleway-free",
@@ -220,7 +220,7 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://www.scaleway.com",
       "rating": 2,
-      "logo": "https://www.scaleway.com/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=www.scaleway.com&sz=128"
     },
     {
       "id": "alibaba-dashscope-free",
@@ -233,7 +233,7 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://dashscope.aliyun.com",
       "rating": 2,
-      "logo": "https://dashscope.aliyun.com/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=dashscope.aliyun.com&sz=128"
     },
     {
       "id": "siliconflow-free",
@@ -246,7 +246,7 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://siliconflow.io",
       "rating": 2,
-      "logo": "https://siliconflow.io/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=siliconflow.io&sz=128"
     },
     {
       "id": "rovo-dev-cli-free",
@@ -259,7 +259,7 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://rovo.ai",
       "rating": 2,
-      "logo": "https://rovo.ai/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=rovo.ai&sz=128"
     },
     {
       "id": "gemini-cli-free",
@@ -271,8 +271,8 @@
       "status": "available",
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://gemini.google.com",
-      "rating": 2,
-      "logo": "https://gemini.google.com/favicon.ico"
+      "rating": 4,
+      "logo": "https://www.google.com/s2/favicons?domain=gemini.google.com&sz=128"
     },
     {
       "id": "chutes-ai-free",
@@ -285,7 +285,7 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://chutes.ai",
       "rating": 2,
-      "logo": "https://chutes.ai/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=chutes.ai&sz=128"
     },
     {
       "id": "opencode-zen-free",
@@ -298,7 +298,7 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://opencode.ai",
       "rating": 5,
-      "logo": "https://opencode.ai/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=opencode.ai&sz=128"
     },
     {
       "id": "iflow-free",
@@ -311,7 +311,7 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://iflow.ai",
       "rating": 1,
-      "logo": "https://iflow.ai/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=iflow.ai&sz=128"
     },
     {
       "id": "longcat-free",
@@ -324,7 +324,7 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://longcat.chat/platform/usage",
       "rating": 5,
-      "logo": "https://longcat.chat/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=longcat.chat&sz=128"
     },
     {
       "id": "atomgit-free",
@@ -337,7 +337,7 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://ai.atomgit.com/serverless-api",
       "rating": 5,
-      "logo": "https://ai.atomgit.com/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=ai.atomgit.com&sz=128"
     },
     {
       "id": "github-models-free",
@@ -350,25 +350,9 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://github.com/marketplace/models",
       "rating": 4.5,
-      "logo": "https://github.com/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=github.com&sz=128"
     },
-    {
-      "id": "opencode-free",
-      "name": "OpenCode",
-      "nameEn": "OpenCode",
-      "provider": "OpenCode Coding Plan",
-      "providerEn": "OpenCode Coding Plan",
-      "type": "free",
-      "description": "OpenCode 是一个免费的 AI 编程工具，提供智能代码补全、AI 辅助编程等功能。支持多种编程语言，界面简洁直观，适合开发者日常使用。",
-      "descriptionEn": "OpenCode is a free AI programming tool that provides intelligent code completion, AI-assisted programming and other functions. Supports multiple programming languages, with a clean and intuitive interface, suitable for daily use by developers.",
-      "features": ["免费使用", "智能代码补全", "多语言支持", "简洁界面"],
-      "featuresEn": ["Free to Use", "Intelligent Code Completion", "Multi-language Support", "Clean Interface"],
-      "status": "available",
-      "lastChecked": "2026-04-21T00:00:00Z",
-      "url": "https://opencode.ai",
-      "rating": 4,
-      "logo": "https://opencode.ai/favicon.ico"
-    },
+
     {
       "id": "bytedance-volcano-paid",
       "name": "字节跳动火山方舟",
@@ -393,7 +377,7 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://www.volcengine.com/",
       "rating": 95,
-      "logo": "https://www.volcengine.com/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=www.volcengine.com&sz=128"
     },
     {
       "id": "aliyun-bailian-paid",
@@ -419,7 +403,7 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://bailian.aliyun.com/",
       "rating": 85,
-      "logo": "https://bailian.aliyun.com/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=bailian.aliyun.com&sz=128"
     },
     {
       "id": "tencent-cloud-paid",
@@ -445,7 +429,7 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://cloud.tencent.com/",
       "rating": 85,
-      "logo": "https://cloud.tencent.com/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=cloud.tencent.com&sz=128"
     },
     {
       "id": "huawei-codearts-paid",
@@ -471,7 +455,7 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://codearts.huaweicloud.com/",
       "rating": 75,
-      "logo": "https://codearts.huaweicloud.com/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=codearts.huaweicloud.com&sz=128"
     },
     {
       "id": "zhipu-glm-paid",
@@ -497,7 +481,7 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://www.zhipuai.cn/",
       "rating": 95,
-      "logo": "https://www.zhipuai.cn/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=www.zhipuai.cn&sz=128"
     },
     {
       "id": "moon-shot-kimi-paid",
@@ -523,7 +507,7 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://kimi.moonshot.cn/",
       "rating": 95,
-      "logo": "https://kimi.moonshot.cn/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=kimi.moonshot.cn&sz=128"
     },
     {
       "id": "iflytek-astron-paid",
@@ -549,7 +533,7 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://www.iflytek.com/",
       "rating": 85,
-      "logo": "https://www.iflytek.com/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=www.iflytek.com&sz=128"
     },
     {
       "id": "xiaomi-mimo-paid",
@@ -575,7 +559,7 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://mimo.mi.com/",
       "rating": 75,
-      "logo": "https://mimo.mi.com/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=mimo.mi.com&sz=128"
     },
     {
       "id": "minimax-token-paid",
@@ -601,7 +585,7 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://www.minimax.chat/",
       "rating": 85,
-      "logo": "https://www.minimax.chat/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=www.minimax.chat&sz=128"
     },
     {
       "id": "infini-coding-paid",
@@ -627,7 +611,7 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://infini-ai.com/",
       "rating": 75,
-      "logo": "https://infini-ai.com/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=infini-ai.com&sz=128"
     },
     {
       "id": "jd-cloud-paid",
@@ -653,7 +637,7 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://www.jdcloud.com/",
       "rating": 75,
-      "logo": "https://www.jdcloud.com/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=www.jdcloud.com&sz=128"
     },
     {
       "id": "baidu-qianfan-paid",
@@ -679,7 +663,7 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://qianfan.baidu.com/",
       "rating": 75,
-      "logo": "https://qianfan.baidu.com/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=qianfan.baidu.com&sz=128"
     },
     {
       "id": "moore-thread-paid",
@@ -705,7 +689,7 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://www.mthreads.com/",
       "rating": 75,
-      "logo": "https://www.mthreads.com/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=www.mthreads.com&sz=128"
     },
     {
       "id": "kuaishou-kwaikat-paid",
@@ -731,7 +715,7 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://www.kuaishou.com/",
       "rating": 75,
-      "logo": "https://www.kuaishou.com/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=www.kuaishou.com&sz=128"
     },
     {
       "id": "ucloud-coding-paid",
@@ -757,7 +741,7 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://www.ucloud.cn/",
       "rating": 85,
-      "logo": "https://www.ucloud.cn/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=www.ucloud.cn&sz=128"
     },
     {
       "id": "china-unicom-paid",
@@ -783,7 +767,7 @@
       "lastChecked": "2026-04-21T00:00:00Z",
       "url": "https://www.10010.com/",
       "rating": 75,
-      "logo": "https://www.10010.com/favicon.ico"
+      "logo": "https://www.google.com/s2/favicons?domain=www.10010.com&sz=128"
     },
     {
       "id": "llama-local",

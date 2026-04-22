@@ -27,7 +27,7 @@ const PriceDisplay: React.FC<PriceDisplayProps> = ({ model }) => {
 
   if (model.price) {
     const getUnitText = () => {
-      switch (model.price.unit) {
+      switch (model.price!.unit) {
         case 'month':
           return `/${t('price.perMonth')}`;
         case 'usage':
@@ -41,7 +41,7 @@ const PriceDisplay: React.FC<PriceDisplayProps> = ({ model }) => {
 
     return (
       <span className="text-accent font-semibold">
-        {model.price.currency} {model.price.amount}{getUnitText()}
+        {model.price!.currency} {model.price!.amount}{getUnitText()}
       </span>
     );
   }

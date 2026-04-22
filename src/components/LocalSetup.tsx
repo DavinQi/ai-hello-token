@@ -453,26 +453,26 @@ const LocalSetup: React.FC<LocalSetupProps> = () => {
         </div>
       </div>
       
-      {/* 本地模型 Top 10 */}
+      {/* 本地模型 Top 20 */}
       <div className="mt-12">
-        <h4 className="text-xl font-bold text-neutral-dark mb-6">{t('local.top10.title')}</h4>
+        <h4 className="text-xl font-bold text-neutral-dark mb-6">{t('local.top20.title')}</h4>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Model 1 */}
           <div className="bg-white/60 backdrop-blur-sm rounded-xl p-6 border border-white/50 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
             <div className="flex justify-between items-center mb-4">
-              <h5 className="font-bold text-neutral-dark">Llama 3.1 8B</h5>
-              <span className="text-xs font-medium text-primary">8B 参数</span>
+              <h5 className="font-bold text-neutral-dark">{t('local.top20.models.glm51.name')}</h5>
+              <span className="text-xs font-medium text-primary">397B 参数</span>
             </div>
-            <p className="text-sm text-neutral mb-4 leading-relaxed">Meta的Llama 3.1 8B是通用AI的佼佼者，拥有庞大的训练集和智能优化。</p>
+            <p className="text-sm text-neutral mb-4 leading-relaxed">{t('local.top20.models.glm51.description')}</p>
             <div className="mb-4">
-              <div className="text-xs text-neutral mb-1">{t('local.top10.memoryRequirements')} ~7.2GB (Q2_K)</div>
-              <div className="text-xs text-neutral mb-1">{t('local.top10.bestFor')} 聊天、代码、摘要和RAG任务</div>
+              <div className="text-xs text-neutral mb-1">{t('local.top20.memoryRequirements')} {t('local.top20.models.glm51.memory')}</div>
+              <div className="text-xs text-neutral mb-1">{t('local.top20.bestFor')} {t('local.top20.models.glm51.bestFor')}</div>
             </div>
             <div className="flex flex-wrap gap-2">
-              <a href="https://huggingface.co/meta-llama" target="_blank" rel="noopener noreferrer" className="text-xs bg-neutral-light text-neutral-dark px-3 py-1 rounded hover:bg-neutral transition-colors">
+              <a href="https://huggingface.co/THUDM" target="_blank" rel="noopener noreferrer" className="text-xs bg-neutral-light text-neutral-dark px-3 py-1 rounded hover:bg-neutral transition-colors">
                 <i className="fa fa-external-link mr-1"></i> Hugging Face
               </a>
-              <a href="https://ollama.com/library/llama3.1" target="_blank" rel="noopener noreferrer" className="text-xs bg-primary text-white px-3 py-1 rounded hover:bg-primary/90 transition-colors">
+              <a href="https://ollama.com/library/glm5" target="_blank" rel="noopener noreferrer" className="text-xs bg-primary text-white px-3 py-1 rounded hover:bg-primary/90 transition-colors">
                 <i className="fa fa-download mr-1"></i> Ollama 库
               </a>
             </div>
@@ -481,19 +481,19 @@ const LocalSetup: React.FC<LocalSetupProps> = () => {
           {/* Model 2 */}
           <div className="bg-white/60 backdrop-blur-sm rounded-xl p-6 border border-white/50 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
             <div className="flex justify-between items-center mb-4">
-              <h5 className="font-bold text-neutral-dark">Mistral 7B</h5>
-              <span className="text-xs font-medium text-primary">7B 参数</span>
+              <h5 className="font-bold text-neutral-dark">{t('local.top20.models.qwen36.name')}</h5>
+              <span className="text-xs font-medium text-primary">35B 参数</span>
             </div>
-            <p className="text-sm text-neutral mb-4 leading-relaxed">Mistral 7B专为速度和效率而设计，采用GQA和SWA实现顶级的性能。</p>
+            <p className="text-sm text-neutral mb-4 leading-relaxed">{t('local.top20.models.qwen36.description')}</p>
             <div className="mb-4">
-              <div className="text-xs text-neutral mb-1">{t('local.top10.memoryRequirements')} ~6.87GB (Q4_K_M)</div>
-              <div className="text-xs text-neutral mb-1">{t('local.top10.bestFor')} 实时聊天机器人、边缘设备</div>
+              <div className="text-xs text-neutral mb-1">{t('local.top20.memoryRequirements')} {t('local.top20.models.qwen36.memory')}</div>
+              <div className="text-xs text-neutral mb-1">{t('local.top20.bestFor')} {t('local.top20.models.qwen36.bestFor')}</div>
             </div>
             <div className="flex flex-wrap gap-2">
-              <a href="https://huggingface.co/mistralai" target="_blank" rel="noopener noreferrer" className="text-xs bg-neutral-light text-neutral-dark px-3 py-1 rounded hover:bg-neutral transition-colors">
+              <a href="https://huggingface.co/Qwen" target="_blank" rel="noopener noreferrer" className="text-xs bg-neutral-light text-neutral-dark px-3 py-1 rounded hover:bg-neutral transition-colors">
                 <i className="fa fa-external-link mr-1"></i> Hugging Face
               </a>
-              <a href="https://ollama.com/library/mistral" target="_blank" rel="noopener noreferrer" className="text-xs bg-primary text-white px-3 py-1 rounded hover:bg-primary/90 transition-colors">
+              <a href="https://ollama.com/library/qwen3.6" target="_blank" rel="noopener noreferrer" className="text-xs bg-primary text-white px-3 py-1 rounded hover:bg-primary/90 transition-colors">
                 <i className="fa fa-download mr-1"></i> Ollama 库
               </a>
             </div>
@@ -502,19 +502,19 @@ const LocalSetup: React.FC<LocalSetupProps> = () => {
           {/* Model 3 */}
           <div className="bg-white/60 backdrop-blur-sm rounded-xl p-6 border border-white/50 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
             <div className="flex justify-between items-center mb-4">
-              <h5 className="font-bold text-neutral-dark">Gemma 3:4B</h5>
-              <span className="text-xs font-medium text-primary">4B 参数</span>
+              <h5 className="font-bold text-neutral-dark">{t('local.top20.models.llama4.name')}</h5>
+              <span className="text-xs font-medium text-primary">70B 参数</span>
             </div>
-            <p className="text-sm text-neutral mb-4 leading-relaxed">谷歌DeepMind的Gemma 3:4B虽小但却强大，只需4GB VRAM即可运行。</p>
+            <p className="text-sm text-neutral mb-4 leading-relaxed">{t('local.top20.models.llama4.description')}</p>
             <div className="mb-4">
-              <div className="text-xs text-neutral mb-1">{t('local.top10.memoryRequirements')} ~4GB (Q4_K_M)</div>
-              <div className="text-xs text-neutral mb-1">{t('local.top10.bestFor')} 文本生成、问答和OCR任务</div>
+              <div className="text-xs text-neutral mb-1">{t('local.top20.memoryRequirements')} {t('local.top20.models.llama4.memory')}</div>
+              <div className="text-xs text-neutral mb-1">{t('local.top20.bestFor')} {t('local.top20.models.llama4.bestFor')}</div>
             </div>
             <div className="flex flex-wrap gap-2">
-              <a href="https://huggingface.co/google" target="_blank" rel="noopener noreferrer" className="text-xs bg-neutral-light text-neutral-dark px-3 py-1 rounded hover:bg-neutral transition-colors">
+              <a href="https://huggingface.co/meta-llama" target="_blank" rel="noopener noreferrer" className="text-xs bg-neutral-light text-neutral-dark px-3 py-1 rounded hover:bg-neutral transition-colors">
                 <i className="fa fa-external-link mr-1"></i> Hugging Face
               </a>
-              <a href="https://ollama.com/library/gemma3" target="_blank" rel="noopener noreferrer" className="text-xs bg-primary text-white px-3 py-1 rounded hover:bg-primary/90 transition-colors">
+              <a href="https://ollama.com/library/llama4" target="_blank" rel="noopener noreferrer" className="text-xs bg-primary text-white px-3 py-1 rounded hover:bg-primary/90 transition-colors">
                 <i className="fa fa-download mr-1"></i> Ollama 库
               </a>
             </div>
@@ -523,19 +523,19 @@ const LocalSetup: React.FC<LocalSetupProps> = () => {
           {/* Model 4 */}
           <div className="bg-white/60 backdrop-blur-sm rounded-xl p-6 border border-white/50 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
             <div className="flex justify-between items-center mb-4">
-              <h5 className="font-bold text-neutral-dark">Gemma 7B</h5>
-              <span className="text-xs font-medium text-primary">7B 参数</span>
+              <h5 className="font-bold text-neutral-dark">{t('local.top20.models.minimax.name')}</h5>
+              <span className="text-xs font-medium text-primary">230B 参数</span>
             </div>
-            <p className="text-sm text-neutral mb-4 leading-relaxed">更大的Gemma 7B在代码、数学和推理方面更具实力，仍能容纳在8GB VRAM中。</p>
+            <p className="text-sm text-neutral mb-4 leading-relaxed">{t('local.top20.models.minimax.description')}</p>
             <div className="mb-4">
-              <div className="text-xs text-neutral mb-1">{t('local.top10.memoryRequirements')} ~6.14GB (Q5_K_M)</div>
-              <div className="text-xs text-neutral mb-1">{t('local.top10.bestFor')} 内容创作、聊天和知识工作</div>
+              <div className="text-xs text-neutral mb-1">{t('local.top20.memoryRequirements')} {t('local.top20.models.minimax.memory')}</div>
+              <div className="text-xs text-neutral mb-1">{t('local.top20.bestFor')} {t('local.top20.models.minimax.bestFor')}</div>
             </div>
             <div className="flex flex-wrap gap-2">
-              <a href="https://huggingface.co/google" target="_blank" rel="noopener noreferrer" className="text-xs bg-neutral-light text-neutral-dark px-3 py-1 rounded hover:bg-neutral transition-colors">
+              <a href="https://huggingface.co/minimax" target="_blank" rel="noopener noreferrer" className="text-xs bg-neutral-light text-neutral-dark px-3 py-1 rounded hover:bg-neutral transition-colors">
                 <i className="fa fa-external-link mr-1"></i> Hugging Face
               </a>
-              <a href="https://ollama.com/library/gemma" target="_blank" rel="noopener noreferrer" className="text-xs bg-primary text-white px-3 py-1 rounded hover:bg-primary/90 transition-colors">
+              <a href="https://ollama.com/library/minimax" target="_blank" rel="noopener noreferrer" className="text-xs bg-primary text-white px-3 py-1 rounded hover:bg-primary/90 transition-colors">
                 <i className="fa fa-download mr-1"></i> Ollama 库
               </a>
             </div>
@@ -544,19 +544,19 @@ const LocalSetup: React.FC<LocalSetupProps> = () => {
           {/* Model 5 */}
           <div className="bg-white/60 backdrop-blur-sm rounded-xl p-6 border border-white/50 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
             <div className="flex justify-between items-center mb-4">
-              <h5 className="font-bold text-neutral-dark">Phi-3 Mini</h5>
-              <span className="text-xs font-medium text-primary">3.8B 参数</span>
+              <h5 className="font-bold text-neutral-dark">{t('local.top20.models.deepseekv4.name')}</h5>
+              <span className="text-xs font-medium text-primary">67B 参数</span>
             </div>
-            <p className="text-sm text-neutral mb-4 leading-relaxed">微软的Phi-3 Mini是一款紧凑的强大工具，适用于逻辑、编程和数学。</p>
+            <p className="text-sm text-neutral mb-4 leading-relaxed">{t('local.top20.models.deepseekv4.description')}</p>
             <div className="mb-4">
-              <div className="text-xs text-neutral mb-1">{t('local.top10.memoryRequirements')} ~7.48GB (Q8_0)</div>
-              <div className="text-xs text-neutral mb-1">{t('local.top10.bestFor')} 聊天、移动设备和低延迟任务</div>
+              <div className="text-xs text-neutral mb-1">{t('local.top20.memoryRequirements')} {t('local.top20.models.deepseekv4.memory')}</div>
+              <div className="text-xs text-neutral mb-1">{t('local.top20.bestFor')} {t('local.top20.models.deepseekv4.bestFor')}</div>
             </div>
             <div className="flex flex-wrap gap-2">
-              <a href="https://huggingface.co/microsoft" target="_blank" rel="noopener noreferrer" className="text-xs bg-neutral-light text-neutral-dark px-3 py-1 rounded hover:bg-neutral transition-colors">
+              <a href="https://huggingface.co/deepseek-ai" target="_blank" rel="noopener noreferrer" className="text-xs bg-neutral-light text-neutral-dark px-3 py-1 rounded hover:bg-neutral transition-colors">
                 <i className="fa fa-external-link mr-1"></i> Hugging Face
               </a>
-              <a href="https://ollama.com/library/phi3" target="_blank" rel="noopener noreferrer" className="text-xs bg-primary text-white px-3 py-1 rounded hover:bg-primary/90 transition-colors">
+              <a href="https://ollama.com/library/deepseek-v4" target="_blank" rel="noopener noreferrer" className="text-xs bg-primary text-white px-3 py-1 rounded hover:bg-primary/90 transition-colors">
                 <i className="fa fa-download mr-1"></i> Ollama 库
               </a>
             </div>
@@ -565,19 +565,82 @@ const LocalSetup: React.FC<LocalSetupProps> = () => {
           {/* Model 6 */}
           <div className="bg-white/60 backdrop-blur-sm rounded-xl p-6 border border-white/50 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
             <div className="flex justify-between items-center mb-4">
-              <h5 className="font-bold text-neutral-dark">DeepSeek R1 7B</h5>
-              <span className="text-xs font-medium text-primary">7B 参数</span>
+              <h5 className="font-bold text-neutral-dark">{t('local.top20.models.qwen35.name')}</h5>
+              <span className="text-xs font-medium text-primary">34B 参数</span>
             </div>
-            <p className="text-sm text-neutral mb-4 leading-relaxed">DeepSeek的7B模型以推理和代码能力著称，适合8GB配置。</p>
+            <p className="text-sm text-neutral mb-4 leading-relaxed">{t('local.top20.models.qwen35.description')}</p>
             <div className="mb-4">
-              <div className="text-xs text-neutral mb-1">{t('local.top10.memoryRequirements')} ~6.72GB (Q4_K_M)</div>
-              <div className="text-xs text-neutral mb-1">{t('local.top10.bestFor')} 中小企业、客户服务和高级数据分析</div>
+              <div className="text-xs text-neutral mb-1">{t('local.top20.memoryRequirements')} {t('local.top20.models.qwen35.memory')}</div>
+              <div className="text-xs text-neutral mb-1">{t('local.top20.bestFor')} {t('local.top20.models.qwen35.bestFor')}</div>
             </div>
             <div className="flex flex-wrap gap-2">
-              <a href="https://huggingface.co/deepseek-ai" target="_blank" rel="noopener noreferrer" className="text-xs bg-neutral-light text-neutral-dark px-3 py-1 rounded hover:bg-neutral transition-colors">
+              <a href="https://huggingface.co/Qwen" target="_blank" rel="noopener noreferrer" className="text-xs bg-neutral-light text-neutral-dark px-3 py-1 rounded hover:bg-neutral transition-colors">
                 <i className="fa fa-external-link mr-1"></i> Hugging Face
               </a>
-              <a href="https://ollama.com/library/deepseek-r1" target="_blank" rel="noopener noreferrer" className="text-xs bg-primary text-white px-3 py-1 rounded hover:bg-primary/90 transition-colors">
+              <a href="https://ollama.com/library/qwen3.5" target="_blank" rel="noopener noreferrer" className="text-xs bg-primary text-white px-3 py-1 rounded hover:bg-primary/90 transition-colors">
+                <i className="fa fa-download mr-1"></i> Ollama 库
+              </a>
+            </div>
+          </div>
+          
+          {/* Model 7 */}
+          <div className="bg-white/60 backdrop-blur-sm rounded-xl p-6 border border-white/50 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+            <div className="flex justify-between items-center mb-4">
+              <h5 className="font-bold text-neutral-dark">{t('local.top20.models.mistral.name')}</h5>
+              <span className="text-xs font-medium text-primary">34B 参数</span>
+            </div>
+            <p className="text-sm text-neutral mb-4 leading-relaxed">{t('local.top20.models.mistral.description')}</p>
+            <div className="mb-4">
+              <div className="text-xs text-neutral mb-1">{t('local.top20.memoryRequirements')} {t('local.top20.models.mistral.memory')}</div>
+              <div className="text-xs text-neutral mb-1">{t('local.top20.bestFor')} {t('local.top20.models.mistral.bestFor')}</div>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <a href="https://huggingface.co/mistralai" target="_blank" rel="noopener noreferrer" className="text-xs bg-neutral-light text-neutral-dark px-3 py-1 rounded hover:bg-neutral transition-colors">
+                <i className="fa fa-external-link mr-1"></i> Hugging Face
+              </a>
+              <a href="https://ollama.com/library/mistral-large" target="_blank" rel="noopener noreferrer" className="text-xs bg-primary text-white px-3 py-1 rounded hover:bg-primary/90 transition-colors">
+                <i className="fa fa-download mr-1"></i> Ollama 库
+              </a>
+            </div>
+          </div>
+          
+          {/* Model 8 */}
+          <div className="bg-white/60 backdrop-blur-sm rounded-xl p-6 border border-white/50 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+            <div className="flex justify-between items-center mb-4">
+              <h5 className="font-bold text-neutral-dark">{t('local.top20.models.gemma4.name')}</h5>
+              <span className="text-xs font-medium text-primary">27B 参数</span>
+            </div>
+            <p className="text-sm text-neutral mb-4 leading-relaxed">{t('local.top20.models.gemma4.description')}</p>
+            <div className="mb-4">
+              <div className="text-xs text-neutral mb-1">{t('local.top20.memoryRequirements')} {t('local.top20.models.gemma4.memory')}</div>
+              <div className="text-xs text-neutral mb-1">{t('local.top20.bestFor')} {t('local.top20.models.gemma4.bestFor')}</div>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <a href="https://huggingface.co/google" target="_blank" rel="noopener noreferrer" className="text-xs bg-neutral-light text-neutral-dark px-3 py-1 rounded hover:bg-neutral transition-colors">
+                <i className="fa fa-external-link mr-1"></i> Hugging Face
+              </a>
+              <a href="https://ollama.com/library/gemma4" target="_blank" rel="noopener noreferrer" className="text-xs bg-primary text-white px-3 py-1 rounded hover:bg-primary/90 transition-colors">
+                <i className="fa fa-download mr-1"></i> Ollama 库
+              </a>
+            </div>
+          </div>
+          
+          {/* Model 9 */}
+          <div className="bg-white/60 backdrop-blur-sm rounded-xl p-6 border border-white/50 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+            <div className="flex justify-between items-center mb-4">
+              <h5 className="font-bold text-neutral-dark">{t('local.top20.models.yi34.name')}</h5>
+              <span className="text-xs font-medium text-primary">34B 参数</span>
+            </div>
+            <p className="text-sm text-neutral mb-4 leading-relaxed">{t('local.top20.models.yi34.description')}</p>
+            <div className="mb-4">
+              <div className="text-xs text-neutral mb-1">{t('local.top20.memoryRequirements')} {t('local.top20.models.yi34.memory')}</div>
+              <div className="text-xs text-neutral mb-1">{t('local.top20.bestFor')} {t('local.top20.models.yi34.bestFor')}</div>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <a href="https://huggingface.co/01-ai" target="_blank" rel="noopener noreferrer" className="text-xs bg-neutral-light text-neutral-dark px-3 py-1 rounded hover:bg-neutral transition-colors">
+                <i className="fa fa-external-link mr-1"></i> Hugging Face
+              </a>
+              <a href="https://ollama.com/library/yi34" target="_blank" rel="noopener noreferrer" className="text-xs bg-primary text-white px-3 py-1 rounded hover:bg-primary/90 transition-colors">
                 <i className="fa fa-download mr-1"></i> Ollama 库
               </a>
             </div>
@@ -591,7 +654,7 @@ const LocalSetup: React.FC<LocalSetupProps> = () => {
             rel="noopener noreferrer"
             className="bg-gradient-primary text-white font-medium px-8 py-4 rounded-lg hover:shadow-lg hover:-translate-y-1 transition-all duration-300 inline-block"
           >
-            {t('local.top10.viewFullTop10')}
+            {t('local.top20.viewFullTop20')}
           </a>
         </div>
       </div>

@@ -17,10 +17,16 @@ const ModelList: React.FC<ModelListProps> = ({ models, filter, title, descriptio
     if (filter === 'all') return true;
     return model.type === filter;
   }).sort((a, b) => {
-    // 按推荐指数降序排序
-    const ratingA = a.rating || 0;
-    const ratingB = b.rating || 0;
-    return ratingB - ratingA;
+    // 按推荐指数降序排序，没有rating的模型保持原始位置
+    if (a.rating === undefined && b.rating === undefined) {
+      return 0;
+    } else if (a.rating === undefined) {
+      return 1;
+    } else if (b.rating === undefined) {
+      return -1;
+    } else {
+      return b.rating - a.rating;
+    }
   });
 
   if (filteredModels.length === 0) {
@@ -125,7 +131,7 @@ const ModelList: React.FC<ModelListProps> = ({ models, filter, title, descriptio
                               model.creditLimit.split('\n').map((line, index) => (
                                 <React.Fragment key={index}>
                                   {line}
-                                  {index < model.creditLimit.split('\n').length - 1 && <br />}
+                                  {index < model.creditLimit!.split('\n').length - 1 && <br />}
                                 </React.Fragment>
                               ))
                             ) : (
@@ -140,7 +146,7 @@ const ModelList: React.FC<ModelListProps> = ({ models, filter, title, descriptio
                               model.creditLimitEn.split('\n').map((line, index) => (
                                 <React.Fragment key={index}>
                                   {line}
-                                  {index < model.creditLimitEn.split('\n').length - 1 && <br />}
+                                  {index < model.creditLimitEn!.split('\n').length - 1 && <br />}
                                 </React.Fragment>
                               ))
                             ) : (
