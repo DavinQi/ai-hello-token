@@ -8,6 +8,11 @@ Explore mainstream free and paid AI model services, including advanced models li
 
 AI Model Navigator 是一个全面的 AI 模型导航平台，旨在帮助用户发现、比较和选择适合自己需求的 AI 模型解决方案。无论是免费模型、付费模型、本地搭建方案还是 AI 编程工具，都可以在这个平台上找到详细的信息和比较。
 
+## 预览地址 
+- WEB： https://hellotoken.ccwu.cc
+- WEB： https://davinqi.github.io/ai-hello-token
+
+
 ## 功能特点
 
 ### 核心功能
@@ -208,7 +213,6 @@ EXPOSE 80
 
 - GitHub Issues:   https://github.com/DavinQi/ai-hello-token/issues
 - Email: qxqmail@163.com
-- WEB： https://davinqi.github.io/ai-hello-token
 
 ---
 
