@@ -12,7 +12,7 @@ export const translations: Translations = {
     
     // 英雄区
     'hero.title': '发现最佳大模型解决方案',
-    'hero.description': '探索主流免费，付费AI模型服务，包括GPT-4、Claude 3 Opus、Gemini Ultra等先进模型，以及本地搭建，AI编程工具等学习汇总。',
+    'hero.description': '探索主流免费，付费AI模型服务, codingPlan 排行分析， 包括GPT、Claude 3 Opus、Gemini，GLM ,Qwen3.X 等先进模型，以及本地搭建 AI 模型对比、AI 工具汇总',
     
     // 免费Token
     'free.title': '免费Token',
